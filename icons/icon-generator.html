@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gerador de Ícones PWA</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .preview {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        canvas {
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gerador de Ícones PWA</h1>
+    <div class="preview">
+        <div>
+            <h3>144x144</h3>
+            <canvas id="icon144" width="144" height="144"></canvas>
+        </div>
+        <div>
+            <h3>192x192</h3>
+            <canvas id="icon192" width="192" height="192"></canvas>
+        </div>
+        <div>
+            <h3>512x512</h3>
+            <canvas id="icon512" width="512" height="512"></canvas>
+        </div>
+    </div>
+    <button onclick="downloadAll()">Baixar Todos os Ícones</button>
+    
+    <script>
+        function drawIcon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            
+            // Limpar canvas
+            ctx.clearRect(0, 0, size, size);
+            
+            // Fundo
+            ctx.fillStyle = '#4CAF50';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Círculo central
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size*0.4, 0, Math.PI * 2);
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fill();
+            
+            // Texto
+            ctx.fillStyle = '#4CAF50';
+            ctx.font = `bold ${size*0.2}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('PA', size/2, size/2);
+        }
+        
+        function downloadIcon(canvas, size) {
+            const link = document.createElement('a');
+            link.download = `icon-${size}x${size}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        function downloadAll() {
+            downloadIcon(document.getElementById('icon144'), 144);
+            downloadIcon(document.getElementById('icon192'), 192);
+            downloadIcon(document.getElementById('icon512'), 512);
+        }
+        
+        // Desenhar ícones inicialmente
+        drawIcon(document.getElementById('icon144'), 144);
+        drawIcon(document.getElementById('icon192'), 192);
+        drawIcon(document.getElementById('icon512'), 512);
+    </script>
+</body>
+</html> 

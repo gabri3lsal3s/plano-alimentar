@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gerador de Screenshots PWA</title>
+</head>
+<body>
+    <canvas id="desktop" width="1280" height="720"></canvas>
+    <canvas id="mobile" width="360" height="800"></canvas>
+    <script>
+        function drawScreenshot(canvas, isDesktop) {
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // Fundo
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, width, height);
+            
+            // Header
+            ctx.fillStyle = '#4CAF50';
+            ctx.fillRect(0, 0, width, isDesktop ? 80 : 60);
+            
+            // Título
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `bold ${isDesktop ? 24 : 18}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.fillText('Plano Alimentar', width/2, isDesktop ? 45 : 35);
+            
+            // Conteúdo simulado
+            ctx.fillStyle = '#333333';
+            const menuItems = ['Café da Manhã', 'Lanche da Manhã', 'Almoço', 'Lanche da Tarde', 'Janta', 'Ceia'];
+            const startY = isDesktop ? 120 : 80;
+            const spacing = isDesktop ? 50 : 40;
+            
+            menuItems.forEach((item, index) => {
+                ctx.fillText(item, width/2, startY + (spacing * index));
+            });
+            
+            // Download automático
+            const link = document.createElement('a');
+            link.download = isDesktop ? 'desktop.png' : 'mobile.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        // Gerar screenshots
+        drawScreenshot(document.getElementById('desktop'), true);
+        drawScreenshot(document.getElementById('mobile'), false);
+    </script>
+</body>
+</html> 

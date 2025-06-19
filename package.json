@@ -1,0 +1,11 @@
+{
+  "name": "plano-alimentar",
+  "version": "1.0.0",
+  "description": "Plano alimentar personalizado com PWA",
+  "scripts": {
+    "start": "http-server -p 8080 -c-1"
+  },
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+} 
