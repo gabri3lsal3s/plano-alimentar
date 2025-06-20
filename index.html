@@ -57,7 +57,8 @@
                     <ul id="lista-tarefas"></ul>
                     <h5 class="tarefas-feitas-titulo">Tarefas Feitas</h5>
                     <ul id="lista-tarefas-feitas"></ul>
-                        </div>
+                    <button id="copiar-tarefas" class="btn-copiar">Copiar</button>
+                </div>
             </section>
             <section id="notas-dia">
                 <div class="notas-bloco">
@@ -68,7 +69,8 @@
                     </div>
                     <h5 class="notas-historico-titulo">Histórico de Notas</h5>
                     <ul id="notas-historico"></ul>
-                        </div>
+                    <button id="copiar-notas" class="btn-copiar">Copiar</button>
+                </div>
             </section>
                         </div>
                     </div>
@@ -306,6 +308,9 @@
                 };
                 ulFeitas.appendChild(li);
             });
+            // Mostrar ou esconder o título h5
+            const h5Feitas = document.querySelector('.tarefas-feitas-titulo');
+            h5Feitas.style.display = feitas.length > 0 ? 'block' : 'none';
         }
         document.getElementById('form-tarefa').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -340,6 +345,9 @@
                 };
                 ulHistorico.appendChild(li);
             });
+            // Mostrar ou esconder o título h5
+            const h5Historico = document.querySelector('.notas-historico-titulo');
+            h5Historico.style.display = historico.length > 0 ? 'block' : 'none';
         }
         document.getElementById('salvar-nota').addEventListener('click', function() {
             const nota = document.getElementById('nota-dia').value.trim();
@@ -353,6 +361,35 @@
             renderNota();
         });
         renderNota();
+
+        // --- Funções de Cópia ---
+        function showCopiedMessage(button) {
+            const originalText = button.textContent;
+            button.textContent = 'Copiado!';
+            button.style.backgroundColor = '#388e3c';
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.backgroundColor = 'rgba(76, 175, 80, 0.2)';
+            }, 1500);
+        }
+
+        document.getElementById('copiar-tarefas').addEventListener('click', function() {
+            const tarefas = JSON.parse(localStorage.getItem('tarefasDia') || '[]');
+            if (tarefas.length === 0) return;
+            const textoTarefas = tarefas.map(t => `• ${t}`).join('\n');
+            navigator.clipboard.writeText(textoTarefas).then(() => {
+                showCopiedMessage(this);
+            }).catch(err => console.error('Erro ao copiar tarefas:', err));
+        });
+
+        document.getElementById('copiar-notas').addEventListener('click', function() {
+            const historico = JSON.parse(localStorage.getItem('notasHistorico') || '[]');
+            if (historico.length === 0) return;
+            const textoNotas = historico.map(n => `• ${n.data}: ${n.texto}`).join('\n');
+            navigator.clipboard.writeText(textoNotas).then(() => {
+                showCopiedMessage(this);
+            }).catch(err => console.error('Erro ao copiar notas:', err));
+        });
     </script>
 </body>
 </html> 
