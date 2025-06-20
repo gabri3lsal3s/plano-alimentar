@@ -405,6 +405,11 @@
 - Títulos h5 e h6 do bloco "Treino de Hoje" centralizados.
 - Margens internas e externas dos blocos e seções ajustadas para consistência visual.
 
+### [Concluído em 2025-06-20] UX das Tasks e Notas Refinado
+- Títulos 'Tarefas Feitas' e 'Histórico de Notas' exibidos apenas quando houver itens.
+- Barra de scroll das tasks oculta ao passar o mouse.
+- Cópia de tarefas e notas como lista estruturada com marcadores.
+
 ---
 
 ## 🔮 **Próximas Fases Planejadas**
