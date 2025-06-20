@@ -336,6 +336,28 @@
 
 ---
 
+### **Fase 9.7: Home minimalista com duas colunas (plano alimentar e exercícios), exibindo apenas a refeição do dia e o treino do dia, sem títulos ou descrições extras.**
+*Data: 20/06/2025*
+
+#### Objetivos:
+- ✅ Remoção de títulos e descrições extras
+- ✅ Exibição apenas da refeição do dia e do treino do dia
+- ✅ Layout responsivo e adaptativo
+- ✅ Melhor experiência do usuário
+
+#### Entregas:
+- **Layout Simplificado**:
+  - Remoção de títulos e descrições extras
+  - Exibição apenas da refeição do dia e do treino do dia
+  - Layout responsivo e adaptativo
+
+#### Melhorias Implementadas:
+- Layout simplificado e focado
+- Melhor experiência do usuário
+- Layout responsivo e adaptativo
+
+---
+
 ## 🔮 **Próximas Fases Planejadas**
 
 ### **Fase 10: Backend e Notificações em Tempo Real**
@@ -516,6 +538,7 @@
 | 9 | ✅ Concluída | 20/06/2025 | 1 dia |
 | 9.5 | ✅ Concluída | 20/06/2025 | 1 dia |
 | 9.6 | ✅ Concluída | 20/06/2025 | 1 dia |
+| 9.7 | ✅ Concluída | 20/06/2025 | 1 dia |
 | 10 | 🔄 Planejada | Q3 2025 | 2-3 semanas |
 | 11 | 🔄 Planejada | Q4 2025 | 3-4 semanas |
 | 12 | 🔄 Planejada | Q1 2026 | 4-6 semanas |

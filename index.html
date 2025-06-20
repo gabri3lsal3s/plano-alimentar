@@ -44,6 +44,31 @@
             </div>
         </section>
     </div>
+
+    <div class="extras-columns">
+        <section id="tarefas-dia">
+            <div class="tarefas-bloco">
+                <h4>Tarefas do Dia</h4>
+                <form id="form-tarefa">
+                    <input type="text" id="input-tarefa" placeholder="Adicionar nova tarefa..." maxlength="80" autocomplete="off">
+                    <button type="submit">Adicionar</button>
+                </form>
+                <ul id="lista-tarefas"></ul>
+                <h5 class="tarefas-feitas-titulo">Tarefas Feitas</h5>
+                <ul id="lista-tarefas-feitas"></ul>
+            </div>
+        </section>
+        <section id="notas-dia">
+            <div class="notas-bloco">
+                <h4>Notas do Dia</h4>
+                <textarea id="nota-dia" rows="4" placeholder="Escreva suas notas do dia..."></textarea>
+                <button id="salvar-nota">Salvar Nota</button>
+                <div id="nota-salva" style="margin-top:8px;"></div>
+                <h5 class="notas-historico-titulo">Histórico de Notas</h5>
+                <ul id="notas-historico"></ul>
+            </div>
+        </section>
+    </div>
     <footer><p></p></footer>
 
     <script src="script.js"></script>
@@ -240,6 +265,92 @@
             exibirRefeicaoAtual();
             exibirExercicioAtual();
         });
+
+        // --- Tarefas do Dia ---
+        function renderTarefas() {
+            const tarefas = JSON.parse(localStorage.getItem('tarefasDia') || '[]');
+            const feitas = JSON.parse(localStorage.getItem('tarefasFeitas') || '[]');
+            const ul = document.getElementById('lista-tarefas');
+            ul.innerHTML = '';
+            tarefas.forEach((tarefa, idx) => {
+                const li = document.createElement('li');
+                li.textContent = tarefa;
+                li.style.cursor = 'pointer';
+                li.title = 'Clique para marcar como feita';
+                li.onclick = () => {
+                    tarefas.splice(idx, 1);
+                    feitas.unshift(tarefa);
+                    localStorage.setItem('tarefasDia', JSON.stringify(tarefas));
+                    localStorage.setItem('tarefasFeitas', JSON.stringify(feitas));
+                    renderTarefas();
+                };
+                ul.appendChild(li);
+            });
+            // Renderizar tarefas feitas
+            const ulFeitas = document.getElementById('lista-tarefas-feitas');
+            ulFeitas.innerHTML = '';
+            feitas.forEach((tarefa, idx) => {
+                const li = document.createElement('li');
+                li.textContent = tarefa;
+                li.style.textDecoration = 'line-through';
+                li.style.opacity = '0.7';
+                li.style.cursor = 'pointer';
+                li.title = 'Clique para remover da lista de feitas';
+                li.onclick = () => {
+                    feitas.splice(idx, 1);
+                    localStorage.setItem('tarefasFeitas', JSON.stringify(feitas));
+                    renderTarefas();
+                };
+                ulFeitas.appendChild(li);
+            });
+        }
+        document.getElementById('form-tarefa').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const input = document.getElementById('input-tarefa');
+            const val = input.value.trim();
+            if (val) {
+                const tarefas = JSON.parse(localStorage.getItem('tarefasDia') || '[]');
+                tarefas.push(val);
+                localStorage.setItem('tarefasDia', JSON.stringify(tarefas));
+                input.value = '';
+                renderTarefas();
+            }
+        });
+        renderTarefas();
+        // --- Notas do Dia ---
+        function renderNota() {
+            const nota = localStorage.getItem('notaDia') || '';
+            document.getElementById('nota-dia').value = nota;
+            document.getElementById('nota-salva').textContent = nota ? 'Nota salva!' : '';
+            // Renderizar histórico de notas
+            const historico = JSON.parse(localStorage.getItem('notasHistorico') || '[]');
+            const ulHistorico = document.getElementById('notas-historico');
+            ulHistorico.innerHTML = '';
+            historico.forEach((n, idx) => {
+                const li = document.createElement('li');
+                li.textContent = n.texto + (n.data ? ` (${n.data})` : '');
+                li.title = 'Clique para remover do histórico';
+                li.style.cursor = 'pointer';
+                li.onclick = () => {
+                    historico.splice(idx, 1);
+                    localStorage.setItem('notasHistorico', JSON.stringify(historico));
+                    renderNota();
+                };
+                ulHistorico.appendChild(li);
+            });
+        }
+        document.getElementById('salvar-nota').addEventListener('click', function() {
+            const nota = document.getElementById('nota-dia').value.trim();
+            localStorage.setItem('notaDia', nota);
+            if (nota) {
+                let historico = JSON.parse(localStorage.getItem('notasHistorico') || '[]');
+                historico.unshift({ texto: nota, data: new Date().toLocaleDateString('pt-BR') });
+                historico = historico.slice(0, 10); // Limita a 10 notas
+                localStorage.setItem('notasHistorico', JSON.stringify(historico));
+            }
+            renderNota();
+        });
+        renderNota();
     </script>
 </body>
 </html> 
