@@ -82,6 +82,8 @@
         function getRefeicaoAtual() {
             const agora = new Date();
             const hora = agora.getHours();
+            console.log('Horário atual:', hora + 'h');
+            
             if (hora >= 7 && hora < 9) return 'cafe';
             if (hora >= 9 && hora < 11) return 'lancheM';
             if (hora >= 12 && hora < 14) return 'almoco';
@@ -111,12 +113,114 @@
         // Dados de fallback caso o fetch falhe
         const dadosFallback = {
             refeicoes: {
-                cafe: { nome: "Café da Manhã", horario: "07h às 09h", receitas: [{ titulo: "Omelete Proteica Completa", ingredientes: ["3 ovos inteiros", "30g de queijo cottage", "1 fatia de pão integral", "1 colher de sopa de azeite", "Espinafre, tomate e temperos"], preparo: "Bata os ovos, adicione o cottage e refogue com azeite. Sirva com pão integral e vegetais", calorias: "~520 kcal, 28g proteína, 35g carboidratos, 28g gorduras" }] },
-                lancheM: { nome: "Lanche da Manhã", horario: "09h às 11h", receitas: [{ titulo: "Iogurte Grego com Frutas", ingredientes: ["150g de iogurte grego natural", "1 banana pequena", "15g de granola", "10g de mel"], preparo: "Misture o iogurte com a banana cortada, adicione granola e mel", calorias: "~380 kcal, 18g proteína, 52g carboidratos, 12g gorduras" }] },
-                almoco: { nome: "Almoço", horario: "12h às 14h", receitas: [{ titulo: "Prato Principal Completo", ingredientes: ["150g de peito de frango grelhado", "100g de arroz integral cozido", "80g de feijão preto", "150g de macaxeira cozida", "Salada de folhas verdes com azeite", "Legumes refogados"], preparo: "Grelhe o frango, prepare o arroz e feijão, cozinhe a macaxeira e monte o prato com todos os componentes", calorias: "~750 kcal, 35g proteína, 85g carboidratos, 20g gorduras" }] },
-                lancheT: { nome: "Lanche da Tarde", horario: "15h às 17h", receitas: [{ titulo: "Smoothie Proteico Pós-Treino", ingredientes: ["25g de whey protein", "200ml de leite integral", "1 banana", "30g de aveia", "Canela a gosto"], preparo: "Bata todos os ingredientes no liquidificador até ficar homogêneo", calorias: "~390 kcal, 28g proteína, 45g carboidratos, 8g gorduras" }] },
-                janta: { nome: "Janta", horario: "19h às 21h", receitas: [{ titulo: "Sopa Proteica de Frango", ingredientes: ["150g de peito de frango", "100g de abóbora", "50g de cenoura", "30g de quinoa", "Temperos verdes"], preparo: "Cozinhe o frango com legumes, adicione quinoa e temperos", calorias: "~420 kcal, 35g proteína, 35g carboidratos, 15g gorduras" }] },
-                ceia: { nome: "Ceia", horario: "21h às 23h", receitas: [{ titulo: "Queijo Cottage com Frutas", ingredientes: ["100g de queijo cottage", "1/2 banana", "10g de castanha-do-Pará", "Canela a gosto"], preparo: "Misture o cottage com a banana, adicione castanhas e canela", calorias: "~220 kcal, 18g proteína, 15g carboidratos, 12g gorduras" }] }
+                cafe: { 
+                    nome: "Café da Manhã", 
+                    horario: "07h às 09h", 
+                    receitas: [
+                        { 
+                            titulo: "Omelete Proteica Completa", 
+                            ingredientes: ["3 ovos inteiros", "30g de queijo cottage", "1 fatia de pão integral", "1 colher de sopa de azeite", "Espinafre, tomate e temperos"], 
+                            preparo: "Bata os ovos, adicione o cottage e refogue com azeite. Sirva com pão integral e vegetais", 
+                            calorias: "~520 kcal, 28g proteína, 35g carboidratos, 28g gorduras" 
+                        },
+                        {
+                            titulo: "Mingau de Aveia Proteico",
+                            ingredientes: ["50g de aveia em flocos", "200ml de leite integral", "1 banana média", "15g de castanha-do-Pará", "1 colher de mel"],
+                            preparo: "Cozinhe a aveia no leite, adicione a banana amassada e finalize com castanhas e mel",
+                            calorias: "~580 kcal, 22g proteína, 65g carboidratos, 22g gorduras"
+                        }
+                    ]
+                },
+                lancheM: { 
+                    nome: "Lanche da Manhã", 
+                    horario: "09h às 11h", 
+                    receitas: [
+                        { 
+                            titulo: "Iogurte Grego com Frutas", 
+                            ingredientes: ["150g de iogurte grego natural", "1 banana pequena", "15g de granola", "10g de mel"], 
+                            preparo: "Misture o iogurte com a banana cortada, adicione granola e mel", 
+                            calorias: "~380 kcal, 18g proteína, 52g carboidratos, 12g gorduras" 
+                        },
+                        {
+                            titulo: "Sanduíche Natural Proteico",
+                            ingredientes: ["2 fatias de pão integral", "50g de atum em lata", "1 ovo cozido", "Folhas verdes e tomate", "1 colher de chá de azeite"],
+                            preparo: "Monte o sanduíche com todos os ingredientes, temperando com azeite",
+                            calorias: "~350 kcal, 22g proteína, 35g carboidratos, 15g gorduras"
+                        }
+                    ]
+                },
+                almoco: { 
+                    nome: "Almoço", 
+                    horario: "12h às 14h", 
+                    receitas: [
+                        { 
+                            titulo: "Prato Principal Completo", 
+                            ingredientes: ["150g de peito de frango grelhado", "100g de arroz integral cozido", "80g de feijão preto", "150g de macaxeira cozida", "Salada de folhas verdes com azeite", "Legumes refogados"], 
+                            preparo: "Grelhe o frango, prepare o arroz e feijão, cozinhe a macaxeira e monte o prato com todos os componentes", 
+                            calorias: "~750 kcal, 35g proteína, 85g carboidratos, 20g gorduras" 
+                        },
+                        {
+                            titulo: "Purê de Macaxeira com Carne Moída",
+                            ingredientes: ["300g de macaxeira cozida", "150g de carne moída magra", "50g de queijo cottage", "1 colher de azeite", "Cebola, alho e temperos"],
+                            preparo: "Cozinhe a macaxeira e amasse formando purê. Refogue a carne com temperos. Monte em camadas com queijo cottage e gratine",
+                            calorias: "~450 kcal, 30g proteína, 55g carboidratos, 12g gorduras"
+                        }
+                    ]
+                },
+                lancheT: { 
+                    nome: "Lanche da Tarde", 
+                    horario: "15h às 17h", 
+                    receitas: [
+                        { 
+                            titulo: "Smoothie Proteico Pós-Treino", 
+                            ingredientes: ["25g de whey protein", "200ml de leite integral", "1 banana", "30g de aveia", "Canela a gosto"], 
+                            preparo: "Bata todos os ingredientes no liquidificador até ficar homogêneo", 
+                            calorias: "~390 kcal, 28g proteína, 45g carboidratos, 8g gorduras" 
+                        },
+                        {
+                            titulo: "Batata Doce com Atum",
+                            ingredientes: ["150g de batata doce assada", "1 lata de atum em água (140g)", "1 colher de chá de azeite", "Temperos verdes"],
+                            preparo: "Asse a batata doce, misture o atum com azeite e temperos, e sirva sobre a batata",
+                            calorias: "~320 kcal, 25g proteína, 35g carboidratos, 8g gorduras"
+                        }
+                    ]
+                },
+                janta: { 
+                    nome: "Janta", 
+                    horario: "18h às 20h", 
+                    receitas: [
+                        { 
+                            titulo: "Sopa de Frango com Legumes", 
+                            ingredientes: ["150g de peito de frango em cubos", "1 batata média cortada em cubos", "1 cenoura cortada em rodelas", "1 xícara de repolho em tiras", "1 cebola picada", "2 colheres de sopa de azeite", "1 litro de água quente", "Sal e pimenta a gosto"], 
+                            preparo: "Tempere o frango com sal e pimenta. Refogue com azeite até dourar, adicione cebola e legumes. Acrescente água quente e cozinhe por 1 hora", 
+                            calorias: "~650 kcal, 32g proteína, 65g carboidratos, 18g gorduras" 
+                        },
+                        {
+                            titulo: "Escondidinho de Frango com Macaxeira",
+                            ingredientes: ["500g de macaxeira cozida", "150g de peito de frango cozido e desfiado", "100g de queijo mussarela", "2 colheres de sopa de creme de leite", "1 cebola cortada em rodelas", "50g de queijo ralado", "Cheiro verde picado", "Sal a gosto"],
+                            preparo: "Amasse a macaxeira com creme de leite e queijo ralado. Refogue o frango com cebola e temperos. Monte em camadas e leve ao forno por 20 minutos",
+                            calorias: "~720 kcal, 35g proteína, 55g carboidratos, 25g gorduras"
+                        }
+                    ]
+                },
+                ceia: { 
+                    nome: "Ceia", 
+                    horario: "19h às 22h", 
+                    receitas: [
+                        { 
+                            titulo: "Queijo Cottage com Frutas", 
+                            ingredientes: ["100g de queijo cottage", "1 pera pequena", "5g de mel", "Canela em pó"], 
+                            preparo: "Sirva o queijo cottage com a pera fatiada, regue com mel e polvilhe canela", 
+                            calorias: "~220 kcal, 15g proteína, 25g carboidratos, 5g gorduras" 
+                        },
+                        {
+                            titulo: "Iogurte Grego Natural",
+                            ingredientes: ["150g de iogurte grego", "10g de granola", "Frutas vermelhas"],
+                            preparo: "Misture o iogurte com as frutas vermelhas e finalize com granola por cima",
+                            calorias: "~280 kcal, 18g proteína, 22g carboidratos, 12g gorduras"
+                        }
+                    ]
+                }
             },
             exercicios: {
                 segunda: { nome: "Segunda-feira", titulo: "Sessão A (Peito, Tríceps, Ombros) + Kung Fu", exercicios: ["Supino Reto com Barra – 4×8-12", "Supino Inclinado com Halteres – 3×8-10", "Desenvolvimento Militar Sentado – 3×8-12", "Tríceps Testa com Barra W – 3×10-12", "Elevação Lateral – 3×12-15", "Mergulho – 2×máx.", "Kung Fu: Treino técnico leve (45 min)"] },
@@ -129,56 +233,124 @@
         // Função para buscar dados da página de plano alimentar
         async function buscarDadosRefeicoes() {
             try {
+                console.log('Fazendo fetch do plano_alimentar.html...');
                 const response = await fetch('plano_alimentar.html');
-                if (!response.ok) throw new Error();
+                console.log('Response status:', response.status, response.ok);
+                
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
                 const html = await response.text();
+                console.log('HTML obtido, tamanho:', html.length, 'caracteres');
+                console.log('Primeiros 500 caracteres do HTML:', html.substring(0, 500));
+                
+                // Limpar caracteres especiais do início do HTML
+                let cleanHtml = html;
+                if (html.startsWith('')) {
+                    cleanHtml = html.substring(2);
+                    console.log('Caracteres especiais removidos do início');
+                }
+                
                 const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
+                const doc = parser.parseFromString(cleanHtml, 'text/html');
+                console.log('Documento parseado:', doc);
+                
+                // Verificar se há erros de parsing
+                const parserError = doc.querySelector('parsererror');
+                if (parserError) {
+                    console.error('Erro no parsing do HTML:', parserError.textContent);
+                    throw new Error('Erro no parsing do HTML');
+                }
+                
                 const refeicoes = {};
                 const secoes = ['cafe', 'lancheM', 'almoco', 'lancheT', 'janta', 'ceia'];
+                
+                console.log('Iniciando busca de dados das refeições...');
+                
+                // Verificar todos os elementos com ID no documento
+                const todosElementos = doc.querySelectorAll('[id]');
+                console.log('Todos os elementos com ID encontrados:', Array.from(todosElementos).map(el => el.id));
+                
                 secoes.forEach(secao => {
                     const elemento = doc.getElementById(secao);
+                    console.log(`Procurando seção: ${secao}`, elemento ? 'encontrada' : 'não encontrada');
+                    
                     if (elemento) {
                         const h3 = elemento.querySelector('h3');
                         const ul = elemento.querySelector('ul');
+                        console.log(`Seção ${secao}: h3=${h3?.textContent}, ul=${ul ? 'encontrado' : 'não encontrado'}`);
+                        
                         if (h3 && ul) {
                             const partes = h3.textContent.split('—');
                             const nome = partes[0]?.trim() || '';
                             const horario = partes[1]?.trim() || '';
                             const receitas = [];
-                            ul.querySelectorAll('li').forEach(item => {
+                            
+                            console.log(`Processando seção ${secao}: ${nome} - ${horario}`);
+                            
+                            // Buscar todas as receitas (li dentro do ul)
+                            const receitasLi = ul.querySelectorAll('li');
+                            console.log(`Encontradas ${receitasLi.length} receitas na seção ${secao}`);
+                            
+                            receitasLi.forEach((item, index) => {
                                 const h4 = item.querySelector('h4');
+                                console.log(`Receita ${index + 1}: ${h4?.textContent}`);
+                                
                                 if (h4) {
                                     const titulo = h4.textContent;
                                     let ingredientes = [];
                                     let preparo = '';
                                     let calorias = '';
-                                    item.querySelectorAll('p').forEach(p => {
-                                        const text = p.textContent;
-                                        if (text.includes('Ingredientes:')) {
-                                            const ol = p.nextElementSibling;
-                                            if (ol && ol.tagName === 'OL') {
-                                                ingredientes = Array.from(ol.querySelectorAll('li')).map(li => li.textContent);
-                                            }
-                                        } else if (text.includes('Preparo:')) {
+                                    
+                                    // Buscar ingredientes - procurar por ol dentro do li
+                                    const ol = item.querySelector('ol');
+                                    if (ol) {
+                                        const ingredientesLi = ol.querySelectorAll('li');
+                                        ingredientes = Array.from(ingredientesLi).map(li => li.textContent.trim());
+                                        console.log(`Ingredientes encontrados (${ingredientes.length}):`, ingredientes);
+                                    } else {
+                                        console.log('Nenhum ol encontrado para ingredientes');
+                                    }
+                                    
+                                    // Buscar preparo e valores nutricionais - procurar por p com strong
+                                    const paragrafos = item.querySelectorAll('p');
+                                    paragrafos.forEach(p => {
+                                        const text = p.textContent.trim();
+                                        console.log(`Parágrafo encontrado: "${text}"`);
+                                        
+                                        if (text.includes('Preparo:')) {
                                             preparo = text.replace('Preparo:', '').trim();
+                                            console.log('Preparo extraído:', preparo);
                                         } else if (text.includes('Valores nutricionais:')) {
                                             calorias = text.replace('Valores nutricionais:', '').trim();
+                                            console.log('Valores nutricionais extraídos:', calorias);
                                         }
                                     });
+                                    
                                     if (titulo && ingredientes.length > 0) {
                                         receitas.push({ titulo, ingredientes, preparo, calorias });
+                                        console.log(`Receita adicionada: ${titulo} com ${ingredientes.length} ingredientes`);
+                                        console.log('Dados da receita:', { titulo, ingredientes, preparo, calorias });
+                                    } else {
+                                        console.log(`Receita não adicionada: titulo=${!!titulo}, ingredientes=${ingredientes.length}`);
                                     }
                                 }
                             });
+                            
                             if (receitas.length > 0) {
                                 refeicoes[secao] = { nome, horario, receitas };
+                                console.log(`Seção ${secao} processada com ${receitas.length} receitas`);
+                            } else {
+                                console.log(`Nenhuma receita válida encontrada na seção ${secao}`);
                             }
                         }
                     }
                 });
+                
+                console.log('Refeições extraídas:', refeicoes);
                 return Object.keys(refeicoes).length > 0 ? refeicoes : dadosFallback.refeicoes;
             } catch (error) {
+                console.error('Erro ao buscar dados das refeições:', error);
+                console.log('Usando dados de fallback devido ao erro');
                 return dadosFallback.refeicoes;
             }
         }
@@ -215,20 +387,41 @@
         }
         // Função para exibir a refeição atual
         async function exibirRefeicaoAtual() {
+            console.log('Iniciando exibição da refeição atual...');
             const refeicoes = await buscarDadosRefeicoes();
+            console.log('Dados das refeições obtidos:', refeicoes);
+            
             if (!refeicoes) {
+                console.log('Erro: nenhum dado de refeição obtido');
                 document.getElementById('refeicao-content').innerHTML = '<p>Erro ao carregar dados das refeições</p>';
                 return;
             }
+            
             const refeicaoKey = getRefeicaoAtual();
+            console.log('Chave da refeição atual:', refeicaoKey);
+            
             const refeicao = refeicoes[refeicaoKey];
+            console.log('Refeição encontrada:', refeicao);
+            
             if (!refeicao || !refeicao.receitas || refeicao.receitas.length === 0) {
+                console.log('Nenhuma refeição válida encontrada para este horário');
                 document.getElementById('refeicao-content').innerHTML = '<p>Nenhuma refeição encontrada para este horário</p>';
                 return;
             }
+            
+            // Mostrar apenas a primeira receita da refeição
             const receita = refeicao.receitas[0];
+            console.log('Receita a ser exibida:', receita);
+            
+            // Verificar se todos os dados estão presentes
+            console.log('Verificação dos dados:');
+            console.log('- Título:', receita.titulo);
+            console.log('- Ingredientes:', receita.ingredientes);
+            console.log('- Preparo:', receita.preparo);
+            console.log('- Calorias:', receita.calorias);
+            
             const content = document.getElementById('refeicao-content');
-            content.innerHTML = `
+            const htmlContent = `
                 <div class="refeicao-info">
                     <h5>${refeicao.nome} — ${refeicao.horario}</h5>
                     <h6>${receita.titulo}</h6>
@@ -240,6 +433,9 @@
                     <p><strong>Valores nutricionais:</strong> ${receita.calorias}</p>
                 </div>
             `;
+            
+            console.log('HTML a ser inserido:', htmlContent);
+            content.innerHTML = htmlContent;
         }
         // Função para exibir o exercício atual
         async function exibirExercicioAtual() {
