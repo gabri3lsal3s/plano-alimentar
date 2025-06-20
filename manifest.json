@@ -1,7 +1,7 @@
 {
-  "name": "Plano Alimentar",
-  "short_name": "Plano Alimentar",
-  "description": "Plano alimentar personalizado com 6 refeições diárias",
+  "name": "IkigaiHub",
+  "short_name": "IkigaiHub",
+  "description": "Seu hub completo para saúde e bem-estar",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -32,13 +32,13 @@
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Tela inicial do Plano Alimentar no desktop"
+      "label": "Tela inicial do IkigaiHub no desktop"
     },
     {
       "src": "./screenshots/mobile.png",
       "sizes": "360x800",
       "type": "image/png",
-      "label": "Tela inicial do Plano Alimentar no celular"
+      "label": "Tela inicial do IkigaiHub no celular"
     }
   ]
 } 

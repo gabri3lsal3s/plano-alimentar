@@ -1,7 +1,7 @@
-# Roadmap de Desenvolvimento - Plano Alimentar
+# Roadmap de Desenvolvimento - IkigaiHub
 
 ## 📋 Visão Geral do Projeto
-**Plano Alimentar** é um Progressive Web App (PWA) desenvolvido para auxiliar no planejamento de refeições e exercícios, com foco em uma experiência moderna, responsiva e funcional.
+**IkigaiHub** é um Progressive Web App (PWA) desenvolvido para auxiliar no planejamento de refeições e exercícios, com foco em uma experiência moderna, responsiva e funcional. Inspirado no conceito japonês de "Ikigai" (razão de viver), o projeto visa centralizar todas as informações relacionadas à saúde e bem-estar.
 
 ---
 
@@ -26,7 +26,7 @@
 *Data: 19/06/2025*
 
 #### Objetivos:
-- ✅ Criação da página principal (index.html)
+- ✅ Criação da página principal (plano_alimentar.html)
 - ✅ Implementação do sistema de 6 refeições diárias
 - ✅ Desenvolvimento da página de exercícios (exercicios.html)
 - ✅ Estilização CSS básica e responsiva
@@ -145,6 +145,42 @@
 
 ---
 
+### **Fase 6: Rebranding e Página Home**
+*Data: 19/06/2025*
+
+#### Objetivos:
+- ✅ Mudança de nome para "IkigaiHub"
+- ✅ Criação de página home central
+- ✅ Reorganização da estrutura de navegação
+- ✅ Atualização de todas as referências do projeto
+
+#### Entregas:
+- **Rebranding Completo**:
+  - Novo nome: "IkigaiHub"
+  - Nova identidade visual baseada no conceito Ikigai
+  - Atualização de manifest.json e meta tags
+  - Renomeação de arquivos para melhor organização
+
+- **Página Home Central**:
+  - Seção hero com apresentação do projeto
+  - Cards de funcionalidades com links diretos
+  - Seção "Sobre" explicando o conceito Ikigai
+  - Design moderno e atrativo
+
+- **Navegação Reorganizada**:
+  - Home como página principal (index.html)
+  - Plano Alimentar como página específica (plano_alimentar.html)
+  - Links atualizados em todas as páginas
+  - Estrutura de navegação mais intuitiva
+
+#### Melhorias Implementadas:
+- Conceito Ikigai integrado ao design
+- Página de entrada mais informativa
+- Melhor organização do conteúdo
+- Experiência de usuário aprimorada
+
+---
+
 ## 🛠️ Stack Tecnológica
 
 ### **Frontend:**
@@ -176,7 +212,14 @@
 
 ## 📱 Funcionalidades Implementadas
 
-### **Página Principal:**
+### **Página Home:**
+- ✅ Apresentação do conceito IkigaiHub
+- ✅ Cards de funcionalidades com links diretos
+- ✅ Seção "Sobre" explicando o projeto
+- ✅ Design moderno com glassmorphism
+- ✅ Navegação centralizada
+
+### **Página Plano Alimentar:**
 - ✅ Sistema de 6 refeições diárias
 - ✅ Cards informativos com descrições
 - ✅ Navegação responsiva com sidebar inteligente
@@ -185,7 +228,7 @@
 
 ### **Página de Exercícios:**
 - ✅ Lista de exercícios organizados
-- ✅ Layout consistente com página principal
+- ✅ Layout consistente com demais páginas
 - ✅ Responsividade completa
 - ✅ Integração visual harmoniosa
 - ✅ Navegação otimizada
@@ -271,19 +314,21 @@
 
 ## 📊 Status Atual
 
-### **Versão**: 1.2.1
+### **Versão**: 1.2.2
 ### **Status**: ✅ Produção
 ### **Última Atualização**: 19/06/2025
 
 ### **Funcionalidades Ativas:**
-- ✅ Interface principal responsiva
+- ✅ Página home central com apresentação do IkigaiHub
+- ✅ Interface principal responsiva (plano_alimentar.html)
 - ✅ Página de exercícios integrada
-- ✅ PWA funcional
+- ✅ PWA funcional com novo nome
 - ✅ Design moderno com glassmorphism
 - ✅ Cache e performance otimizados
 - ✅ Navegação mobile inteligente
 - ✅ Header modernizado
 - ✅ Sidebar fixa com transições suaves
+- ✅ Rebranding completo para IkigaiHub
 
 ### **Próxima Release**: 1.3.0 (Funcionalidades Avançadas)
 
@@ -292,7 +337,8 @@
 ## 📝 Documentação
 
 ### **Arquivos Principais:**
-- `index.html`: Página principal
+- `index.html`: Página home central
+- `plano_alimentar.html`: Página principal do plano alimentar
 - `exercicios.html`: Página de exercícios
 - `style.css`: Estilos principais
 - `exercicios.css`: Estilos da página de exercícios
@@ -308,4 +354,4 @@
 
 ---
 
-*Este roadmap documenta todo o processo de desenvolvimento do projeto "Plano Alimentar" desde sua concepção até o estado atual, servindo como referência para futuras evoluções e melhorias.* 
+*Este roadmap documenta todo o processo de desenvolvimento do projeto "IkigaiHub" desde sua concepção até o estado atual, servindo como referência para futuras evoluções e melhorias.* 
