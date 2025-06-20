@@ -49,302 +49,86 @@
                 </div>
             </div>
         </section>
-
-        <section id="notificacoes">
-            <div>
-                <h3>Notificações</h3>
-                <p>Configure as notificações para receber lembretes sobre suas refeições no horário correto. Personalize os horários de cada refeição conforme sua rotina.</p>
-                
-                <div class="notificacoes-config">
-                    <div class="status-notificacao">
-                        <h4>Status das Notificações</h4>
-                        <div id="status-content">
-                            <p>Verificando permissões...</p>
-                        </div>
-                    </div>
-                    
-                    <div class="acoes-notificacao">
-                        <h4>Ações</h4>
-                        <div class="botoes-notificacao">
-                            <button id="btn-ativar-notificacoes" class="btn-notificacao">
-                                Ativar Notificações
-                            </button>
-                            <button id="btn-testar-notificacao" class="btn-notificacao">
-                                Testar Notificação
-                            </button>
-                            <button id="btn-limpar-agendamento" class="btn-notificacao">
-                                Limpar Agendamento
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="info-notificacoes">
-                        <h4>Horários Atuais</h4>
-                        <div id="horarios-atuais">
-                            <p>Carregando horários...</p>
-                        </div>
-                        <div class="botoes-config">
-                            <button id="btn-config-refeicoes" class="btn-config">
-                                <span class="btn-text">Configurar Horários de Refeições</span>
-                                <span class="btn-icon">▼</span>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="config-horarios" id="config-refeicoes" style="display: none;">
-                        <h4>Configurar Horários de Refeições</h4>
-                        <div class="horarios-grid">
-                            <div class="horario-item">
-                                <label for="horario-cafe">Café da Manhã:</label>
-                                <input type="time" id="horario-cafe" value="08:00" class="input-horario">
-                            </div>
-                            <div class="horario-item">
-                                <label for="horario-lancheM">Lanche da Manhã:</label>
-                                <input type="time" id="horario-lancheM" value="10:00" class="input-horario">
-                            </div>
-                            <div class="horario-item">
-                                <label for="horario-almoco">Almoço:</label>
-                                <input type="time" id="horario-almoco" value="13:00" class="input-horario">
-                            </div>
-                            <div class="horario-item">
-                                <label for="horario-lancheT">Lanche da Tarde:</label>
-                                <input type="time" id="horario-lancheT" value="16:00" class="input-horario">
-                            </div>
-                            <div class="horario-item">
-                                <label for="horario-janta">Janta:</label>
-                                <input type="time" id="horario-janta" value="20:00" class="input-horario">
-                            </div>
-                            <div class="horario-item">
-                                <label for="horario-ceia">Ceia:</label>
-                                <input type="time" id="horario-ceia" value="22:00" class="input-horario">
-                            </div>
-                        </div>
-                        <button id="btn-salvar-horarios" class="btn-notificacao">
-                            Salvar Horários
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
     </div>
 
-    <script src="vapid-config.js"></script>
     <script src="script.js"></script>
     <script>
         // Função para determinar a refeição atual baseada no horário
         function getRefeicaoAtual() {
             const agora = new Date();
             const hora = agora.getHours();
-            
             if (hora >= 7 && hora < 9) return 'cafe';
             if (hora >= 9 && hora < 11) return 'lancheM';
             if (hora >= 12 && hora < 14) return 'almoco';
             if (hora >= 15 && hora < 17) return 'lancheT';
             if (hora >= 19 && hora < 21) return 'janta';
             if (hora >= 21 || hora < 7) return 'ceia';
-            
-            // Se não estiver em nenhum horário específico, retorna a refeição mais próxima
             if (hora >= 11 && hora < 12) return 'almoco';
             if (hora >= 14 && hora < 15) return 'lancheT';
             if (hora >= 17 && hora < 19) return 'janta';
-            
-            return 'ceia'; // Padrão para madrugada
+            return 'ceia';
         }
-
         // Função para determinar o exercício atual baseado no dia da semana
         function getExercicioAtual() {
             const agora = new Date();
-            const diaSemana = agora.getDay(); // 0 = Domingo, 1 = Segunda, etc.
-            
+            const diaSemana = agora.getDay();
             switch(diaSemana) {
                 case 1: return 'segunda';
                 case 2: return 'terca';
                 case 3: return 'quarta';
                 case 4: return 'quinta';
-                case 5: // Sexta
-                case 6: // Sábado
-                case 0: // Domingo
+                case 5:
+                case 6:
+                case 0:
                 default: return 'adicional';
             }
         }
-
         // Dados de fallback caso o fetch falhe
         const dadosFallback = {
             refeicoes: {
-                cafe: {
-                    nome: "Café da Manhã",
-                    horario: "07h às 09h",
-                    receitas: [{
-                        titulo: "Omelete Proteica Completa",
-                        ingredientes: ["3 ovos inteiros", "30g de queijo cottage", "1 fatia de pão integral", "1 colher de sopa de azeite", "Espinafre, tomate e temperos"],
-                        preparo: "Bata os ovos, adicione o cottage e refogue com azeite. Sirva com pão integral e vegetais",
-                        calorias: "~520 kcal, 28g proteína, 35g carboidratos, 28g gorduras"
-                    }]
-                },
-                lancheM: {
-                    nome: "Lanche da Manhã",
-                    horario: "09h às 11h",
-                    receitas: [{
-                        titulo: "Iogurte Grego com Frutas",
-                        ingredientes: ["150g de iogurte grego natural", "1 banana pequena", "15g de granola", "10g de mel"],
-                        preparo: "Misture o iogurte com a banana cortada, adicione granola e mel",
-                        calorias: "~380 kcal, 18g proteína, 52g carboidratos, 12g gorduras"
-                    }]
-                },
-                almoco: {
-                    nome: "Almoço",
-                    horario: "12h às 14h",
-                    receitas: [{
-                        titulo: "Prato Principal Completo",
-                        ingredientes: ["150g de peito de frango grelhado", "100g de arroz integral cozido", "80g de feijão preto", "150g de macaxeira cozida", "Salada de folhas verdes com azeite", "Legumes refogados"],
-                        preparo: "Grelhe o frango, prepare o arroz e feijão, cozinhe a macaxeira e monte o prato com todos os componentes",
-                        calorias: "~750 kcal, 35g proteína, 85g carboidratos, 20g gorduras"
-                    }]
-                },
-                lancheT: {
-                    nome: "Lanche da Tarde",
-                    horario: "15h às 17h",
-                    receitas: [{
-                        titulo: "Smoothie Proteico Pós-Treino",
-                        ingredientes: ["25g de whey protein", "200ml de leite integral", "1 banana", "30g de aveia", "Canela a gosto"],
-                        preparo: "Bata todos os ingredientes no liquidificador até ficar homogêneo",
-                        calorias: "~390 kcal, 28g proteína, 45g carboidratos, 8g gorduras"
-                    }]
-                },
-                janta: {
-                    nome: "Janta",
-                    horario: "19h às 21h",
-                    receitas: [{
-                        titulo: "Sopa Proteica de Frango",
-                        ingredientes: ["150g de peito de frango", "100g de abóbora", "50g de cenoura", "30g de quinoa", "Temperos verdes"],
-                        preparo: "Cozinhe o frango com legumes, adicione quinoa e temperos",
-                        calorias: "~420 kcal, 35g proteína, 35g carboidratos, 15g gorduras"
-                    }]
-                },
-                ceia: {
-                    nome: "Ceia",
-                    horario: "21h às 23h",
-                    receitas: [{
-                        titulo: "Queijo Cottage com Frutas",
-                        ingredientes: ["100g de queijo cottage", "1/2 banana", "10g de castanha-do-Pará", "Canela a gosto"],
-                        preparo: "Misture o cottage com a banana, adicione castanhas e canela",
-                        calorias: "~220 kcal, 18g proteína, 15g carboidratos, 12g gorduras"
-                    }]
-                }
+                cafe: { nome: "Café da Manhã", horario: "07h às 09h", receitas: [{ titulo: "Omelete Proteica Completa", ingredientes: ["3 ovos inteiros", "30g de queijo cottage", "1 fatia de pão integral", "1 colher de sopa de azeite", "Espinafre, tomate e temperos"], preparo: "Bata os ovos, adicione o cottage e refogue com azeite. Sirva com pão integral e vegetais", calorias: "~520 kcal, 28g proteína, 35g carboidratos, 28g gorduras" }] },
+                lancheM: { nome: "Lanche da Manhã", horario: "09h às 11h", receitas: [{ titulo: "Iogurte Grego com Frutas", ingredientes: ["150g de iogurte grego natural", "1 banana pequena", "15g de granola", "10g de mel"], preparo: "Misture o iogurte com a banana cortada, adicione granola e mel", calorias: "~380 kcal, 18g proteína, 52g carboidratos, 12g gorduras" }] },
+                almoco: { nome: "Almoço", horario: "12h às 14h", receitas: [{ titulo: "Prato Principal Completo", ingredientes: ["150g de peito de frango grelhado", "100g de arroz integral cozido", "80g de feijão preto", "150g de macaxeira cozida", "Salada de folhas verdes com azeite", "Legumes refogados"], preparo: "Grelhe o frango, prepare o arroz e feijão, cozinhe a macaxeira e monte o prato com todos os componentes", calorias: "~750 kcal, 35g proteína, 85g carboidratos, 20g gorduras" }] },
+                lancheT: { nome: "Lanche da Tarde", horario: "15h às 17h", receitas: [{ titulo: "Smoothie Proteico Pós-Treino", ingredientes: ["25g de whey protein", "200ml de leite integral", "1 banana", "30g de aveia", "Canela a gosto"], preparo: "Bata todos os ingredientes no liquidificador até ficar homogêneo", calorias: "~390 kcal, 28g proteína, 45g carboidratos, 8g gorduras" }] },
+                janta: { nome: "Janta", horario: "19h às 21h", receitas: [{ titulo: "Sopa Proteica de Frango", ingredientes: ["150g de peito de frango", "100g de abóbora", "50g de cenoura", "30g de quinoa", "Temperos verdes"], preparo: "Cozinhe o frango com legumes, adicione quinoa e temperos", calorias: "~420 kcal, 35g proteína, 35g carboidratos, 15g gorduras" }] },
+                ceia: { nome: "Ceia", horario: "21h às 23h", receitas: [{ titulo: "Queijo Cottage com Frutas", ingredientes: ["100g de queijo cottage", "1/2 banana", "10g de castanha-do-Pará", "Canela a gosto"], preparo: "Misture o cottage com a banana, adicione castanhas e canela", calorias: "~220 kcal, 18g proteína, 15g carboidratos, 12g gorduras" }] }
             },
             exercicios: {
-                segunda: {
-                    nome: "Segunda-feira",
-                    titulo: "Sessão A (Peito, Tríceps, Ombros) + Kung Fu",
-                    exercicios: [
-                        "Supino Reto com Barra – 4×8-12",
-                        "Supino Inclinado com Halteres – 3×8-10",
-                        "Desenvolvimento Militar Sentado – 3×8-12",
-                        "Tríceps Testa com Barra W – 3×10-12",
-                        "Elevação Lateral – 3×12-15",
-                        "Mergulho – 2×máx.",
-                        "Kung Fu: Treino técnico leve (45 min)"
-                    ]
-                },
-                terca: {
-                    nome: "Terça-feira",
-                    titulo: "Sessão B (Costas, Bíceps, Abdômen)",
-                    exercicios: [
-                        "Puxada na Barra Fixa/Pulldown – 4×6-10",
-                        "Remada Curvada – 3×8-12",
-                        "Remada Unilateral – 3×10-12",
-                        "Rosca Direta – 3×8-12",
-                        "Rosca Martelo – 2×10-12",
-                        "Prancha – 3×45 s",
-                        "Abdominais – 3×10"
-                    ]
-                },
-                quarta: {
-                    nome: "Quarta-feira",
-                    titulo: "Sessão C (Pernas, Glúteos)",
-                    exercicios: [
-                        "Agachamento Livre – 4×8-10",
-                        "Leg Press 45° – 3×10-12",
-                        "Stiff com Barra – 3×8-12",
-                        "Avanço com Halteres – 3×10/leg",
-                        "Cadeira Extensora – 2×12-15",
-                        "Panturrilha em Pé – 4×12-20"
-                    ]
-                },
-                quinta: {
-                    nome: "Quinta-feira",
-                    titulo: "Sessão D (Costas Leves, Bíceps, Core) + Kung Fu",
-                    exercicios: [
-                        "Pulldown Neutra – 3×8-12",
-                        "Remada Baixa – 3×10-12",
-                        "Rosca Scott – 3×8-12",
-                        "Hiperextensão Lombar – 3×12-15",
-                        "Abdominais Bicicleta – 3×20",
-                        "Prancha Lateral – 2×30 s/cada",
-                        "Kung Fu: Combate leve (45 min)"
-                    ]
-                },
-                adicional: {
-                    nome: "Fim de Semana",
-                    titulo: "Exercícios Adicionais",
-                    exercicios: [
-                        "Cardio: Corrida ou Bicicleta – 20-30 min",
-                        "Alongamento Dinâmico – 10 min",
-                        "Mobilidade de Ombro – 5 min",
-                        "Respiração Diafragmática – 5 min",
-                        "Meditação – 10 min"
-                    ]
-                }
+                segunda: { nome: "Segunda-feira", titulo: "Sessão A (Peito, Tríceps, Ombros) + Kung Fu", exercicios: ["Supino Reto com Barra – 4×8-12", "Supino Inclinado com Halteres – 3×8-10", "Desenvolvimento Militar Sentado – 3×8-12", "Tríceps Testa com Barra W – 3×10-12", "Elevação Lateral – 3×12-15", "Mergulho – 2×máx.", "Kung Fu: Treino técnico leve (45 min)"] },
+                terca: { nome: "Terça-feira", titulo: "Sessão B (Costas, Bíceps, Abdômen)", exercicios: ["Puxada na Barra Fixa/Pulldown – 4×6-10", "Remada Curvada – 3×8-12", "Remada Unilateral – 3×10-12", "Rosca Direta – 3×8-12", "Rosca Martelo – 2×10-12", "Prancha – 3×45 s", "Abdominais – 3×10"] },
+                quarta: { nome: "Quarta-feira", titulo: "Sessão C (Pernas, Glúteos)", exercicios: ["Agachamento Livre – 4×8-10", "Leg Press 45° – 3×10-12", "Stiff com Barra – 3×8-12", "Avanço com Halteres – 3×10/leg", "Cadeira Extensora – 2×12-15", "Panturrilha em Pé – 4×12-20"] },
+                quinta: { nome: "Quinta-feira", titulo: "Sessão D (Costas Leves, Bíceps, Core) + Kung Fu", exercicios: ["Pulldown Neutra – 3×8-12", "Remada Baixa – 3×10-12", "Rosca Scott – 3×8-12", "Hiperextensão Lombar – 3×12-15", "Abdominais Bicicleta – 3×20", "Prancha Lateral – 2×30 s/cada", "Kung Fu: Combate leve (45 min)"] },
+                adicional: { nome: "Fim de Semana", titulo: "Exercícios Adicionais", exercicios: ["Cardio: Corrida ou Bicicleta – 20-30 min", "Alongamento Dinâmico – 10 min", "Mobilidade de Ombro – 5 min", "Respiração Diafragmática – 5 min", "Meditação – 10 min"] }
             }
         };
-
         // Função para buscar dados da página de plano alimentar
         async function buscarDadosRefeicoes() {
             try {
-                console.log('Iniciando busca de dados das refeições...');
                 const response = await fetch('plano_alimentar.html');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                if (!response.ok) throw new Error();
                 const html = await response.text();
-                console.log('HTML carregado, tamanho:', html.length);
-                
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
-                
                 const refeicoes = {};
                 const secoes = ['cafe', 'lancheM', 'almoco', 'lancheT', 'janta', 'ceia'];
-                
                 secoes.forEach(secao => {
                     const elemento = doc.getElementById(secao);
-                    console.log(`Buscando seção ${secao}:`, elemento ? 'encontrada' : 'não encontrada');
-                    
                     if (elemento) {
                         const h3 = elemento.querySelector('h3');
                         const ul = elemento.querySelector('ul');
-                        
                         if (h3 && ul) {
-                            const tituloCompleto = h3.textContent;
-                            const partes = tituloCompleto.split('—');
+                            const partes = h3.textContent.split('—');
                             const nome = partes[0]?.trim() || '';
                             const horario = partes[1]?.trim() || '';
                             const receitas = [];
-                            
-                            const items = ul.querySelectorAll('li');
-                            console.log(`Seção ${secao}: ${items.length} receitas encontradas`);
-                            
-                            items.forEach((item, index) => {
+                            ul.querySelectorAll('li').forEach(item => {
                                 const h4 = item.querySelector('h4');
-                                
                                 if (h4) {
                                     const titulo = h4.textContent;
                                     let ingredientes = [];
                                     let preparo = '';
                                     let calorias = '';
-                                    
-                                    // Buscar todos os parágrafos
-                                    const pElements = item.querySelectorAll('p');
-                                    pElements.forEach(p => {
+                                    item.querySelectorAll('p').forEach(p => {
                                         const text = p.textContent;
                                         if (text.includes('Ingredientes:')) {
                                             const ol = p.nextElementSibling;
@@ -357,117 +141,68 @@
                                             calorias = text.replace('Valores nutricionais:', '').trim();
                                         }
                                     });
-                                    
                                     if (titulo && ingredientes.length > 0) {
-                                        receitas.push({
-                                            titulo,
-                                            ingredientes,
-                                            preparo,
-                                            calorias
-                                        });
-                                        console.log(`Receita ${index + 1} em ${secao}:`, titulo);
+                                        receitas.push({ titulo, ingredientes, preparo, calorias });
                                     }
                                 }
                             });
-                            
                             if (receitas.length > 0) {
-                                refeicoes[secao] = {
-                                    nome: nome,
-                                    horario: horario,
-                                    receitas: receitas
-                                };
+                                refeicoes[secao] = { nome, horario, receitas };
                             }
                         }
                     }
                 });
-                
-                console.log('Refeições encontradas:', refeicoes);
-                const resultado = Object.keys(refeicoes).length > 0 ? refeicoes : dadosFallback.refeicoes;
-                console.log('Resultado final (usando dados reais):', Object.keys(refeicoes).length > 0);
-                return resultado;
+                return Object.keys(refeicoes).length > 0 ? refeicoes : dadosFallback.refeicoes;
             } catch (error) {
-                console.error('Erro ao buscar dados das refeições, usando fallback:', error);
                 return dadosFallback.refeicoes;
             }
         }
-
         // Função para buscar dados da página de exercícios
         async function buscarDadosExercicios() {
             try {
-                console.log('Iniciando busca de dados dos exercícios...');
                 const response = await fetch('exercicios.html');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                if (!response.ok) throw new Error();
                 const html = await response.text();
-                console.log('HTML dos exercícios carregado, tamanho:', html.length);
-                
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
-                
                 const exercicios = {};
                 const secoes = ['segunda', 'terca', 'quarta', 'quinta', 'adicional'];
-                
                 secoes.forEach(secao => {
                     const elemento = doc.getElementById(secao);
-                    console.log(`Buscando exercício ${secao}:`, elemento ? 'encontrado' : 'não encontrado');
-                    
                     if (elemento) {
                         const h3 = elemento.querySelector('h3');
                         const ul = elemento.querySelector('ul');
-                        
                         if (h3 && ul) {
-                            const tituloCompleto = h3.textContent;
-                            const partes = tituloCompleto.split('—');
+                            const partes = h3.textContent.split('—');
                             const nome = partes[0]?.trim() || '';
-                            const titulo = partes[1]?.trim() || tituloCompleto;
+                            const titulo = partes[1]?.trim() || h3.textContent;
                             const exerciciosList = Array.from(ul.querySelectorAll('li')).map(li => li.textContent);
-                            
-                            console.log(`Exercício ${secao}: ${exerciciosList.length} itens encontrados`);
-                            
                             if (exerciciosList.length > 0) {
-                                exercicios[secao] = {
-                                    nome: nome,
-                                    titulo: titulo,
-                                    exercicios: exerciciosList
-                                };
+                                exercicios[secao] = { nome, titulo, exercicios: exerciciosList };
                             }
                         }
                     }
                 });
-                
-                console.log('Exercícios encontrados:', exercicios);
-                const resultado = Object.keys(exercicios).length > 0 ? exercicios : dadosFallback.exercicios;
-                console.log('Resultado final (usando dados reais):', Object.keys(exercicios).length > 0);
-                return resultado;
+                return Object.keys(exercicios).length > 0 ? exercicios : dadosFallback.exercicios;
             } catch (error) {
-                console.error('Erro ao buscar dados dos exercícios, usando fallback:', error);
                 return dadosFallback.exercicios;
             }
         }
-
         // Função para exibir a refeição atual
         async function exibirRefeicaoAtual() {
-            console.log('Buscando dados das refeições...');
             const refeicoes = await buscarDadosRefeicoes();
             if (!refeicoes) {
                 document.getElementById('refeicao-content').innerHTML = '<p>Erro ao carregar dados das refeições</p>';
                 return;
             }
-            
-            console.log('Refeições carregadas:', refeicoes);
             const refeicaoKey = getRefeicaoAtual();
-            console.log('Refeição atual:', refeicaoKey);
             const refeicao = refeicoes[refeicaoKey];
-            
             if (!refeicao || !refeicao.receitas || refeicao.receitas.length === 0) {
                 document.getElementById('refeicao-content').innerHTML = '<p>Nenhuma refeição encontrada para este horário</p>';
                 return;
             }
-            
-            const receita = refeicao.receitas[0]; // Primeira receita da refeição
+            const receita = refeicao.receitas[0];
             const content = document.getElementById('refeicao-content');
-            
             content.innerHTML = `
                 <div class="refeicao-info">
                     <h5>${refeicao.nome} — ${refeicao.horario}</h5>
@@ -481,28 +216,20 @@
                 </div>
             `;
         }
-
         // Função para exibir o exercício atual
         async function exibirExercicioAtual() {
-            console.log('Buscando dados dos exercícios...');
             const exercicios = await buscarDadosExercicios();
             if (!exercicios) {
                 document.getElementById('exercicio-content').innerHTML = '<p>Erro ao carregar dados dos exercícios</p>';
                 return;
             }
-            
-            console.log('Exercícios carregados:', exercicios);
             const exercicioKey = getExercicioAtual();
-            console.log('Exercício atual:', exercicioKey);
             const exercicio = exercicios[exercicioKey];
-            
             if (!exercicio) {
                 document.getElementById('exercicio-content').innerHTML = '<p>Nenhum exercício encontrado para hoje</p>';
                 return;
             }
-            
             const content = document.getElementById('exercicio-content');
-            
             content.innerHTML = `
                 <div class="exercicio-info">
                     <h5>${exercicio.nome}</h5>
@@ -513,483 +240,11 @@
                 </div>
             `;
         }
-
         // Inicializar página
         document.addEventListener('DOMContentLoaded', function() {
             exibirRefeicaoAtual();
             exibirExercicioAtual();
-            inicializarNotificacoes();
-            configurarBotoesNotificacao();
-            atualizarStatusNotificacao();
-            carregarHorariosSalvos();
-            atualizarHorariosAtuais();
-            // Garantir que o botão de salvar horários de refeições está funcionando
-            const btnSalvarHorarios = document.getElementById('btn-salvar-horarios');
-            if (btnSalvarHorarios) {
-                btnSalvarHorarios.addEventListener('click', function() {
-                    salvarHorarios();
-                    atualizarHorariosAtuais();
-                });
-            }
         });
-
-        // Sistema de Notificações Push
-        async function inicializarNotificacoes() {
-            console.log('Inicializando sistema de notificações push...');
-            
-            // Verificar se o navegador suporta notificações
-            if (!('Notification' in window)) {
-                console.log('Este navegador não suporta notificações');
-                return;
-            }
-
-            // Verificar se o Service Worker está registrado
-            if (!('serviceWorker' in navigator)) {
-                console.log('Service Worker não suportado');
-                return;
-            }
-
-            try {
-                // Registrar Service Worker
-                const registration = await navigator.serviceWorker.register('/sw.js');
-                console.log('Service Worker registrado:', registration);
-
-                // Solicitar permissão para notificações
-                const permission = await Notification.requestPermission();
-                console.log('Permissão de notificação:', permission);
-
-                if (permission === 'granted') {
-                    console.log('Permissão concedida! Configurando notificações push...');
-                    await configurarNotificacoesPush(registration);
-                } else {
-                    console.log('Permissão negada para notificações');
-                }
-            } catch (error) {
-                console.error('Erro ao inicializar notificações:', error);
-            }
-        }
-
-        // Configurar notificações push
-        async function configurarNotificacoesPush(registration) {
-            try {
-                // Verificar se já existe uma subscription
-                let subscription = await registration.pushManager.getSubscription();
-                
-                if (!subscription) {
-                    // Criar nova subscription
-                    subscription = await registration.pushManager.subscribe({
-                        userVisibleOnly: true,
-                        applicationServerKey: urlBase64ToUint8Array(getVapidPublicKey())
-                    });
-                    
-                    console.log('Nova subscription criada:', subscription);
-                    
-                    // Salvar subscription no localStorage
-                    localStorage.setItem('pushSubscription', JSON.stringify(subscription));
-                } else {
-                    console.log('Subscription existente encontrada:', subscription);
-                }
-
-                // Enviar subscription para o Service Worker
-                if (registration.active) {
-                    registration.active.postMessage({
-                        type: 'PUSH_SUBSCRIPTION',
-                        subscription: subscription
-                    });
-                }
-
-                // Configurar notificações agendadas
-                await configurarNotificacoes();
-                
-            } catch (error) {
-                console.error('Erro ao configurar notificações push:', error);
-            }
-        }
-
-        // Converter VAPID public key para Uint8Array
-        function urlBase64ToUint8Array(base64String) {
-            // Usar a função do arquivo de configuração VAPID
-            if (typeof window.urlBase64ToUint8Array === 'function') {
-                return window.urlBase64ToUint8Array(base64String);
-            }
-            
-            // Fallback local
-            const padding = '='.repeat((4 - base64String.length % 4) % 4);
-            const base64 = (base64String + padding)
-                .replace(/-/g, '+')
-                .replace(/_/g, '/');
-
-            const rawData = window.atob(base64);
-            const outputArray = new Uint8Array(rawData.length);
-
-            for (let i = 0; i < rawData.length; ++i) {
-                outputArray[i] = rawData.charCodeAt(i);
-            }
-            return outputArray;
-        }
-
-        // Obter VAPID public key (você precisará gerar suas próprias chaves)
-        function getVapidPublicKey() {
-            // Usar a função do arquivo de configuração VAPID
-            if (typeof window.getVapidPublicKey === 'function') {
-                return window.getVapidPublicKey();
-            }
-            // Fallback para chave de exemplo
-            return 'BEl62iUYgUivxIkv69yViEuiBIa1HI0FyKZ0aPoaQZ3_EWuRB5vmpnPkKqeviCjZ9koQbcgK8cxjWlaVR0FpuHDI';
-        }
-
-        // Configurar notificações de refeições
-        async function configurarNotificacoes() {
-            const refeicoes = await buscarDadosRefeicoes();
-            if (!refeicoes) return;
-
-            // Carregar horários personalizados ou usar padrão
-            const horariosSalvos = JSON.parse(localStorage.getItem('horariosNotificacoes') || '{}');
-            const horariosRefeicoes = {
-                cafe: extrairHora(horariosSalvos.cafe || '08:00'),
-                lancheM: extrairHora(horariosSalvos.lancheM || '10:00'),
-                almoco: extrairHora(horariosSalvos.almoco || '13:00'),
-                lancheT: extrairHora(horariosSalvos.lancheT || '16:00'),
-                janta: extrairHora(horariosSalvos.janta || '20:00'),
-                ceia: extrairHora(horariosSalvos.ceia || '22:00')
-            };
-
-            // Verificar se há notificações agendadas
-            const notificacoesAgendadas = JSON.parse(localStorage.getItem('notificacoesAgendadas') || '{}');
-            const hoje = new Date().toDateString();
-
-            if (notificacoesAgendadas[hoje]) {
-                console.log('Notificações já agendadas para hoje');
-                return;
-            }
-
-            // Agendar notificações para hoje
-            agendarNotificacoesHoje(refeicoes, horariosRefeicoes);
-            
-            // Marcar como agendadas
-            notificacoesAgendadas[hoje] = true;
-            localStorage.setItem('notificacoesAgendadas', JSON.stringify(notificacoesAgendadas));
-        }
-
-        // Extrair hora de string de horário (ex: "08:00" -> 8)
-        function extrairHora(horarioString) {
-            return parseInt(horarioString.split(':')[0]);
-        }
-
-        // Agendar notificações para o dia atual
-        function agendarNotificacoesHoje(refeicoes, horariosRefeicoes) {
-            const agora = new Date();
-            const hoje = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
-
-            Object.entries(horariosRefeicoes).forEach(([refeicaoKey, hora]) => {
-                const horarioNotificacao = new Date(hoje);
-                horarioNotificacao.setHours(hora, 0, 0, 0);
-
-                // Se o horário já passou hoje, agendar para amanhã
-                if (horarioNotificacao <= agora) {
-                    horarioNotificacao.setDate(horarioNotificacao.getDate() + 1);
-                }
-
-                const refeicao = refeicoes[refeicaoKey];
-                if (refeicao && refeicao.receitas && refeicao.receitas.length > 0) {
-                    const tempoAteNotificacao = horarioNotificacao.getTime() - agora.getTime();
-                    
-                    if (tempoAteNotificacao > 0) {
-                        console.log(`Agendando notificação push para ${refeicao.nome} às ${hora}:00`);
-                        
-                        setTimeout(() => {
-                            enviarNotificacaoRefeicao(refeicao);
-                        }, tempoAteNotificacao);
-                    }
-                }
-            });
-        }
-
-        // Enviar notificação de refeição
-        async function enviarNotificacaoRefeicao(refeicao) {
-            try {
-                const registration = await navigator.serviceWorker.ready;
-                
-                // Enviar mensagem para o Service Worker
-                if (registration.active) {
-                    registration.active.postMessage({
-                        type: 'NOTIFICACAO_REFEICAO',
-                        refeicao: refeicao
-                    });
-                }
-                
-                console.log('Notificação push de refeição enviada:', refeicao.nome);
-            } catch (error) {
-                console.error('Erro ao enviar notificação push de refeição:', error);
-            }
-        }
-
-        // Função para testar notificações push (para desenvolvimento)
-        async function testarNotificacao() {
-            try {
-                const registration = await navigator.serviceWorker.ready;
-                
-                const refeicaoTeste = {
-                    nome: "Café da Manhã",
-                    horario: "07h às 09h",
-                    receitas: [{
-                        titulo: "Omelete Proteica Completa",
-                        ingredientes: ["3 ovos inteiros", "30g de queijo cottage"],
-                        preparo: "Bata os ovos e refogue",
-                        calorias: "~520 kcal"
-                    }]
-                };
-                
-                if (registration.active) {
-                    registration.active.postMessage({
-                        type: 'NOTIFICACAO_REFEICAO',
-                        refeicao: refeicaoTeste
-                    });
-                }
-                
-                console.log('Notificação push de teste enviada');
-            } catch (error) {
-                console.error('Erro ao testar notificação push:', error);
-            }
-        }
-
-        // Carregar horários salvos
-        function carregarHorariosSalvos() {
-            const horariosSalvos = JSON.parse(localStorage.getItem('horariosNotificacoes') || '{}');
-            
-            // Horários padrão
-            const horariosPadrao = {
-                cafe: '08:00',
-                lancheM: '10:00',
-                almoco: '13:00',
-                lancheT: '16:00',
-                janta: '20:00',
-                ceia: '22:00'
-            };
-
-            // Aplicar horários salvos ou padrão
-            Object.keys(horariosPadrao).forEach(refeicao => {
-                const input = document.getElementById(`horario-${refeicao}`);
-                if (input) {
-                    input.value = horariosSalvos[refeicao] || horariosPadrao[refeicao];
-                }
-            });
-        }
-
-        // Configurar botões de notificação
-        function configurarBotoesNotificacao() {
-            const btnAtivar = document.getElementById('btn-ativar-notificacoes');
-            const btnTestar = document.getElementById('btn-testar-notificacao');
-            const btnLimpar = document.getElementById('btn-limpar-agendamento');
-            const btnSalvar = document.getElementById('btn-salvar-horarios');
-            const btnConfigRefeicoes = document.getElementById('btn-config-refeicoes');
-
-            if (btnAtivar) {
-                btnAtivar.addEventListener('click', async () => {
-                    try {
-                        const permission = await Notification.requestPermission();
-                        if (permission === 'granted') {
-                            await configurarNotificacoes();
-                            atualizarStatusNotificacao();
-                            btnAtivar.textContent = 'Notificações Ativadas';
-                            btnAtivar.disabled = true;
-                        } else {
-                            alert('Permissão negada para notificações. Você pode ativá-las nas configurações do navegador.');
-                        }
-                    } catch (error) {
-                        console.error('Erro ao ativar notificações:', error);
-                        alert('Erro ao ativar notificações. Tente novamente.');
-                    }
-                });
-            }
-
-            if (btnTestar) {
-                btnTestar.addEventListener('click', () => {
-                    testarNotificacao();
-                });
-            }
-
-            if (btnLimpar) {
-                btnLimpar.addEventListener('click', () => {
-                    localStorage.removeItem('notificacoesAgendadas');
-                    atualizarStatusNotificacao();
-                    alert('Agendamento de notificações limpo. As notificações serão reagendadas na próxima visita.');
-                });
-            }
-
-            if (btnSalvar) {
-                btnSalvar.addEventListener('click', () => {
-                    salvarHorarios();
-                });
-            }
-
-            // Configurar botões de toggle
-            if (btnConfigRefeicoes) {
-                btnConfigRefeicoes.addEventListener('click', () => {
-                    toggleConfiguracao('config-refeicoes', btnConfigRefeicoes);
-                });
-            }
-        }
-
-        // Função para toggle das configurações
-        function toggleConfiguracao(configId, btnElement) {
-            const configElement = document.getElementById(configId);
-            
-            if (configElement.style.display === 'none') {
-                // Mostrar configuração
-                configElement.style.display = 'block';
-                btnElement.classList.add('active');
-                
-                // Adicionar animação de entrada
-                configElement.style.opacity = '0';
-                configElement.style.transform = 'translateY(-10px)';
-                
-                setTimeout(() => {
-                    configElement.style.transition = 'all 0.3s ease';
-                    configElement.style.opacity = '1';
-                    configElement.style.transform = 'translateY(0)';
-                }, 10);
-            } else {
-                // Ocultar configuração
-                configElement.style.transition = 'all 0.3s ease';
-                configElement.style.opacity = '0';
-                configElement.style.transform = 'translateY(-10px)';
-                
-                setTimeout(() => {
-                    configElement.style.display = 'none';
-                    btnElement.classList.remove('active');
-                }, 300);
-            }
-        }
-
-        // Atualizar status das notificações
-        function atualizarStatusNotificacao() {
-            const statusContent = document.getElementById('status-content');
-            const btnAtivar = document.getElementById('btn-ativar-notificacoes');
-            
-            if (!statusContent) return;
-
-            const permission = Notification.permission;
-            const notificacoesAgendadas = JSON.parse(localStorage.getItem('notificacoesAgendadas') || '{}');
-            const hoje = new Date().toDateString();
-            const agendadasHoje = notificacoesAgendadas[hoje];
-
-            let statusHTML = '';
-            let btnText = 'Ativar Notificações';
-            let btnDisabled = false;
-
-            if (permission === 'granted') {
-                if (agendadasHoje) {
-                    statusHTML = '<p class="status-ativo">✅ Notificações ativas e agendadas para hoje</p>';
-                    btnText = 'Notificações Ativadas';
-                    btnDisabled = true;
-                } else {
-                    statusHTML = '<p class="status-pendente">⚠️ Permissão concedida, mas notificações não agendadas</p>';
-                }
-            } else if (permission === 'denied') {
-                statusHTML = '<p class="status-inativo">❌ Permissão negada. Ative nas configurações do navegador</p>';
-                btnText = 'Permissão Negada';
-                btnDisabled = true;
-            } else {
-                statusHTML = '<p class="status-pendente">⏳ Aguardando permissão para notificações</p>';
-            }
-
-            statusContent.innerHTML = statusHTML;
-            
-            if (btnAtivar) {
-                btnAtivar.textContent = btnText;
-                btnAtivar.disabled = btnDisabled;
-            }
-        }
-
-        // Salvar horários personalizados
-        function salvarHorarios() {
-            console.log('Salvando horários de refeições...');
-            const horarios = {};
-            const refeicoes = ['cafe', 'lancheM', 'almoco', 'lancheT', 'janta', 'ceia'];
-            
-            refeicoes.forEach(refeicao => {
-                const input = document.getElementById(`horario-${refeicao}`);
-                if (input) {
-                    horarios[refeicao] = input.value;
-                    console.log(`${refeicao}: ${input.value}`);
-                }
-            });
-
-            console.log('Horários coletados:', horarios);
-            localStorage.setItem('horariosNotificacoes', JSON.stringify(horarios));
-            console.log('Horários salvos no localStorage');
-            
-            // Limpar agendamento anterior para reagendar com novos horários
-            localStorage.removeItem('notificacoesAgendadas');
-            
-            // Reagendar notificações com novos horários
-            if (Notification.permission === 'granted') {
-                configurarNotificacoes();
-            }
-            
-            atualizarHorariosAtuais();
-            
-            // Feedback visual
-            const btnSalvar = document.getElementById('btn-salvar-horarios');
-            if (btnSalvar) {
-                const textoOriginal = btnSalvar.textContent;
-                btnSalvar.textContent = 'Horários Salvos!';
-                btnSalvar.style.background = 'linear-gradient(135deg, #45a049 0%, #4CAF50 100%)';
-                
-                setTimeout(() => {
-                    btnSalvar.textContent = textoOriginal;
-                    btnSalvar.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
-                }, 2000);
-            }
-        }
-
-        // Atualizar exibição dos horários atuais
-        function atualizarHorariosAtuais() {
-            console.log('Atualizando horários atuais...');
-            const horariosAtuais = document.getElementById('horarios-atuais');
-            if (!horariosAtuais) {
-                console.log('Elemento horarios-atuais não encontrado');
-                return;
-            }
-
-            const horarios = JSON.parse(localStorage.getItem('horariosNotificacoes') || '{}');
-            
-            console.log('Horários carregados do localStorage:', horarios);
-            
-            const nomesRefeicoes = {
-                cafe: 'Café da Manhã',
-                lancheM: 'Lanche da Manhã',
-                almoco: 'Almoço',
-                lancheT: 'Lanche da Tarde',
-                janta: 'Janta',
-                ceia: 'Ceia'
-            };
-
-            // Horários padrão
-            const horariosPadrao = {
-                cafe: '08:00',
-                lancheM: '10:00',
-                almoco: '13:00',
-                lancheT: '16:00',
-                janta: '20:00',
-                ceia: '22:00'
-            };
-
-            let html = '<ul>';
-            
-            // Adicionar horários de refeições
-            Object.keys(nomesRefeicoes).forEach(refeicao => {
-                const horario = horarios[refeicao] || horariosPadrao[refeicao];
-                html += `<li><strong>${nomesRefeicoes[refeicao]}:</strong> ${horario}</li>`;
-            });
-            
-            html += '</ul>';
-
-            console.log('HTML gerado:', html);
-            horariosAtuais.innerHTML = html;
-            console.log('Horários atuais atualizados');
-        }
     </script>
 </body>
 </html> 

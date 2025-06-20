@@ -56,11 +56,6 @@
       ]
     }
   ],
-  "permissions": [
-    "notifications",
-    "background-sync"
-  ],
-  "gcm_sender_id": "103953800507",
   "screenshots": [
     {
       "src": "./screenshots/desktop.png",
