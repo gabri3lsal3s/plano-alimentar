@@ -318,6 +318,24 @@
 
 ---
 
+### **Fase 9.6: PWA Essencial Restaurado** ⭐ **CONCLUÍDA**
+*Data: 20/06/2025*
+
+#### Objetivos:
+- ✅ Service Worker básico para cache offline
+- ✅ Manifest.json limpo
+- ✅ Registro automático do SW
+- ✅ Foco em funcionalidades essenciais (refeição/treino do dia)
+- ✅ Nenhuma dependência de notificações
+
+#### Entregas:
+- PWA funcional para uso offline e instalação
+- Interface moderna e responsiva
+- Código limpo e fácil de manter
+- Nenhum erro de console relacionado a notificações
+
+---
+
 ## 🔮 **Próximas Fases Planejadas**
 
 ### **Fase 10: Backend e Notificações em Tempo Real**
@@ -465,7 +483,7 @@
 - 🔄 Engajamento: > 70% de retenção
 - 🔄 Usuários ativos: > 1000
 - 🔄 Avaliação: > 4.5 estrelas
-- �� Downloads: > 5000
+- 🔄 Downloads: > 5000
 
 ---
 
@@ -497,6 +515,7 @@
 | 8 | ✅ Concluída | 20/06/2025 | 1 dia |
 | 9 | ✅ Concluída | 20/06/2025 | 1 dia |
 | 9.5 | ✅ Concluída | 20/06/2025 | 1 dia |
+| 9.6 | ✅ Concluída | 20/06/2025 | 1 dia |
 | 10 | 🔄 Planejada | Q3 2025 | 2-3 semanas |
 | 11 | 🔄 Planejada | Q4 2025 | 3-4 semanas |
 | 12 | 🔄 Planejada | Q1 2026 | 4-6 semanas |
@@ -509,6 +528,7 @@
 ### **2025**:
 - ✅ Sistema de notificações push completo
 - ✅ Simplificação e otimização do sistema
+- ✅ PWA essencial restaurado
 - 🔄 Backend e sincronização
 - 🔄 Funcionalidades avançadas básicas
 
