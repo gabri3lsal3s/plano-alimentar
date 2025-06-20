@@ -49,7 +49,43 @@ self.addEventListener('message', (event) => {
     mostrarNotificacaoRefeicao(refeicao);
   } else if (event.data && event.data.type === 'NOTIFICACAO_TREINO') {
     mostrarNotificacaoTreino();
+  } else if (event.data && event.data.type === 'PUSH_SUBSCRIPTION') {
+    // Armazenar subscription para uso posterior
+    self.pushSubscription = event.data.subscription;
   }
+});
+
+// Receber notificações push
+self.addEventListener('push', (event) => {
+  console.log('Push notification received:', event);
+  
+  let notificationData = {
+    title: 'IkigaiHub',
+    body: 'Nova notificação',
+    icon: '/icons/icon-192x192.png',
+    badge: '/icons/icon-192x192.png',
+    tag: 'default',
+    requireInteraction: true,
+    data: {
+      url: '/'
+    }
+  };
+
+  if (event.data) {
+    try {
+      const data = event.data.json();
+      notificationData = {
+        ...notificationData,
+        ...data
+      };
+    } catch (error) {
+      console.error('Erro ao parsear dados da notificação push:', error);
+    }
+  }
+
+  event.waitUntil(
+    self.registration.showNotification(notificationData.title, notificationData)
+  );
 });
 
 // Mostrar notificação de refeição
@@ -64,7 +100,8 @@ function mostrarNotificacaoRefeicao(refeicao) {
     requireInteraction: true,
     data: {
       url: '/plano_alimentar.html',
-      refeicao: refeicao
+      refeicao: refeicao,
+      tipo: 'refeicao'
     },
     actions: [
       {
@@ -80,7 +117,7 @@ function mostrarNotificacaoRefeicao(refeicao) {
     ]
   };
 
-  self.registration.showNotification('IkigaiHub - Hora da Refeição!', opcoesNotificacao);
+  return self.registration.showNotification('IkigaiHub - Hora da Refeição!', opcoesNotificacao);
 }
 
 // Mostrar notificação de treino
@@ -92,7 +129,8 @@ function mostrarNotificacaoTreino() {
     tag: 'treino',
     requireInteraction: true,
     data: {
-      url: '/exercicios.html'
+      url: '/exercicios.html',
+      tipo: 'treino'
     },
     actions: [
       {
@@ -108,7 +146,7 @@ function mostrarNotificacaoTreino() {
     ]
   };
 
-  self.registration.showNotification('IkigaiHub - Hora do Treino!', opcoesNotificacao);
+  return self.registration.showNotification('IkigaiHub - Hora do Treino!', opcoesNotificacao);
 }
 
 // Gerenciar cliques na notificação

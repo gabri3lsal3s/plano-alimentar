@@ -52,7 +52,7 @@
 
         <section id="notificacoes">
             <div>
-                <h3>Configurações de Notificações</h3>
+                <h3>Notificações</h3>
                 <p>Configure as notificações para receber lembretes sobre suas refeições no horário correto. Personalize os horários de cada refeição conforme sua rotina.</p>
                 
                 <div class="notificacoes-config">
@@ -129,7 +129,7 @@
                     </div>
 
                     <div class="config-treinos" id="config-treinos" style="display: none;">
-                        <h4>Configurar Notificações de Treino</h4>
+                        <h4>Configurar Notificações de Treinos</h4>
                         <div class="treinos-config">
                             <div class="treino-dias">
                                 <label>Configurar Horários por Dia:</label>
@@ -195,6 +195,7 @@
         </section>
     </div>
 
+    <script src="vapid-config.js"></script>
     <script src="script.js"></script>
     <script>
         // Função para determinar a refeição atual baseada no horário
@@ -603,7 +604,7 @@
 
         // Sistema de Notificações Push
         async function inicializarNotificacoes() {
-            console.log('Inicializando sistema de notificações...');
+            console.log('Inicializando sistema de notificações push...');
             
             // Verificar se o navegador suporta notificações
             if (!('Notification' in window)) {
@@ -627,14 +628,83 @@
                 console.log('Permissão de notificação:', permission);
 
                 if (permission === 'granted') {
-                    console.log('Permissão concedida! Configurando notificações...');
-                    configurarNotificacoes();
+                    console.log('Permissão concedida! Configurando notificações push...');
+                    await configurarNotificacoesPush(registration);
                 } else {
                     console.log('Permissão negada para notificações');
                 }
             } catch (error) {
                 console.error('Erro ao inicializar notificações:', error);
             }
+        }
+
+        // Configurar notificações push
+        async function configurarNotificacoesPush(registration) {
+            try {
+                // Verificar se já existe uma subscription
+                let subscription = await registration.pushManager.getSubscription();
+                
+                if (!subscription) {
+                    // Criar nova subscription
+                    subscription = await registration.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: urlBase64ToUint8Array(getVapidPublicKey())
+                    });
+                    
+                    console.log('Nova subscription criada:', subscription);
+                    
+                    // Salvar subscription no localStorage
+                    localStorage.setItem('pushSubscription', JSON.stringify(subscription));
+                } else {
+                    console.log('Subscription existente encontrada:', subscription);
+                }
+
+                // Enviar subscription para o Service Worker
+                if (registration.active) {
+                    registration.active.postMessage({
+                        type: 'PUSH_SUBSCRIPTION',
+                        subscription: subscription
+                    });
+                }
+
+                // Configurar notificações agendadas
+                await configurarNotificacoes();
+                
+            } catch (error) {
+                console.error('Erro ao configurar notificações push:', error);
+            }
+        }
+
+        // Converter VAPID public key para Uint8Array
+        function urlBase64ToUint8Array(base64String) {
+            // Usar a função do arquivo de configuração VAPID
+            if (typeof window.urlBase64ToUint8Array === 'function') {
+                return window.urlBase64ToUint8Array(base64String);
+            }
+            
+            // Fallback local
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding)
+                .replace(/-/g, '+')
+                .replace(/_/g, '/');
+
+            const rawData = window.atob(base64);
+            const outputArray = new Uint8Array(rawData.length);
+
+            for (let i = 0; i < rawData.length; ++i) {
+                outputArray[i] = rawData.charCodeAt(i);
+            }
+            return outputArray;
+        }
+
+        // Obter VAPID public key (você precisará gerar suas próprias chaves)
+        function getVapidPublicKey() {
+            // Usar a função do arquivo de configuração VAPID
+            if (typeof window.getVapidPublicKey === 'function') {
+                return window.getVapidPublicKey();
+            }
+            // Fallback para chave de exemplo
+            return 'BEl62iUYgUivxIkv69yViEuiBIa1HI0FyKZ0aPoaQZ3_EWuRB5vmpnPkKqeviCjZ9koQbcgK8cxjWlaVR0FpuHDI';
         }
 
         // Configurar notificações de refeições
@@ -702,7 +772,7 @@
                     const tempoAteNotificacao = horarioNotificacao.getTime() - agora.getTime();
                     
                     if (tempoAteNotificacao > 0) {
-                        console.log(`Agendando notificação para ${refeicao.nome} às ${hora}:00`);
+                        console.log(`Agendando notificação push para ${refeicao.nome} às ${hora}:00`);
                         
                         setTimeout(() => {
                             enviarNotificacaoRefeicao(refeicao);
@@ -715,104 +785,66 @@
         // Enviar notificação de refeição
         async function enviarNotificacaoRefeicao(refeicao) {
             try {
-                // Verificar se o Service Worker está ativo
-                if (navigator.serviceWorker.controller) {
-                    // Enviar mensagem para o Service Worker
-                    navigator.serviceWorker.controller.postMessage({
+                const registration = await navigator.serviceWorker.ready;
+                
+                // Enviar mensagem para o Service Worker
+                if (registration.active) {
+                    registration.active.postMessage({
                         type: 'NOTIFICACAO_REFEICAO',
                         refeicao: refeicao
                     });
-                } else {
-                    // Fallback: notificação local
-                    enviarNotificacaoLocal(refeicao);
                 }
+                
+                console.log('Notificação push de refeição enviada:', refeicao.nome);
             } catch (error) {
-                console.error('Erro ao enviar notificação:', error);
-                // Fallback: notificação local
-                enviarNotificacaoLocal(refeicao);
+                console.error('Erro ao enviar notificação push de refeição:', error);
             }
         }
 
-        // Notificação local como fallback
-        function enviarNotificacaoLocal(refeicao) {
-            if (Notification.permission === 'granted') {
-                const receita = refeicao.receitas[0];
-                const notificacao = new Notification('IkigaiHub - Hora da Refeição!', {
-                    body: `É hora do ${refeicao.nome}! ${receita.titulo}`,
-                    icon: '/icons/icon-192x192.png',
-                    badge: '/icons/icon-192x192.png',
-                    tag: 'refeicao',
-                    requireInteraction: true,
-                    actions: [
-                        {
-                            action: 'ver',
-                            title: 'Ver Receita',
-                            icon: '/icons/icon-192x192.png'
-                        },
-                        {
-                            action: 'adiar',
-                            title: 'Adiar 15min',
-                            icon: '/icons/icon-192x192.png'
-                        }
-                    ]
-                });
-
-                notificacao.onclick = function() {
-                    window.focus();
-                    window.location.href = '/plano_alimentar.html';
+        // Função para testar notificações push (para desenvolvimento)
+        async function testarNotificacao() {
+            try {
+                const registration = await navigator.serviceWorker.ready;
+                
+                const refeicaoTeste = {
+                    nome: "Café da Manhã",
+                    horario: "07h às 09h",
+                    receitas: [{
+                        titulo: "Omelete Proteica Completa",
+                        ingredientes: ["3 ovos inteiros", "30g de queijo cottage"],
+                        preparo: "Bata os ovos e refogue",
+                        calorias: "~520 kcal"
+                    }]
                 };
-
-                notificacao.onactionclick = function(event) {
-                    if (event.action === 'ver') {
-                        window.focus();
-                        window.location.href = '/plano_alimentar.html';
-                    } else if (event.action === 'adiar') {
-                        // Adiar por 15 minutos
-                        setTimeout(() => {
-                            enviarNotificacaoLocal(refeicao);
-                        }, 15 * 60 * 1000);
-                    }
-                };
-
-                console.log('Notificação local enviada:', refeicao.nome);
-            }
-        }
-
-        // Função para testar notificações (para desenvolvimento)
-        function testarNotificacao() {
-            const refeicaoTeste = {
-                nome: "Café da Manhã",
-                horario: "07h às 09h",
-                receitas: [{
-                    titulo: "Omelete Proteica Completa",
-                    ingredientes: ["3 ovos inteiros", "30g de queijo cottage"],
-                    preparo: "Bata os ovos e refogue",
-                    calorias: "~520 kcal"
-                }]
-            };
-            
-            enviarNotificacaoLocal(refeicaoTeste);
-        }
-
-        // Função para testar notificações de treino (para desenvolvimento)
-        function testarNotificacaoTreino() {
-            enviarNotificacaoTreinoLocal();
-        }
-
-        // Expor funções de teste globalmente (apenas para desenvolvimento)
-        window.testarNotificacao = testarNotificacao;
-        window.testarNotificacaoTreino = testarNotificacaoTreino;
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then((registration) => {
-                        console.log('ServiceWorker registration successful');
-                    })
-                    .catch((err) => {
-                        console.log('ServiceWorker registration failed: ', err);
+                
+                if (registration.active) {
+                    registration.active.postMessage({
+                        type: 'NOTIFICACAO_REFEICAO',
+                        refeicao: refeicaoTeste
                     });
-            });
+                }
+                
+                console.log('Notificação push de teste enviada');
+            } catch (error) {
+                console.error('Erro ao testar notificação push:', error);
+            }
+        }
+
+        // Função para testar notificações push de treino (para desenvolvimento)
+        async function testarNotificacaoTreino() {
+            try {
+                const registration = await navigator.serviceWorker.ready;
+                
+                if (registration.active) {
+                    registration.active.postMessage({
+                        type: 'NOTIFICACAO_TREINO'
+                    });
+                }
+                
+                console.log('Notificação push de treino de teste enviada');
+            } catch (error) {
+                console.error('Erro ao testar notificação push de treino:', error);
+            }
         }
 
         // Carregar configurações de treinos
@@ -1262,7 +1294,7 @@
                     
                     if (delay > 0) {
                         const timeoutId = setTimeout(() => {
-                            enviarNotificacaoTreino();
+                            enviarNotificacaoPushTreino();
                             // Reagendar para próxima semana
                             setTimeout(() => {
                                 agendarNotificacoesTreinos();
@@ -1280,70 +1312,24 @@
             });
             
             localStorage.setItem('notificacoesAgendadas', JSON.stringify(notificacoesAgendadas));
-            console.log('Notificações de treinos agendadas:', notificacoesAgendadas);
+            console.log('Notificações push de treinos agendadas:', notificacoesAgendadas);
         }
 
-        // Enviar notificação de treino
-        async function enviarNotificacaoTreino() {
+        // Enviar notificação push de treino
+        async function enviarNotificacaoPushTreino() {
             try {
-                // Verificar se o Service Worker está ativo
-                if (navigator.serviceWorker.controller) {
-                    // Enviar mensagem para o Service Worker
-                    navigator.serviceWorker.controller.postMessage({
+                const registration = await navigator.serviceWorker.ready;
+                
+                // Enviar mensagem para o Service Worker
+                if (registration.active) {
+                    registration.active.postMessage({
                         type: 'NOTIFICACAO_TREINO'
                     });
-                } else {
-                    // Fallback: notificação local
-                    enviarNotificacaoTreinoLocal();
                 }
+                
+                console.log('Notificação push de treino enviada');
             } catch (error) {
-                console.error('Erro ao enviar notificação de treino:', error);
-                // Fallback: notificação local
-                enviarNotificacaoTreinoLocal();
-            }
-        }
-
-        // Notificação local de treino como fallback
-        function enviarNotificacaoTreinoLocal() {
-            if (Notification.permission === 'granted') {
-                const notificacao = new Notification('IkigaiHub - Hora do Treino!', {
-                    body: 'É hora de treinar! Acesse sua rotina de exercícios.',
-                    icon: '/icons/icon-192x192.png',
-                    badge: '/icons/icon-192x192.png',
-                    tag: 'treino',
-                    requireInteraction: true,
-                    actions: [
-                        {
-                            action: 'ver',
-                            title: 'Ver Treino',
-                            icon: '/icons/icon-192x192.png'
-                        },
-                        {
-                            action: 'adiar',
-                            title: 'Adiar 30min',
-                            icon: '/icons/icon-192x192.png'
-                        }
-                    ]
-                });
-
-                notificacao.onclick = function() {
-                    window.focus();
-                    window.location.href = '/exercicios.html';
-                };
-
-                notificacao.onactionclick = function(event) {
-                    if (event.action === 'ver') {
-                        window.focus();
-                        window.location.href = '/exercicios.html';
-                    } else if (event.action === 'adiar') {
-                        // Adiar por 30 minutos
-                        setTimeout(() => {
-                            enviarNotificacaoTreinoLocal();
-                        }, 30 * 60 * 1000);
-                    }
-                };
-
-                console.log('Notificação de treino local enviada');
+                console.error('Erro ao enviar notificação push de treino:', error);
             }
         }
 
@@ -1388,6 +1374,10 @@
                 `;
             }
         }
+
+        // Expor funções de teste globalmente (apenas para desenvolvimento)
+        window.testarNotificacao = testarNotificacao;
+        window.testarNotificacaoTreino = testarNotificacaoTreino;
     </script>
 </body>
 </html> 

@@ -198,353 +198,288 @@
   - Exibição contextual baseada no momento atual
 
 - **Funcionalidades Responsivas**:
-  - Refeição atual baseada no horário (café 7-9h, almoço 12-14h, etc.)
+  - Refeição atual baseada no horário
   - Exercício atual baseado no dia da semana
-  - Atualização automática quando páginas são editadas
   - Sistema de fallback robusto
-
-- **Correções e Otimizações**:
-  - Correção de erros JavaScript (classList null)
-  - Remoção de referências a arquivos inexistentes
-  - Atualização do Service Worker (v2)
-  - Logs de debug para monitoramento
-
-- **Melhorias de UX**:
-  - Alinhamento de textos otimizado para exercícios
-  - Design consistente entre páginas
-  - Performance aprimorada
-  - Experiência mobile otimizada
+  - Zero erros no console
 
 #### Tecnologias Implementadas:
-- **Fetch API**: Busca de dados em tempo real
-- **DOMParser**: Parsing inteligente de HTML
-- **Async/Await**: Operações assíncronas eficientes
-- **Error Handling**: Tratamento robusto de erros
-- **Fallback System**: Dados de backup garantidos
-
-#### Funcionalidades Dinâmicas:
-- **Refeição Atual**: Mostra a primeira receita da refeição do momento
-- **Exercício Atual**: Mostra o treino do dia da semana
-- **Responsividade Total**: Mudanças nas páginas refletem na home
-- **Cache Inteligente**: Service Worker otimizado
+- Fetch API para busca de dados
+- DOMParser para parsing HTML
+- Async/Await para operações assíncronas
+- Error handling robusto
 
 ---
 
-### **Fase 8: Sistema de Notificações Push**
+### **Fase 8: Sistema de Notificações Locais**
 *Data: 20/06/2025*
 
 #### Objetivos:
-- ✅ Implementação de notificações push para horários de refeições
-- ✅ Interface de configuração e gerenciamento
-- ✅ Sistema de agendamento automático
-- ✅ Integração completa com PWA
-- ✅ **Configuração de Horários Personalizados por Refeição**
-- ✅ **Sistema de Notificações de Treinos com Horários por Dia**
+- ✅ Implementação de notificações locais para refeições
+- ✅ Sistema de configuração de horários personalizados
+- ✅ Notificações de treinos com configuração por dia
+- ✅ Interface de configuração completa
 
 #### Entregas:
-- **Sistema de Notificações Push Completo**:
-  - Notificações automáticas nos horários das refeições
-  - Horários configurados: Café (08:00), Lanche Manhã (10:00), Almoço (13:00), Lanche Tarde (16:00), Janta (20:00), Ceia (22:00)
-  - Notificações com ações interativas: "Ver Receita" e "Adiar 15min"
-  - Sistema de agendamento diário com localStorage
-  - Fallback para notificações locais
-  - **Configuração de Horários Personalizados**:
-    - Campos de tempo individuais para cada refeição
-    - Salvamento automático em localStorage
-    - Interface intuitiva para configuração
-    - Atualização em tempo real dos horários
+- **Sistema de Notificações Completo**:
+  - Notificações automáticas para horários de refeições
+  - Personalização de horários para cada refeição
+  - Notificações de treinos com configuração por dia da semana
+  - Interface de configuração intuitiva
 
-- **Sistema de Notificações de Treinos Avançado**:
-  - Notificações para horários de exercícios
-  - **Configuração de Horários Diferentes por Dia**:
-    - Interface individual para cada dia da semana
-    - Horários personalizados por dia (ex: Segunda 18:00, Terça 19:00, etc.)
-    - Checkboxes para ativar/desativar dias específicos
-    - Visual feedback para dias ativos com estados visuais
-    - Salvamento automático das configurações
-    - Agendamento inteligente baseado nos horários configurados
-    - Status detalhado mostrando dias e horários configurados
-  - Integração completa com sistema de notificações push
+- **Configurações Avançadas**:
+  - Horários personalizáveis para cada refeição
+  - Seleção de dias da semana para treinos
+  - Horários diferentes por dia de treino
+  - Status visual das configurações
 
-- **Interface de Configuração Aprimorada**:
-  - Seções colapsáveis para configurações
-  - Toggle buttons com ícones
-  - Animações suaves de transição
-  - Layout mais limpo e organizado
-  - Feedback visual aprimorado
-  - **Design de Horários por Dia**:
-    - Grid responsivo para dias da semana
-    - Cards individuais para cada dia
-    - Estados visuais para dias ativos/inativos
-    - Inputs de tempo com estilos modernos
-    - Hover effects e transições suaves
-
-- **Service Worker Aprimorado (v3)**:
-  - Suporte completo a notificações push
-  - Gerenciamento de cliques em notificações
-  - Cache otimizado para melhor performance
-  - Tratamento de mensagens do cliente
-  - Suporte a notificações de treinos
-
-- **Sistema de Permissões Robusto**:
-  - Verificação automática de suporte a notificações
-  - Solicitação de permissão com feedback visual
-  - Tratamento de permissões negadas
-  - Reagendamento automático diário
-  - Reagendamento semanal para treinos
-
-#### Funcionalidades Técnicas:
-- **Gerenciamento de Estado Avançado**:
-  - Controle de agendamento por dia para refeições
-  - Controle de agendamento por dia e horário para treinos
-  - Persistência de configurações complexas
-  - Atualização em tempo real do status
-  - Logs detalhados para debug
-
-- **Notificações Push Inteligentes**:
-  - Ícones personalizados nas notificações
-  - Badges e tags para organização
-  - Interação direta com o app
-  - Funcionamento offline
-  - **Agendamento Dinâmico**:
-    - Cálculo automático de próximos horários
-    - Ajuste para dias da semana corretos
-    - Reagendamento automático após notificação
-    - Tratamento de horários passados
-
-#### Melhorias de UX:
-- Notificações contextuais baseadas no horário
-- Interface intuitiva para configuração
-- Feedback visual em tempo real
-- Tratamento robusto de erros
-- **Flexibilidade Total**:
-  - Horários diferentes para cada refeição
-  - Horários diferentes para cada dia de treino
-  - Configuração granular e personalizada
-  - Visualização clara do status atual
+#### Funcionalidades Implementadas:
+- Service Worker atualizado (v3)
+- Sistema de permissões robusto
+- Agendamento inteligente de notificações
+- Persistência de configurações no localStorage
 
 ---
 
-## 🛠️ Stack Tecnológica
+### **Fase 9: Migração para Notificações Push** ⭐ **CONCLUÍDA**
+*Data: 20/06/2025*
 
-### **Frontend:**
-- **HTML5**: Estrutura semântica e acessível
-- **CSS3**: 
-  - Grid Layout e Flexbox
-  - Custom Properties (CSS Variables)
-  - Gradientes e efeitos modernos
-  - Media Queries para responsividade
-  - Transições e animações CSS
-- **JavaScript**: 
-  - Vanilla JS para funcionalidades
-  - Service Worker para PWA
-  - Fetch API para dados dinâmicos
-  - DOMParser para parsing HTML
-  - Cache management
-  - Scroll event handling
-  - Dynamic layout adjustments
+#### Objetivos:
+- ✅ Migração completa de notificações locais para push
+- ✅ Implementação de sistema VAPID
+- ✅ Service Worker com suporte a eventos push
+- ✅ Documentação completa do sistema
 
-### **PWA Features:**
-- **Manifest.json**: Configuração de instalação
-- **Service Worker**: Cache e funcionalidade offline
-- **Ícones**: Múltiplos tamanhos para diferentes dispositivos
-- **Meta Tags**: SEO e otimização mobile
+#### Entregas:
+- **Sistema VAPID Completo**:
+  - Configuração centralizada de chaves VAPID
+  - Funções para conversão de chaves
+  - Suporte a chaves públicas e privadas
+  - Documentação detalhada
 
-### **Ferramentas de Desenvolvimento:**
-- **http-server**: Servidor local para desenvolvimento
-- **Geradores**: Ícones e screenshots customizados
+- **Service Worker Aprimorado**:
+  - Event listener `push` para notificações push
+  - Gerenciamento de subscriptions push
+  - Tratamento de dados estruturados
+  - Melhor organização por tipo
 
----
+- **Funções Reescritas**:
+  - `configurarNotificacoesPush()` - Gerenciamento de subscriptions
+  - `enviarNotificacaoRefeicao()` - Usa Service Worker
+  - `enviarNotificacaoPushTreino()` - Notificações push específicas
+  - Funções de teste atualizadas
 
-## 📱 Funcionalidades Implementadas
+- **Manifest.json Atualizado**:
+  - Permissões para `notifications` e `background-sync`
+  - `gcm_sender_id` configurado
+  - Shortcuts e categorias adicionadas
+  - Suporte a orientação portrait-primary
 
-### **Página Home:**
-- ✅ Apresentação do conceito IkigaiHub
-- ✅ Cards de funcionalidades com links diretos
-- ✅ Seção "Sobre" explicando o projeto
-- ✅ Design moderno com glassmorphism
-- ✅ Navegação centralizada
-- ✅ **Funcionalidades Dinâmicas**:
-  - Refeição atual baseada no horário
-  - Exercício atual baseado no dia da semana
-  - Busca automática de dados das páginas
-  - Sistema de fallback robusto
-
-### **Página Plano Alimentar:**
-- ✅ Sistema de 6 refeições diárias
-- ✅ Cards informativos com descrições
-- ✅ Navegação responsiva com sidebar inteligente
-- ✅ Design moderno com glassmorphism
-- ✅ Header modernizado com gradientes
-
-### **Página de Exercícios:**
-- ✅ Lista de exercícios organizados
-- ✅ Layout consistente com demais páginas
-- ✅ Responsividade completa
-- ✅ Integração visual harmoniosa
-- ✅ Navegação otimizada
-- ✅ **Seção Adicional**: Cardio, alongamento, mobilidade, respiração e meditação
-
-### **PWA Features:**
-- ✅ Instalação em dispositivos
-- ✅ Funcionamento offline
-- ✅ Cache inteligente
-- ✅ Ícones e splash screens
-- ✅ Manifest completo
-
-### **Navegação Mobile:**
-- ✅ Sidebar fixa inteligente
-- ✅ Transições suaves
-- ✅ Detecção de scroll
-- ✅ Layout adaptativo
-
-### **Sistema Dinâmico:**
-- ✅ Busca automática de dados
-- ✅ Parsing inteligente de HTML
-- ✅ Detecção de contexto temporal
-- ✅ Responsividade às mudanças
-- ✅ Tratamento de erros robusto
-
-### **Sistema de Notificações Push:**
-- ✅ Notificações automáticas nos horários das refeições
-- ✅ Interface de configuração e gerenciamento
-- ✅ Sistema de agendamento automático
-- ✅ Integração completa com PWA
-- ✅ **Estabilização e Correção de Bugs (20/06/2025)**: Garantia de que todas as configurações de refeições e treinos (com horários por dia) são salvas e exibidas corretamente, finalizando a fase de implementação.
+#### Benefícios Alcançados:
+- Notificações mais confiáveis que funcionam offline
+- Melhor experiência do usuário com notificações persistentes
+- Padrão web moderno seguindo as melhores práticas
+- Base sólida para futuras expansões
 
 ---
 
-## 🎯 Métricas de Sucesso
+## 🔮 **Próximas Fases Planejadas**
 
-### **Performance:**
-- ✅ Carregamento rápido (< 3s)
-- ✅ Cache eficiente
-- ✅ Responsividade em todos os dispositivos
-- ✅ Animações suaves (60fps)
-- ✅ Busca dinâmica otimizada
+### **Fase 10: Backend e Notificações em Tempo Real**
+*Data: Planejada*
 
-### **UX/UI:**
-- ✅ Design moderno e atrativo
-- ✅ Navegação intuitiva e responsiva
-- ✅ Consistência visual
-- ✅ Acessibilidade básica
-- ✅ Experiência mobile otimizada
-- ✅ Funcionalidades contextuais
+#### Objetivos:
+- 🔄 Implementação de servidor backend
+- 🔄 Notificações push enviadas por servidor
+- 🔄 Sincronização entre dispositivos
+- 🔄 Analytics de engajamento
 
-### **PWA:**
-- ✅ Score Lighthouse > 90
-- ✅ Instalação funcional
-- ✅ Funcionamento offline
-- ✅ Ícones e manifest corretos
+#### Funcionalidades Planejadas:
+- **Servidor Node.js/Express**:
+  - API REST para gerenciamento de dados
+  - Envio de notificações push via servidor
+  - Autenticação de usuários
+  - Banco de dados para configurações
 
-### **Funcionalidades Dinâmicas:**
-- ✅ 100% responsivo às mudanças
-- ✅ Zero erros no console
-- ✅ Fallback garantido
-- ✅ Performance otimizada
+- **Notificações em Tempo Real**:
+  - WebSockets para atualizações instantâneas
+  - Notificações baseadas em eventos
+  - Sincronização de configurações
+  - Histórico de notificações
 
----
+- **Sincronização Multi-dispositivo**:
+  - Login de usuário
+  - Sincronização de configurações
+  - Notificações em todos os dispositivos
+  - Backup automático de dados
 
-## 🔄 Processo de Desenvolvimento
+### **Fase 11: Funcionalidades Avançadas**
+*Data: Planejada*
 
-### **Metodologia:**
-1. **Planejamento**: Definição de objetivos e funcionalidades
-2. **Prototipagem**: Criação de wireframes e mockups
-3. **Desenvolvimento**: Implementação iterativa
-4. **Testes**: Validação em diferentes dispositivos
-5. **Refinamento**: Otimizações e melhorias
-6. **Documentação**: Atualização de changelog e roadmap
+#### Objetivos:
+- 🔄 Sistema de progresso e metas
+- 🔄 Integração com APIs de saúde
+- 🔄 Gamificação e recompensas
+- 🔄 Comunidade e social features
 
-### **Ferramentas Utilizadas:**
-- **Editor**: VS Code / Cursor
-- **Servidor**: http-server (Node.js)
-- **Versionamento**: Git
-- **Testes**: Navegadores modernos e DevTools
+#### Funcionalidades Planejadas:
+- **Sistema de Progresso**:
+  - Tracking de refeições consumidas
+  - Progresso de exercícios
+  - Metas personalizáveis
+  - Gráficos e estatísticas
 
----
+- **Integração com APIs**:
+  - MyFitnessPal para calorias
+  - Fitbit/Apple Health para exercícios
+  - APIs de receitas e nutrição
+  - Sincronização automática
 
-## 🚀 Próximos Passos (Futuras Versões)
+- **Gamificação**:
+  - Sistema de pontos e badges
+  - Streaks de consistência
+  - Desafios semanais/mensais
+  - Ranking de usuários
 
-### **Versão 1.3.0 - Funcionalidades Avançadas:**
-- [ ] Sistema de login/registro
-- [ ] Persistência de dados (localStorage/IndexedDB)
-- [ ] Personalização de refeições
-- [ ] Calculadora de calorias
-- [ ] Tema escuro/claro
+- **Comunidade**:
+  - Compartilhamento de receitas
+  - Grupos de treino
+  - Fórum de discussão
+  - Mentoria e coaching
 
-### **Versão 1.4.0 - Integração:**
-- [ ] API de receitas
-- [ ] Integração com wearables
-- [ ] Sincronização com apps de saúde
-- [ ] Notificações push
+### **Fase 12: Inteligência Artificial**
+*Data: Planejada*
 
-### **Versão 2.0.0 - Backend:**
-- [ ] Backend Node.js/Express
-- [ ] Banco de dados (MongoDB/PostgreSQL)
-- [ ] Autenticação JWT
-- [ ] API RESTful completa
+#### Objetivos:
+- 🔄 Recomendações personalizadas
+- 🔄 IA para sugestões de refeições
+- 🔄 Análise de padrões de comportamento
+- 🔄 Otimização automática de rotinas
 
----
+#### Funcionalidades Planejadas:
+- **Recomendações Inteligentes**:
+  - Sugestões de refeições baseadas em preferências
+  - Adaptação automática de treinos
+  - Detecção de padrões de sono
+  - Otimização de horários
 
-## 📊 Status Atual
+- **Análise de Dados**:
+  - Machine Learning para personalização
+  - Análise de tendências de saúde
+  - Predição de necessidades nutricionais
+  - Otimização de performance
 
-### **Versão**: 1.3.0
-### **Status**: ✅ Produção
-### **Última Atualização**: 20/06/2025
+- **Automação**:
+  - Ajuste automático de horários
+  - Sugestões de substituições
+  - Detecção de conflitos de agenda
+  - Otimização de rotinas
 
-### **Funcionalidades Ativas:**
-- ✅ Página home central com apresentação do IkigaiHub
-- ✅ Interface principal responsiva (plano_alimentar.html)
-- ✅ Página de exercícios integrada com seção adicional
-- ✅ PWA funcional com novo nome
-- ✅ Design moderno com glassmorphism
-- ✅ Cache e performance otimizados
-- ✅ Navegação mobile inteligente
-- ✅ Header modernizado
-- ✅ Sidebar fixa com transições suaves
-- ✅ Rebranding completo para IkigaiHub
-- ✅ **Sistema dinâmico responsivo**:
-  - Refeição atual baseada no horário
-  - Exercício atual baseado no dia da semana
-  - Busca automática de dados das páginas
-  - Parsing inteligente de HTML
-  - Sistema de fallback robusto
-  - Zero erros no console
-- ✅ **Otimizações de UX**:
-  - Alinhamento de textos otimizado
-  - Correção de erros JavaScript
-  - Service Worker atualizado (v3)
-  - Performance aprimorada
-- ✅ **Sistema de Notificações Push**:
-  - Notificações automáticas nos horários das refeições
-  - Interface de configuração e gerenciamento
-  - Sistema de agendamento automático
-  - Integração completa com PWA
-  - Fallback para notificações locais
-  - Ações interativas nas notificações
-  - **Estabilização e Correção de Bugs (20/06/2025)**: Garantia de que todas as configurações de refeições e treinos (com horários por dia) são salvas e exibidas corretamente, finalizando a fase de implementação.
+### **Fase 13: Expansão e Escalabilidade**
+*Data: Planejada*
 
-### **Próxima Release**: 1.4.0 (Funcionalidades Avançadas)
+#### Objetivos:
+- 🔄 Aplicativo móvel nativo
+- 🔄 Integração com wearables
+- 🔄 API pública para desenvolvedores
+- 🔄 Marketplace de conteúdo
 
----
+#### Funcionalidades Planejadas:
+- **Aplicativo Móvel**:
+  - React Native ou Flutter
+  - Funcionalidades nativas
+  - Sincronização com web app
+  - Notificações push nativas
 
-## 📝 Documentação
+- **Integração com Wearables**:
+  - Apple Watch
+  - Fitbit
+  - Garmin
+  - Samsung Galaxy Watch
 
-### **Arquivos Principais:**
-- `index.html`: Página home central com funcionalidades dinâmicas
-- `plano_alimentar.html`: Página principal do plano alimentar
-- `exercicios.html`: Página de exercícios com seção adicional
-- `style.css`: Estilos principais
-- `script.js`: Funcionalidades JavaScript e navegação
-- `manifest.json`: Configuração PWA
-- `sw.js`: Service Worker (v2)
-- `changelog.md`: Histórico de alterações
-- `ROADMAP.md`: Este documento
+- **API Pública**:
+  - Documentação completa
+  - SDKs para diferentes linguagens
+  - Rate limiting e autenticação
+  - Exemplos e tutoriais
 
-### **Pastas:**
-- `icons/`: Ícones do PWA
-- `screenshots/`: Screenshots para app stores
+- **Marketplace**:
+  - Receitas de usuários
+  - Planos de treino personalizados
+  - Coaching e mentoria
+  - Produtos relacionados
 
 ---
 
-*Este roadmap documenta todo o processo de desenvolvimento do projeto "IkigaiHub" desde sua concepção até o estado atual, servindo como referência para futuras evoluções e melhorias.* 
+## 📊 **Métricas de Sucesso**
+
+### **Técnicas**:
+- ✅ Performance: < 3s de carregamento
+- ✅ PWA Score: > 90
+- ✅ Lighthouse Score: > 95
+- ✅ Compatibilidade: 95%+ dos navegadores
+
+### **Funcionais**:
+- ✅ Notificações push funcionando
+- ✅ Sistema offline operacional
+- ✅ Interface responsiva
+- ✅ UX intuitiva e moderna
+
+### **Futuras**:
+- 🔄 Engajamento: > 70% de retenção
+- 🔄 Usuários ativos: > 1000
+- 🔄 Avaliação: > 4.5 estrelas
+- 🔄 Downloads: > 5000
+
+---
+
+## 🛠️ **Stack Tecnológica**
+
+### **Atual**:
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
+- **PWA**: Service Workers, Manifest.json
+- **Notificações**: Push API, VAPID
+- **Storage**: localStorage, IndexedDB
+- **Design**: Glassmorphism, CSS Grid/Flexbox
+
+### **Planejada**:
+- **Backend**: Node.js, Express, MongoDB
+- **Real-time**: WebSockets, Socket.io
+- **IA/ML**: TensorFlow.js, Python
+- **Mobile**: React Native/Flutter
+- **Cloud**: AWS/Google Cloud
+
+---
+
+## 📈 **Cronograma de Desenvolvimento**
+
+| Fase | Status | Data | Duração |
+|------|--------|------|---------|
+| 1-3 | ✅ Concluída | 18-26/03/2024 | 8 dias |
+| 4-6 | ✅ Concluída | 19/06/2025 | 1 dia |
+| 7 | ✅ Concluída | 19-20/06/2025 | 1 dia |
+| 8 | ✅ Concluída | 20/06/2025 | 1 dia |
+| 9 | ✅ Concluída | 20/06/2025 | 1 dia |
+| 10 | 🔄 Planejada | Q3 2025 | 2-3 semanas |
+| 11 | 🔄 Planejada | Q4 2025 | 3-4 semanas |
+| 12 | 🔄 Planejada | Q1 2026 | 4-6 semanas |
+| 13 | 🔄 Planejada | Q2 2026 | 6-8 semanas |
+
+---
+
+## 🎯 **Objetivos de Longo Prazo**
+
+### **2025**:
+- ✅ Sistema de notificações push completo
+- 🔄 Backend e sincronização
+- 🔄 Funcionalidades avançadas básicas
+
+### **2026**:
+- 🔄 Inteligência artificial
+- 🔄 Aplicativo móvel
+- 🔄 Marketplace
+
+### **2027**:
+- 🔄 Expansão internacional
+- 🔄 Parcerias estratégicas
+- 🔄 Plataforma completa de wellness 
