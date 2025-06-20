@@ -61,9 +61,10 @@
         <section id="notas-dia">
             <div class="notas-bloco">
                 <h4>Notas do Dia</h4>
-                <textarea id="nota-dia" rows="4" placeholder="Escreva suas notas do dia..."></textarea>
-                <button id="salvar-nota">Salvar Nota</button>
-                <div id="nota-salva" style="margin-top:8px;"></div>
+                <div class="nota-input-row">
+                    <textarea id="nota-dia" rows="4" placeholder="Escreva suas notas do dia..."></textarea>
+                    <button id="salvar-nota">Salvar Nota</button>
+                </div>
                 <h5 class="notas-historico-titulo">Histórico de Notas</h5>
                 <ul id="notas-historico"></ul>
             </div>
@@ -321,7 +322,6 @@
         function renderNota() {
             const nota = localStorage.getItem('notaDia') || '';
             document.getElementById('nota-dia').value = nota;
-            document.getElementById('nota-salva').textContent = nota ? 'Nota salva!' : '';
             // Renderizar histórico de notas
             const historico = JSON.parse(localStorage.getItem('notasHistorico') || '[]');
             const ulHistorico = document.getElementById('notas-historico');

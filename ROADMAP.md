@@ -358,6 +358,25 @@
 
 ---
 
+### **Fase 9.8: Melhorias na experiência de notas e layout.**
+*Data: 20/06/2025*
+
+#### Objetivos:
+- ✅ Remoção do indicador de nota salva.
+- ✅ Botão de salvar nota agora aparece ao lado do campo de texto, responsivo para mobile.
+
+#### Entregas:
+- **Layout Aprimorado**:
+  - Remoção do indicador de nota salva.
+  - Botão de salvar nota agora aparece ao lado do campo de texto, responsivo para mobile.
+
+#### Melhorias Implementadas:
+- Layout aprimorado e focado
+- Melhor experiência do usuário
+- Layout responsivo e adaptativo
+
+---
+
 ## 🔮 **Próximas Fases Planejadas**
 
 ### **Fase 10: Backend e Notificações em Tempo Real**
@@ -539,6 +558,7 @@
 | 9.5 | ✅ Concluída | 20/06/2025 | 1 dia |
 | 9.6 | ✅ Concluída | 20/06/2025 | 1 dia |
 | 9.7 | ✅ Concluída | 20/06/2025 | 1 dia |
+| 9.8 | ✅ Concluída | 20/06/2025 | 1 dia |
 | 10 | 🔄 Planejada | Q3 2025 | 2-3 semanas |
 | 11 | 🔄 Planejada | Q4 2025 | 3-4 semanas |
 | 12 | 🔄 Planejada | Q1 2026 | 4-6 semanas |
