@@ -127,7 +127,7 @@
 
 - **JavaScript Aprimorado**:
   - Detecção de scroll para controle de visibilidade
-  - Ajustes dinâmicos de layout
+  - Ajustes dinâmicos de layoutgit 
   - Smooth scrolling implementado
   - Gerenciamento de estado da navegação
 
@@ -377,6 +377,21 @@
 
 ---
 
+### **Fase 9.9: Padronização visual dos blocos de exercícios na página de exercícios**
+*Data: 20/06/2025*
+
+#### Objetivos:
+- ✅ Padronizar visual dos blocos de exercícios na página de exercícios, igual ao bloco de exercícios da home.
+
+#### Entregas:
+- **Consistência visual**:
+  - Blocos de exercícios com mesmo fundo, sombra, bordas, padding e títulos da home.
+
+#### Melhorias Implementadas:
+- Experiência visual unificada entre home e página de exercícios.
+
+---
+
 ## 🔮 **Próximas Fases Planejadas**
 
 ### **Fase 10: Backend e Notificações em Tempo Real**
@@ -548,8 +563,8 @@
 
 ## 📈 **Cronograma de Desenvolvimento**
 
-| Fase | Status | Data | Duração |
-|------|--------|------|---------|
+| Fase | Status | Data | Duração Estimada |
+|------|--------|------|------------------|
 | 1-3 | ✅ Concluída | 18-26/03/2024 | 8 dias |
 | 4-6 | ✅ Concluída | 19/06/2025 | 1 dia |
 | 7 | ✅ Concluída | 19-20/06/2025 | 1 dia |
@@ -559,6 +574,7 @@
 | 9.6 | ✅ Concluída | 20/06/2025 | 1 dia |
 | 9.7 | ✅ Concluída | 20/06/2025 | 1 dia |
 | 9.8 | ✅ Concluída | 20/06/2025 | 1 dia |
+| 9.9 | ✅ Concluída | 20/06/2025 | 1 dia |
 | 10 | 🔄 Planejada | Q3 2025 | 2-3 semanas |
 | 11 | 🔄 Planejada | Q4 2025 | 3-4 semanas |
 | 12 | 🔄 Planejada | Q1 2026 | 4-6 semanas |
