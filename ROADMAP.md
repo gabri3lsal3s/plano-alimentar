@@ -399,6 +399,12 @@
 - Remoção de deslocamentos laterais (margin-left, left) em telas menores.
 - Centralização do controle de padding/margin lateral via classes no body.
 
+### [Concluído em 2025-06-20] Padronização de Espaçamentos Verticais
+- Distância entre header e início do conteúdo principal padronizada (24px).
+- Distância entre o final do conteúdo e o footer padronizada (24px).
+- Títulos h5 e h6 do bloco "Treino de Hoje" centralizados.
+- Margens internas e externas dos blocos e seções ajustadas para consistência visual.
+
 ---
 
 ## 🔮 **Próximas Fases Planejadas**
