@@ -49,6 +49,150 @@
                 </div>
             </div>
         </section>
+
+        <section id="notificacoes">
+            <div>
+                <h3>Configurações de Notificações</h3>
+                <p>Configure as notificações para receber lembretes sobre suas refeições no horário correto. Personalize os horários de cada refeição conforme sua rotina.</p>
+                
+                <div class="notificacoes-config">
+                    <div class="status-notificacao">
+                        <h4>Status das Notificações</h4>
+                        <div id="status-content">
+                            <p>Verificando permissões...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="acoes-notificacao">
+                        <h4>Ações</h4>
+                        <div class="botoes-notificacao">
+                            <button id="btn-ativar-notificacoes" class="btn-notificacao">
+                                Ativar Notificações
+                            </button>
+                            <button id="btn-testar-notificacao" class="btn-notificacao">
+                                Testar Notificação
+                            </button>
+                            <button id="btn-limpar-agendamento" class="btn-notificacao">
+                                Limpar Agendamento
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="info-notificacoes">
+                        <h4>Horários Atuais</h4>
+                        <div id="horarios-atuais">
+                            <p>Carregando horários...</p>
+                        </div>
+                        <div class="botoes-config">
+                            <button id="btn-config-refeicoes" class="btn-config">
+                                <span class="btn-text">Configurar Horários de Refeições</span>
+                                <span class="btn-icon">▼</span>
+                            </button>
+                            <button id="btn-config-treinos" class="btn-config">
+                                <span class="btn-text">Configurar Horários de Treinos</span>
+                                <span class="btn-icon">▼</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="config-horarios" id="config-refeicoes" style="display: none;">
+                        <h4>Configurar Horários de Refeições</h4>
+                        <div class="horarios-grid">
+                            <div class="horario-item">
+                                <label for="horario-cafe">Café da Manhã:</label>
+                                <input type="time" id="horario-cafe" value="08:00" class="input-horario">
+                            </div>
+                            <div class="horario-item">
+                                <label for="horario-lancheM">Lanche da Manhã:</label>
+                                <input type="time" id="horario-lancheM" value="10:00" class="input-horario">
+                            </div>
+                            <div class="horario-item">
+                                <label for="horario-almoco">Almoço:</label>
+                                <input type="time" id="horario-almoco" value="13:00" class="input-horario">
+                            </div>
+                            <div class="horario-item">
+                                <label for="horario-lancheT">Lanche da Tarde:</label>
+                                <input type="time" id="horario-lancheT" value="16:00" class="input-horario">
+                            </div>
+                            <div class="horario-item">
+                                <label for="horario-janta">Janta:</label>
+                                <input type="time" id="horario-janta" value="20:00" class="input-horario">
+                            </div>
+                            <div class="horario-item">
+                                <label for="horario-ceia">Ceia:</label>
+                                <input type="time" id="horario-ceia" value="22:00" class="input-horario">
+                            </div>
+                        </div>
+                        <button id="btn-salvar-horarios" class="btn-notificacao">
+                            Salvar Horários
+                        </button>
+                    </div>
+
+                    <div class="config-treinos" id="config-treinos" style="display: none;">
+                        <h4>Configurar Notificações de Treino</h4>
+                        <div class="treinos-config">
+                            <div class="treino-dias">
+                                <label>Configurar Horários por Dia:</label>
+                                <div class="dias-horarios-grid">
+                                    <div class="dia-horario-item">
+                                        <div class="dia-header">
+                                            <input type="checkbox" id="dia-seg" class="checkbox-dia">
+                                            <label for="dia-seg">Segunda</label>
+                                        </div>
+                                        <input type="time" id="horario-seg" value="18:00" class="input-horario-dia" disabled>
+                                    </div>
+                                    <div class="dia-horario-item">
+                                        <div class="dia-header">
+                                            <input type="checkbox" id="dia-ter" class="checkbox-dia">
+                                            <label for="dia-ter">Terça</label>
+                                        </div>
+                                        <input type="time" id="horario-ter" value="18:00" class="input-horario-dia" disabled>
+                                    </div>
+                                    <div class="dia-horario-item">
+                                        <div class="dia-header">
+                                            <input type="checkbox" id="dia-qua" class="checkbox-dia">
+                                            <label for="dia-qua">Quarta</label>
+                                        </div>
+                                        <input type="time" id="horario-qua" value="18:00" class="input-horario-dia" disabled>
+                                    </div>
+                                    <div class="dia-horario-item">
+                                        <div class="dia-header">
+                                            <input type="checkbox" id="dia-qui" class="checkbox-dia">
+                                            <label for="dia-qui">Quinta</label>
+                                        </div>
+                                        <input type="time" id="horario-qui" value="18:00" class="input-horario-dia" disabled>
+                                    </div>
+                                    <div class="dia-horario-item">
+                                        <div class="dia-header">
+                                            <input type="checkbox" id="dia-sex" class="checkbox-dia">
+                                            <label for="dia-sex">Sexta</label>
+                                        </div>
+                                        <input type="time" id="horario-sex" value="18:00" class="input-horario-dia" disabled>
+                                    </div>
+                                    <div class="dia-horario-item">
+                                        <div class="dia-header">
+                                            <input type="checkbox" id="dia-sab" class="checkbox-dia">
+                                            <label for="dia-sab">Sábado</label>
+                                        </div>
+                                        <input type="time" id="horario-sab" value="18:00" class="input-horario-dia" disabled>
+                                    </div>
+                                    <div class="dia-horario-item">
+                                        <div class="dia-header">
+                                            <input type="checkbox" id="dia-dom" class="checkbox-dia">
+                                            <label for="dia-dom">Domingo</label>
+                                        </div>
+                                        <input type="time" id="horario-dom" value="18:00" class="input-horario-dia" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="btn-salvar-treinos" class="btn-notificacao">
+                            Salvar Configuração de Treinos
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <script src="script.js"></script>
@@ -436,11 +580,228 @@
             `;
         }
 
-        // Executar quando a página carregar
+        // Inicializar página
         document.addEventListener('DOMContentLoaded', function() {
             exibirRefeicaoAtual();
             exibirExercicioAtual();
+            inicializarNotificacoes();
+            configurarBotoesNotificacao();
+            atualizarStatusNotificacao();
+            carregarHorariosSalvos();
+            carregarConfigTreinos();
+            atualizarHorariosAtuais();
+            mostrarStatusTreinos();
+            // Garantir que o botão de salvar horários de refeições está funcionando
+            const btnSalvarHorarios = document.getElementById('btn-salvar-horarios');
+            if (btnSalvarHorarios) {
+                btnSalvarHorarios.addEventListener('click', function() {
+                    salvarHorarios();
+                    atualizarHorariosAtuais();
+                });
+            }
         });
+
+        // Sistema de Notificações Push
+        async function inicializarNotificacoes() {
+            console.log('Inicializando sistema de notificações...');
+            
+            // Verificar se o navegador suporta notificações
+            if (!('Notification' in window)) {
+                console.log('Este navegador não suporta notificações');
+                return;
+            }
+
+            // Verificar se o Service Worker está registrado
+            if (!('serviceWorker' in navigator)) {
+                console.log('Service Worker não suportado');
+                return;
+            }
+
+            try {
+                // Registrar Service Worker
+                const registration = await navigator.serviceWorker.register('/sw.js');
+                console.log('Service Worker registrado:', registration);
+
+                // Solicitar permissão para notificações
+                const permission = await Notification.requestPermission();
+                console.log('Permissão de notificação:', permission);
+
+                if (permission === 'granted') {
+                    console.log('Permissão concedida! Configurando notificações...');
+                    configurarNotificacoes();
+                } else {
+                    console.log('Permissão negada para notificações');
+                }
+            } catch (error) {
+                console.error('Erro ao inicializar notificações:', error);
+            }
+        }
+
+        // Configurar notificações de refeições
+        async function configurarNotificacoes() {
+            const refeicoes = await buscarDadosRefeicoes();
+            if (!refeicoes) return;
+
+            // Carregar horários personalizados ou usar padrão
+            const horariosSalvos = JSON.parse(localStorage.getItem('horariosNotificacoes') || '{}');
+            const horariosRefeicoes = {
+                cafe: extrairHora(horariosSalvos.cafe || '08:00'),
+                lancheM: extrairHora(horariosSalvos.lancheM || '10:00'),
+                almoco: extrairHora(horariosSalvos.almoco || '13:00'),
+                lancheT: extrairHora(horariosSalvos.lancheT || '16:00'),
+                janta: extrairHora(horariosSalvos.janta || '20:00'),
+                ceia: extrairHora(horariosSalvos.ceia || '22:00')
+            };
+
+            // Carregar configurações de treinos
+            const configTreinos = JSON.parse(localStorage.getItem('configTreinos') || '{}');
+            const horarioTreino = extrairHora(configTreinos.horario || '18:00');
+            const diasTreino = configTreinos.dias || ['seg', 'ter', 'qua', 'qui', 'sex'];
+
+            // Verificar se há notificações agendadas
+            const notificacoesAgendadas = JSON.parse(localStorage.getItem('notificacoesAgendadas') || '{}');
+            const hoje = new Date().toDateString();
+
+            if (notificacoesAgendadas[hoje]) {
+                console.log('Notificações já agendadas para hoje');
+                return;
+            }
+
+            // Agendar notificações para hoje
+            agendarNotificacoesHoje(refeicoes, horariosRefeicoes);
+            
+            // Agendar notificações de treinos
+            agendarNotificacoesTreinos();
+            
+            // Marcar como agendadas
+            notificacoesAgendadas[hoje] = true;
+            localStorage.setItem('notificacoesAgendadas', JSON.stringify(notificacoesAgendadas));
+        }
+
+        // Extrair hora de string de horário (ex: "08:00" -> 8)
+        function extrairHora(horarioString) {
+            return parseInt(horarioString.split(':')[0]);
+        }
+
+        // Agendar notificações para o dia atual
+        function agendarNotificacoesHoje(refeicoes, horariosRefeicoes) {
+            const agora = new Date();
+            const hoje = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
+
+            Object.entries(horariosRefeicoes).forEach(([refeicaoKey, hora]) => {
+                const horarioNotificacao = new Date(hoje);
+                horarioNotificacao.setHours(hora, 0, 0, 0);
+
+                // Se o horário já passou hoje, agendar para amanhã
+                if (horarioNotificacao <= agora) {
+                    horarioNotificacao.setDate(horarioNotificacao.getDate() + 1);
+                }
+
+                const refeicao = refeicoes[refeicaoKey];
+                if (refeicao && refeicao.receitas && refeicao.receitas.length > 0) {
+                    const tempoAteNotificacao = horarioNotificacao.getTime() - agora.getTime();
+                    
+                    if (tempoAteNotificacao > 0) {
+                        console.log(`Agendando notificação para ${refeicao.nome} às ${hora}:00`);
+                        
+                        setTimeout(() => {
+                            enviarNotificacaoRefeicao(refeicao);
+                        }, tempoAteNotificacao);
+                    }
+                }
+            });
+        }
+
+        // Enviar notificação de refeição
+        async function enviarNotificacaoRefeicao(refeicao) {
+            try {
+                // Verificar se o Service Worker está ativo
+                if (navigator.serviceWorker.controller) {
+                    // Enviar mensagem para o Service Worker
+                    navigator.serviceWorker.controller.postMessage({
+                        type: 'NOTIFICACAO_REFEICAO',
+                        refeicao: refeicao
+                    });
+                } else {
+                    // Fallback: notificação local
+                    enviarNotificacaoLocal(refeicao);
+                }
+            } catch (error) {
+                console.error('Erro ao enviar notificação:', error);
+                // Fallback: notificação local
+                enviarNotificacaoLocal(refeicao);
+            }
+        }
+
+        // Notificação local como fallback
+        function enviarNotificacaoLocal(refeicao) {
+            if (Notification.permission === 'granted') {
+                const receita = refeicao.receitas[0];
+                const notificacao = new Notification('IkigaiHub - Hora da Refeição!', {
+                    body: `É hora do ${refeicao.nome}! ${receita.titulo}`,
+                    icon: '/icons/icon-192x192.png',
+                    badge: '/icons/icon-192x192.png',
+                    tag: 'refeicao',
+                    requireInteraction: true,
+                    actions: [
+                        {
+                            action: 'ver',
+                            title: 'Ver Receita',
+                            icon: '/icons/icon-192x192.png'
+                        },
+                        {
+                            action: 'adiar',
+                            title: 'Adiar 15min',
+                            icon: '/icons/icon-192x192.png'
+                        }
+                    ]
+                });
+
+                notificacao.onclick = function() {
+                    window.focus();
+                    window.location.href = '/plano_alimentar.html';
+                };
+
+                notificacao.onactionclick = function(event) {
+                    if (event.action === 'ver') {
+                        window.focus();
+                        window.location.href = '/plano_alimentar.html';
+                    } else if (event.action === 'adiar') {
+                        // Adiar por 15 minutos
+                        setTimeout(() => {
+                            enviarNotificacaoLocal(refeicao);
+                        }, 15 * 60 * 1000);
+                    }
+                };
+
+                console.log('Notificação local enviada:', refeicao.nome);
+            }
+        }
+
+        // Função para testar notificações (para desenvolvimento)
+        function testarNotificacao() {
+            const refeicaoTeste = {
+                nome: "Café da Manhã",
+                horario: "07h às 09h",
+                receitas: [{
+                    titulo: "Omelete Proteica Completa",
+                    ingredientes: ["3 ovos inteiros", "30g de queijo cottage"],
+                    preparo: "Bata os ovos e refogue",
+                    calorias: "~520 kcal"
+                }]
+            };
+            
+            enviarNotificacaoLocal(refeicaoTeste);
+        }
+
+        // Função para testar notificações de treino (para desenvolvimento)
+        function testarNotificacaoTreino() {
+            enviarNotificacaoTreinoLocal();
+        }
+
+        // Expor funções de teste globalmente (apenas para desenvolvimento)
+        window.testarNotificacao = testarNotificacao;
+        window.testarNotificacaoTreino = testarNotificacaoTreino;
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -452,6 +813,580 @@
                         console.log('ServiceWorker registration failed: ', err);
                     });
             });
+        }
+
+        // Carregar configurações de treinos
+        function carregarConfigTreinos() {
+            const configSalva = JSON.parse(localStorage.getItem('configTreinos') || '{}');
+            
+            // Configuração padrão
+            const configPadrao = {
+                dias: {
+                    seg: { ativo: true, horario: '18:00' },
+                    ter: { ativo: true, horario: '18:00' },
+                    qua: { ativo: true, horario: '18:00' },
+                    qui: { ativo: true, horario: '18:00' },
+                    sex: { ativo: true, horario: '18:00' },
+                    sab: { ativo: false, horario: '18:00' },
+                    dom: { ativo: false, horario: '18:00' }
+                }
+            };
+
+            // Aplicar configurações salvas ou padrão
+            const diasSemana = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
+            
+            diasSemana.forEach(dia => {
+                const checkbox = document.getElementById(`dia-${dia}`);
+                const inputHorario = document.getElementById(`horario-${dia}`);
+                
+                if (checkbox && inputHorario) {
+                    const configDia = configSalva.dias?.[dia] || configPadrao.dias[dia];
+                    
+                    checkbox.checked = configDia.ativo;
+                    inputHorario.value = configDia.horario;
+                    inputHorario.disabled = !configDia.ativo;
+                    
+                    // Atualizar visual do item
+                    const itemContainer = checkbox.closest('.dia-horario-item');
+                    if (itemContainer) {
+                        if (configDia.ativo) {
+                            itemContainer.classList.add('active');
+                        } else {
+                            itemContainer.classList.remove('active');
+                        }
+                    }
+                }
+            });
+
+            // Configurar event listeners para checkboxes
+            configurarEventListenersTreinos();
+        }
+
+        // Configurar event listeners para treinos
+        function configurarEventListenersTreinos() {
+            const diasSemana = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
+            
+            diasSemana.forEach(dia => {
+                const checkbox = document.getElementById(`dia-${dia}`);
+                const inputHorario = document.getElementById(`horario-${dia}`);
+                
+                if (checkbox && inputHorario) {
+                    checkbox.addEventListener('change', function() {
+                        inputHorario.disabled = !this.checked;
+                        
+                        const itemContainer = this.closest('.dia-horario-item');
+                        if (itemContainer) {
+                            if (this.checked) {
+                                itemContainer.classList.add('active');
+                            } else {
+                                itemContainer.classList.remove('active');
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        // Salvar configurações de treinos
+        function salvarConfigTreinos() {
+            console.log('Salvando configurações de treinos...');
+            const config = {
+                dias: {}
+            };
+            
+            const diasSemana = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
+            diasSemana.forEach(dia => {
+                const checkbox = document.getElementById(`dia-${dia}`);
+                const inputHorario = document.getElementById(`horario-${dia}`);
+                
+                if (checkbox && inputHorario) {
+                    config.dias[dia] = {
+                        ativo: checkbox.checked,
+                        horario: inputHorario.value
+                    };
+                    console.log(`${dia}: ativo=${checkbox.checked}, horario=${inputHorario.value}`);
+                } else {
+                    console.log(`Elementos não encontrados para ${dia}: checkbox=${!!checkbox}, input=${!!inputHorario}`);
+                }
+            });
+
+            console.log('Configuração coletada:', config);
+            localStorage.setItem('configTreinos', JSON.stringify(config));
+            console.log('Configuração de treinos salva no localStorage');
+            
+            // Limpar agendamento anterior para reagendar com novas configurações
+            localStorage.removeItem('notificacoesAgendadas');
+            
+            // Reagendar notificações com novas configurações
+            if (Notification.permission === 'granted') {
+                configurarNotificacoes();
+            }
+            
+            // Atualizar horários atuais
+            atualizarHorariosAtuais();
+            
+            // Feedback visual
+            const btnSalvar = document.getElementById('btn-salvar-treinos');
+            if (btnSalvar) {
+                const textoOriginal = btnSalvar.textContent;
+                btnSalvar.textContent = 'Configuração Salva!';
+                btnSalvar.style.background = 'linear-gradient(135deg, #45a049 0%, #4CAF50 100%)';
+                
+                setTimeout(() => {
+                    btnSalvar.textContent = textoOriginal;
+                    btnSalvar.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
+                }, 2000);
+            }
+        }
+
+        // Carregar horários salvos
+        function carregarHorariosSalvos() {
+            const horariosSalvos = JSON.parse(localStorage.getItem('horariosNotificacoes') || '{}');
+            
+            // Horários padrão
+            const horariosPadrao = {
+                cafe: '08:00',
+                lancheM: '10:00',
+                almoco: '13:00',
+                lancheT: '16:00',
+                janta: '20:00',
+                ceia: '22:00'
+            };
+
+            // Aplicar horários salvos ou padrão
+            Object.keys(horariosPadrao).forEach(refeicao => {
+                const input = document.getElementById(`horario-${refeicao}`);
+                if (input) {
+                    input.value = horariosSalvos[refeicao] || horariosPadrao[refeicao];
+                }
+            });
+        }
+
+        // Salvar horários personalizados
+        function salvarHorarios() {
+            console.log('Salvando horários de refeições...');
+            const horarios = {};
+            const refeicoes = ['cafe', 'lancheM', 'almoco', 'lancheT', 'janta', 'ceia'];
+            
+            refeicoes.forEach(refeicao => {
+                const input = document.getElementById(`horario-${refeicao}`);
+                if (input) {
+                    horarios[refeicao] = input.value;
+                    console.log(`${refeicao}: ${input.value}`);
+                }
+            });
+
+            console.log('Horários coletados:', horarios);
+            localStorage.setItem('horariosNotificacoes', JSON.stringify(horarios));
+            console.log('Horários salvos no localStorage');
+            
+            // Limpar agendamento anterior para reagendar com novos horários
+            localStorage.removeItem('notificacoesAgendadas');
+            
+            // Reagendar notificações com novos horários
+            if (Notification.permission === 'granted') {
+                configurarNotificacoes();
+            }
+            
+            atualizarHorariosAtuais();
+            
+            // Feedback visual
+            const btnSalvar = document.getElementById('btn-salvar-horarios');
+            if (btnSalvar) {
+                const textoOriginal = btnSalvar.textContent;
+                btnSalvar.textContent = 'Horários Salvos!';
+                btnSalvar.style.background = 'linear-gradient(135deg, #45a049 0%, #4CAF50 100%)';
+                
+                setTimeout(() => {
+                    btnSalvar.textContent = textoOriginal;
+                    btnSalvar.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
+                }, 2000);
+            }
+        }
+
+        // Atualizar exibição dos horários atuais
+        function atualizarHorariosAtuais() {
+            console.log('Atualizando horários atuais...');
+            const horariosAtuais = document.getElementById('horarios-atuais');
+            if (!horariosAtuais) {
+                console.log('Elemento horarios-atuais não encontrado');
+                return;
+            }
+
+            const horarios = JSON.parse(localStorage.getItem('horariosNotificacoes') || '{}');
+            const configTreinos = JSON.parse(localStorage.getItem('configTreinos') || '{}');
+            
+            console.log('Horários carregados do localStorage:', horarios);
+            console.log('Config treinos carregada do localStorage:', configTreinos);
+            
+            const nomesRefeicoes = {
+                cafe: 'Café da Manhã',
+                lancheM: 'Lanche da Manhã',
+                almoco: 'Almoço',
+                lancheT: 'Lanche da Tarde',
+                janta: 'Janta',
+                ceia: 'Ceia'
+            };
+
+            // Horários padrão
+            const horariosPadrao = {
+                cafe: '08:00',
+                lancheM: '10:00',
+                almoco: '13:00',
+                lancheT: '16:00',
+                janta: '20:00',
+                ceia: '22:00'
+            };
+
+            const nomesDias = {
+                seg: 'Segunda',
+                ter: 'Terça',
+                qua: 'Quarta',
+                qui: 'Quinta',
+                sex: 'Sexta',
+                sab: 'Sábado',
+                dom: 'Domingo'
+            };
+
+            let html = '<ul>';
+            
+            // Adicionar horários de refeições
+            Object.keys(nomesRefeicoes).forEach(refeicao => {
+                const horario = horarios[refeicao] || horariosPadrao[refeicao];
+                html += `<li><strong>${nomesRefeicoes[refeicao]}:</strong> ${horario}</li>`;
+            });
+            
+            // Adicionar configuração de treinos por dia
+            if (configTreinos.dias) {
+                const diasAtivos = Object.entries(configTreinos.dias)
+                    .filter(([_, val]) => val.ativo)
+                    .map(([dia, val]) => `<li><strong>Treino ${nomesDias[dia]}:</strong> ${val.horario}</li>`)
+                    .join('');
+                if (diasAtivos) {
+                    html += diasAtivos;
+                } else {
+                    html += `<li><strong>Treinos:</strong> Não configurado</li>`;
+                }
+            } else {
+                html += `<li><strong>Treinos:</strong> Não configurado</li>`;
+            }
+            
+            html += '</ul>';
+
+            console.log('HTML gerado:', html);
+            horariosAtuais.innerHTML = html;
+            console.log('Horários atuais atualizados');
+        }
+
+        // Configurar botões de notificação
+        function configurarBotoesNotificacao() {
+            const btnAtivar = document.getElementById('btn-ativar-notificacoes');
+            const btnTestar = document.getElementById('btn-testar-notificacao');
+            const btnLimpar = document.getElementById('btn-limpar-agendamento');
+            const btnSalvar = document.getElementById('btn-salvar-horarios');
+            const btnSalvarTreinos = document.getElementById('btn-salvar-treinos');
+            const btnConfigRefeicoes = document.getElementById('btn-config-refeicoes');
+            const btnConfigTreinos = document.getElementById('btn-config-treinos');
+
+            if (btnAtivar) {
+                btnAtivar.addEventListener('click', async () => {
+                    try {
+                        const permission = await Notification.requestPermission();
+                        if (permission === 'granted') {
+                            await configurarNotificacoes();
+                            atualizarStatusNotificacao();
+                            btnAtivar.textContent = 'Notificações Ativadas';
+                            btnAtivar.disabled = true;
+                        } else {
+                            alert('Permissão negada para notificações. Você pode ativá-las nas configurações do navegador.');
+                        }
+                    } catch (error) {
+                        console.error('Erro ao ativar notificações:', error);
+                        alert('Erro ao ativar notificações. Tente novamente.');
+                    }
+                });
+            }
+
+            if (btnTestar) {
+                btnTestar.addEventListener('click', () => {
+                    testarNotificacao();
+                });
+            }
+
+            if (btnLimpar) {
+                btnLimpar.addEventListener('click', () => {
+                    localStorage.removeItem('notificacoesAgendadas');
+                    atualizarStatusNotificacao();
+                    alert('Agendamento de notificações limpo. As notificações serão reagendadas na próxima visita.');
+                });
+            }
+
+            if (btnSalvar) {
+                btnSalvar.addEventListener('click', () => {
+                    salvarHorarios();
+                });
+            }
+
+            if (btnSalvarTreinos) {
+                console.log('Configurando event listener para btn-salvar-treinos');
+                btnSalvarTreinos.addEventListener('click', () => {
+                    console.log('Botão salvar treinos clicado!');
+                    salvarConfigTreinos();
+                    mostrarStatusTreinos();
+                });
+            } else {
+                console.log('Botão btn-salvar-treinos não encontrado');
+            }
+
+            // Configurar botões de toggle
+            if (btnConfigRefeicoes) {
+                btnConfigRefeicoes.addEventListener('click', () => {
+                    toggleConfiguracao('config-refeicoes', btnConfigRefeicoes);
+                });
+            }
+
+            if (btnConfigTreinos) {
+                btnConfigTreinos.addEventListener('click', () => {
+                    toggleConfiguracao('config-treinos', btnConfigTreinos);
+                });
+            }
+        }
+
+        // Função para toggle das configurações
+        function toggleConfiguracao(configId, btnElement) {
+            const configElement = document.getElementById(configId);
+            
+            if (configElement.style.display === 'none') {
+                // Mostrar configuração
+                configElement.style.display = 'block';
+                btnElement.classList.add('active');
+                
+                // Adicionar animação de entrada
+                configElement.style.opacity = '0';
+                configElement.style.transform = 'translateY(-10px)';
+                
+                setTimeout(() => {
+                    configElement.style.transition = 'all 0.3s ease';
+                    configElement.style.opacity = '1';
+                    configElement.style.transform = 'translateY(0)';
+                }, 10);
+            } else {
+                // Ocultar configuração
+                configElement.style.transition = 'all 0.3s ease';
+                configElement.style.opacity = '0';
+                configElement.style.transform = 'translateY(-10px)';
+                
+                setTimeout(() => {
+                    configElement.style.display = 'none';
+                    btnElement.classList.remove('active');
+                }, 300);
+            }
+        }
+
+        // Atualizar status das notificações
+        function atualizarStatusNotificacao() {
+            const statusContent = document.getElementById('status-content');
+            const btnAtivar = document.getElementById('btn-ativar-notificacoes');
+            
+            if (!statusContent) return;
+
+            const permission = Notification.permission;
+            const notificacoesAgendadas = JSON.parse(localStorage.getItem('notificacoesAgendadas') || '{}');
+            const hoje = new Date().toDateString();
+            const agendadasHoje = notificacoesAgendadas[hoje];
+
+            let statusHTML = '';
+            let btnText = 'Ativar Notificações';
+            let btnDisabled = false;
+
+            if (permission === 'granted') {
+                if (agendadasHoje) {
+                    statusHTML = '<p class="status-ativo">✅ Notificações ativas e agendadas para hoje</p>';
+                    btnText = 'Notificações Ativadas';
+                    btnDisabled = true;
+                } else {
+                    statusHTML = '<p class="status-pendente">⚠️ Permissão concedida, mas notificações não agendadas</p>';
+                }
+            } else if (permission === 'denied') {
+                statusHTML = '<p class="status-inativo">❌ Permissão negada. Ative nas configurações do navegador</p>';
+                btnText = 'Permissão Negada';
+                btnDisabled = true;
+            } else {
+                statusHTML = '<p class="status-pendente">⏳ Aguardando permissão para notificações</p>';
+            }
+
+            statusContent.innerHTML = statusHTML;
+            
+            if (btnAtivar) {
+                btnAtivar.textContent = btnText;
+                btnAtivar.disabled = btnDisabled;
+            }
+        }
+
+        // Agendar notificações de treinos
+        function agendarNotificacoesTreinos() {
+            const config = JSON.parse(localStorage.getItem('configTreinos') || '{}');
+            const notificacoesAgendadas = JSON.parse(localStorage.getItem('notificacoesAgendadas') || '{}');
+            
+            // Limpar notificações de treinos anteriores
+            Object.keys(notificacoesAgendadas).forEach(key => {
+                if (key.startsWith('treino-')) {
+                    delete notificacoesAgendadas[key];
+                }
+            });
+
+            const diasSemana = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
+            const nomesDias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+            
+            diasSemana.forEach((dia, index) => {
+                const configDia = config.dias?.[dia];
+                if (configDia && configDia.ativo) {
+                    const [hora, minuto] = configDia.horario.split(':');
+                    const agora = new Date();
+                    const horarioNotificacao = new Date();
+                    horarioNotificacao.setHours(parseInt(hora), parseInt(minuto), 0, 0);
+                    
+                    // Se o horário já passou hoje, agendar para amanhã
+                    if (horarioNotificacao <= agora) {
+                        horarioNotificacao.setDate(horarioNotificacao.getDate() + 1);
+                    }
+                    
+                    // Ajustar para o dia correto da semana
+                    const diaSemanaAtual = agora.getDay(); // 0 = Domingo, 1 = Segunda, etc.
+                    const diaSemanaDesejado = index === 6 ? 0 : index + 1; // Converter para formato do JS
+                    
+                    const diasParaAdicionar = (diaSemanaDesejado - diaSemanaAtual + 7) % 7;
+                    horarioNotificacao.setDate(horarioNotificacao.getDate() + diasParaAdicionar);
+                    
+                    const delay = horarioNotificacao.getTime() - agora.getTime();
+                    
+                    if (delay > 0) {
+                        const timeoutId = setTimeout(() => {
+                            enviarNotificacaoTreino();
+                            // Reagendar para próxima semana
+                            setTimeout(() => {
+                                agendarNotificacoesTreinos();
+                            }, 60000); // Aguardar 1 minuto antes de reagendar
+                        }, delay);
+                        
+                        notificacoesAgendadas[`treino-${dia}`] = {
+                            timeoutId: timeoutId,
+                            horario: horarioNotificacao.toISOString(),
+                            tipo: 'treino',
+                            dia: nomesDias[index]
+                        };
+                    }
+                }
+            });
+            
+            localStorage.setItem('notificacoesAgendadas', JSON.stringify(notificacoesAgendadas));
+            console.log('Notificações de treinos agendadas:', notificacoesAgendadas);
+        }
+
+        // Enviar notificação de treino
+        async function enviarNotificacaoTreino() {
+            try {
+                // Verificar se o Service Worker está ativo
+                if (navigator.serviceWorker.controller) {
+                    // Enviar mensagem para o Service Worker
+                    navigator.serviceWorker.controller.postMessage({
+                        type: 'NOTIFICACAO_TREINO'
+                    });
+                } else {
+                    // Fallback: notificação local
+                    enviarNotificacaoTreinoLocal();
+                }
+            } catch (error) {
+                console.error('Erro ao enviar notificação de treino:', error);
+                // Fallback: notificação local
+                enviarNotificacaoTreinoLocal();
+            }
+        }
+
+        // Notificação local de treino como fallback
+        function enviarNotificacaoTreinoLocal() {
+            if (Notification.permission === 'granted') {
+                const notificacao = new Notification('IkigaiHub - Hora do Treino!', {
+                    body: 'É hora de treinar! Acesse sua rotina de exercícios.',
+                    icon: '/icons/icon-192x192.png',
+                    badge: '/icons/icon-192x192.png',
+                    tag: 'treino',
+                    requireInteraction: true,
+                    actions: [
+                        {
+                            action: 'ver',
+                            title: 'Ver Treino',
+                            icon: '/icons/icon-192x192.png'
+                        },
+                        {
+                            action: 'adiar',
+                            title: 'Adiar 30min',
+                            icon: '/icons/icon-192x192.png'
+                        }
+                    ]
+                });
+
+                notificacao.onclick = function() {
+                    window.focus();
+                    window.location.href = '/exercicios.html';
+                };
+
+                notificacao.onactionclick = function(event) {
+                    if (event.action === 'ver') {
+                        window.focus();
+                        window.location.href = '/exercicios.html';
+                    } else if (event.action === 'adiar') {
+                        // Adiar por 30 minutos
+                        setTimeout(() => {
+                            enviarNotificacaoTreinoLocal();
+                        }, 30 * 60 * 1000);
+                    }
+                };
+
+                console.log('Notificação de treino local enviada');
+            }
+        }
+
+        // Mostrar status das notificações de treinos
+        function mostrarStatusTreinos() {
+            const config = JSON.parse(localStorage.getItem('configTreinos') || '{}');
+            const statusTreinos = document.getElementById('status-treinos');
+            
+            if (!statusTreinos) return;
+            
+            const diasAtivos = [];
+            const diasSemana = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
+            const nomesDias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+            
+            diasSemana.forEach((dia, index) => {
+                const configDia = config.dias?.[dia];
+                if (configDia && configDia.ativo) {
+                    diasAtivos.push(`${nomesDias[index]} (${configDia.horario})`);
+                }
+            });
+            
+            if (diasAtivos.length > 0) {
+                statusTreinos.innerHTML = `
+                    <div class="status-item">
+                        <span class="status-icon">✅</span>
+                        <span class="status-text">Ativo</span>
+                    </div>
+                    <div class="status-detalhes">
+                        <strong>Dias configurados:</strong><br>
+                        ${diasAtivos.join('<br>')}
+                    </div>
+                `;
+            } else {
+                statusTreinos.innerHTML = `
+                    <div class="status-item">
+                        <span class="status-icon">❌</span>
+                        <span class="status-text">Inativo</span>
+                    </div>
+                    <div class="status-detalhes">
+                        Nenhum dia configurado
+                    </div>
+                `;
+            }
         }
     </script>
 </body>
