@@ -88,10 +88,6 @@
                                 <span class="btn-text">Configurar Horários de Refeições</span>
                                 <span class="btn-icon">▼</span>
                             </button>
-                            <button id="btn-config-treinos" class="btn-config">
-                                <span class="btn-text">Configurar Horários de Treinos</span>
-                                <span class="btn-icon">▼</span>
-                            </button>
                         </div>
                     </div>
                     
@@ -125,69 +121,6 @@
                         </div>
                         <button id="btn-salvar-horarios" class="btn-notificacao">
                             Salvar Horários
-                        </button>
-                    </div>
-
-                    <div class="config-treinos" id="config-treinos" style="display: none;">
-                        <h4>Configurar Notificações de Treinos</h4>
-                        <div class="treinos-config">
-                            <div class="treino-dias">
-                                <label>Configurar Horários por Dia:</label>
-                                <div class="dias-horarios-grid">
-                                    <div class="dia-horario-item">
-                                        <div class="dia-header">
-                                            <input type="checkbox" id="dia-seg" class="checkbox-dia">
-                                            <label for="dia-seg">Segunda</label>
-                                        </div>
-                                        <input type="time" id="horario-seg" value="18:00" class="input-horario-dia" disabled>
-                                    </div>
-                                    <div class="dia-horario-item">
-                                        <div class="dia-header">
-                                            <input type="checkbox" id="dia-ter" class="checkbox-dia">
-                                            <label for="dia-ter">Terça</label>
-                                        </div>
-                                        <input type="time" id="horario-ter" value="18:00" class="input-horario-dia" disabled>
-                                    </div>
-                                    <div class="dia-horario-item">
-                                        <div class="dia-header">
-                                            <input type="checkbox" id="dia-qua" class="checkbox-dia">
-                                            <label for="dia-qua">Quarta</label>
-                                        </div>
-                                        <input type="time" id="horario-qua" value="18:00" class="input-horario-dia" disabled>
-                                    </div>
-                                    <div class="dia-horario-item">
-                                        <div class="dia-header">
-                                            <input type="checkbox" id="dia-qui" class="checkbox-dia">
-                                            <label for="dia-qui">Quinta</label>
-                                        </div>
-                                        <input type="time" id="horario-qui" value="18:00" class="input-horario-dia" disabled>
-                                    </div>
-                                    <div class="dia-horario-item">
-                                        <div class="dia-header">
-                                            <input type="checkbox" id="dia-sex" class="checkbox-dia">
-                                            <label for="dia-sex">Sexta</label>
-                                        </div>
-                                        <input type="time" id="horario-sex" value="18:00" class="input-horario-dia" disabled>
-                                    </div>
-                                    <div class="dia-horario-item">
-                                        <div class="dia-header">
-                                            <input type="checkbox" id="dia-sab" class="checkbox-dia">
-                                            <label for="dia-sab">Sábado</label>
-                                        </div>
-                                        <input type="time" id="horario-sab" value="18:00" class="input-horario-dia" disabled>
-                                    </div>
-                                    <div class="dia-horario-item">
-                                        <div class="dia-header">
-                                            <input type="checkbox" id="dia-dom" class="checkbox-dia">
-                                            <label for="dia-dom">Domingo</label>
-                                        </div>
-                                        <input type="time" id="horario-dom" value="18:00" class="input-horario-dia" disabled>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button id="btn-salvar-treinos" class="btn-notificacao">
-                            Salvar Configuração de Treinos
                         </button>
                     </div>
                 </div>
@@ -589,9 +522,7 @@
             configurarBotoesNotificacao();
             atualizarStatusNotificacao();
             carregarHorariosSalvos();
-            carregarConfigTreinos();
             atualizarHorariosAtuais();
-            mostrarStatusTreinos();
             // Garantir que o botão de salvar horários de refeições está funcionando
             const btnSalvarHorarios = document.getElementById('btn-salvar-horarios');
             if (btnSalvarHorarios) {
@@ -723,11 +654,6 @@
                 ceia: extrairHora(horariosSalvos.ceia || '22:00')
             };
 
-            // Carregar configurações de treinos
-            const configTreinos = JSON.parse(localStorage.getItem('configTreinos') || '{}');
-            const horarioTreino = extrairHora(configTreinos.horario || '18:00');
-            const diasTreino = configTreinos.dias || ['seg', 'ter', 'qua', 'qui', 'sex'];
-
             // Verificar se há notificações agendadas
             const notificacoesAgendadas = JSON.parse(localStorage.getItem('notificacoesAgendadas') || '{}');
             const hoje = new Date().toDateString();
@@ -739,9 +665,6 @@
 
             // Agendar notificações para hoje
             agendarNotificacoesHoje(refeicoes, horariosRefeicoes);
-            
-            // Agendar notificações de treinos
-            agendarNotificacoesTreinos();
             
             // Marcar como agendadas
             notificacoesAgendadas[hoje] = true;
@@ -830,147 +753,6 @@
             }
         }
 
-        // Função para testar notificações push de treino (para desenvolvimento)
-        async function testarNotificacaoTreino() {
-            try {
-                const registration = await navigator.serviceWorker.ready;
-                
-                if (registration.active) {
-                    registration.active.postMessage({
-                        type: 'NOTIFICACAO_TREINO'
-                    });
-                }
-                
-                console.log('Notificação push de treino de teste enviada');
-            } catch (error) {
-                console.error('Erro ao testar notificação push de treino:', error);
-            }
-        }
-
-        // Carregar configurações de treinos
-        function carregarConfigTreinos() {
-            const configSalva = JSON.parse(localStorage.getItem('configTreinos') || '{}');
-            
-            // Configuração padrão
-            const configPadrao = {
-                dias: {
-                    seg: { ativo: true, horario: '18:00' },
-                    ter: { ativo: true, horario: '18:00' },
-                    qua: { ativo: true, horario: '18:00' },
-                    qui: { ativo: true, horario: '18:00' },
-                    sex: { ativo: true, horario: '18:00' },
-                    sab: { ativo: false, horario: '18:00' },
-                    dom: { ativo: false, horario: '18:00' }
-                }
-            };
-
-            // Aplicar configurações salvas ou padrão
-            const diasSemana = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
-            
-            diasSemana.forEach(dia => {
-                const checkbox = document.getElementById(`dia-${dia}`);
-                const inputHorario = document.getElementById(`horario-${dia}`);
-                
-                if (checkbox && inputHorario) {
-                    const configDia = configSalva.dias?.[dia] || configPadrao.dias[dia];
-                    
-                    checkbox.checked = configDia.ativo;
-                    inputHorario.value = configDia.horario;
-                    inputHorario.disabled = !configDia.ativo;
-                    
-                    // Atualizar visual do item
-                    const itemContainer = checkbox.closest('.dia-horario-item');
-                    if (itemContainer) {
-                        if (configDia.ativo) {
-                            itemContainer.classList.add('active');
-                        } else {
-                            itemContainer.classList.remove('active');
-                        }
-                    }
-                }
-            });
-
-            // Configurar event listeners para checkboxes
-            configurarEventListenersTreinos();
-        }
-
-        // Configurar event listeners para treinos
-        function configurarEventListenersTreinos() {
-            const diasSemana = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
-            
-            diasSemana.forEach(dia => {
-                const checkbox = document.getElementById(`dia-${dia}`);
-                const inputHorario = document.getElementById(`horario-${dia}`);
-                
-                if (checkbox && inputHorario) {
-                    checkbox.addEventListener('change', function() {
-                        inputHorario.disabled = !this.checked;
-                        
-                        const itemContainer = this.closest('.dia-horario-item');
-                        if (itemContainer) {
-                            if (this.checked) {
-                                itemContainer.classList.add('active');
-                            } else {
-                                itemContainer.classList.remove('active');
-                            }
-                        }
-                    });
-                }
-            });
-        }
-
-        // Salvar configurações de treinos
-        function salvarConfigTreinos() {
-            console.log('Salvando configurações de treinos...');
-            const config = {
-                dias: {}
-            };
-            
-            const diasSemana = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
-            diasSemana.forEach(dia => {
-                const checkbox = document.getElementById(`dia-${dia}`);
-                const inputHorario = document.getElementById(`horario-${dia}`);
-                
-                if (checkbox && inputHorario) {
-                    config.dias[dia] = {
-                        ativo: checkbox.checked,
-                        horario: inputHorario.value
-                    };
-                    console.log(`${dia}: ativo=${checkbox.checked}, horario=${inputHorario.value}`);
-                } else {
-                    console.log(`Elementos não encontrados para ${dia}: checkbox=${!!checkbox}, input=${!!inputHorario}`);
-                }
-            });
-
-            console.log('Configuração coletada:', config);
-            localStorage.setItem('configTreinos', JSON.stringify(config));
-            console.log('Configuração de treinos salva no localStorage');
-            
-            // Limpar agendamento anterior para reagendar com novas configurações
-            localStorage.removeItem('notificacoesAgendadas');
-            
-            // Reagendar notificações com novas configurações
-            if (Notification.permission === 'granted') {
-                configurarNotificacoes();
-            }
-            
-            // Atualizar horários atuais
-            atualizarHorariosAtuais();
-            
-            // Feedback visual
-            const btnSalvar = document.getElementById('btn-salvar-treinos');
-            if (btnSalvar) {
-                const textoOriginal = btnSalvar.textContent;
-                btnSalvar.textContent = 'Configuração Salva!';
-                btnSalvar.style.background = 'linear-gradient(135deg, #45a049 0%, #4CAF50 100%)';
-                
-                setTimeout(() => {
-                    btnSalvar.textContent = textoOriginal;
-                    btnSalvar.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
-                }, 2000);
-            }
-        }
-
         // Carregar horários salvos
         function carregarHorariosSalvos() {
             const horariosSalvos = JSON.parse(localStorage.getItem('horariosNotificacoes') || '{}');
@@ -994,131 +776,13 @@
             });
         }
 
-        // Salvar horários personalizados
-        function salvarHorarios() {
-            console.log('Salvando horários de refeições...');
-            const horarios = {};
-            const refeicoes = ['cafe', 'lancheM', 'almoco', 'lancheT', 'janta', 'ceia'];
-            
-            refeicoes.forEach(refeicao => {
-                const input = document.getElementById(`horario-${refeicao}`);
-                if (input) {
-                    horarios[refeicao] = input.value;
-                    console.log(`${refeicao}: ${input.value}`);
-                }
-            });
-
-            console.log('Horários coletados:', horarios);
-            localStorage.setItem('horariosNotificacoes', JSON.stringify(horarios));
-            console.log('Horários salvos no localStorage');
-            
-            // Limpar agendamento anterior para reagendar com novos horários
-            localStorage.removeItem('notificacoesAgendadas');
-            
-            // Reagendar notificações com novos horários
-            if (Notification.permission === 'granted') {
-                configurarNotificacoes();
-            }
-            
-            atualizarHorariosAtuais();
-            
-            // Feedback visual
-            const btnSalvar = document.getElementById('btn-salvar-horarios');
-            if (btnSalvar) {
-                const textoOriginal = btnSalvar.textContent;
-                btnSalvar.textContent = 'Horários Salvos!';
-                btnSalvar.style.background = 'linear-gradient(135deg, #45a049 0%, #4CAF50 100%)';
-                
-                setTimeout(() => {
-                    btnSalvar.textContent = textoOriginal;
-                    btnSalvar.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
-                }, 2000);
-            }
-        }
-
-        // Atualizar exibição dos horários atuais
-        function atualizarHorariosAtuais() {
-            console.log('Atualizando horários atuais...');
-            const horariosAtuais = document.getElementById('horarios-atuais');
-            if (!horariosAtuais) {
-                console.log('Elemento horarios-atuais não encontrado');
-                return;
-            }
-
-            const horarios = JSON.parse(localStorage.getItem('horariosNotificacoes') || '{}');
-            const configTreinos = JSON.parse(localStorage.getItem('configTreinos') || '{}');
-            
-            console.log('Horários carregados do localStorage:', horarios);
-            console.log('Config treinos carregada do localStorage:', configTreinos);
-            
-            const nomesRefeicoes = {
-                cafe: 'Café da Manhã',
-                lancheM: 'Lanche da Manhã',
-                almoco: 'Almoço',
-                lancheT: 'Lanche da Tarde',
-                janta: 'Janta',
-                ceia: 'Ceia'
-            };
-
-            // Horários padrão
-            const horariosPadrao = {
-                cafe: '08:00',
-                lancheM: '10:00',
-                almoco: '13:00',
-                lancheT: '16:00',
-                janta: '20:00',
-                ceia: '22:00'
-            };
-
-            const nomesDias = {
-                seg: 'Segunda',
-                ter: 'Terça',
-                qua: 'Quarta',
-                qui: 'Quinta',
-                sex: 'Sexta',
-                sab: 'Sábado',
-                dom: 'Domingo'
-            };
-
-            let html = '<ul>';
-            
-            // Adicionar horários de refeições
-            Object.keys(nomesRefeicoes).forEach(refeicao => {
-                const horario = horarios[refeicao] || horariosPadrao[refeicao];
-                html += `<li><strong>${nomesRefeicoes[refeicao]}:</strong> ${horario}</li>`;
-            });
-            
-            // Adicionar configuração de treinos por dia
-            if (configTreinos.dias) {
-                const diasAtivos = Object.entries(configTreinos.dias)
-                    .filter(([_, val]) => val.ativo)
-                    .map(([dia, val]) => `<li><strong>Treino ${nomesDias[dia]}:</strong> ${val.horario}</li>`)
-                    .join('');
-                if (diasAtivos) {
-                    html += diasAtivos;
-                } else {
-                    html += `<li><strong>Treinos:</strong> Não configurado</li>`;
-                }
-            } else {
-                html += `<li><strong>Treinos:</strong> Não configurado</li>`;
-            }
-            
-            html += '</ul>';
-
-            console.log('HTML gerado:', html);
-            horariosAtuais.innerHTML = html;
-            console.log('Horários atuais atualizados');
-        }
-
         // Configurar botões de notificação
         function configurarBotoesNotificacao() {
             const btnAtivar = document.getElementById('btn-ativar-notificacoes');
             const btnTestar = document.getElementById('btn-testar-notificacao');
             const btnLimpar = document.getElementById('btn-limpar-agendamento');
             const btnSalvar = document.getElementById('btn-salvar-horarios');
-            const btnSalvarTreinos = document.getElementById('btn-salvar-treinos');
             const btnConfigRefeicoes = document.getElementById('btn-config-refeicoes');
-            const btnConfigTreinos = document.getElementById('btn-config-treinos');
 
             if (btnAtivar) {
                 btnAtivar.addEventListener('click', async () => {
@@ -1159,27 +823,10 @@
                 });
             }
 
-            if (btnSalvarTreinos) {
-                console.log('Configurando event listener para btn-salvar-treinos');
-                btnSalvarTreinos.addEventListener('click', () => {
-                    console.log('Botão salvar treinos clicado!');
-                    salvarConfigTreinos();
-                    mostrarStatusTreinos();
-                });
-            } else {
-                console.log('Botão btn-salvar-treinos não encontrado');
-            }
-
             // Configurar botões de toggle
             if (btnConfigRefeicoes) {
                 btnConfigRefeicoes.addEventListener('click', () => {
                     toggleConfiguracao('config-refeicoes', btnConfigRefeicoes);
-                });
-            }
-
-            if (btnConfigTreinos) {
-                btnConfigTreinos.addEventListener('click', () => {
-                    toggleConfiguracao('config-treinos', btnConfigTreinos);
                 });
             }
         }
@@ -1255,129 +902,94 @@
             }
         }
 
-        // Agendar notificações de treinos
-        function agendarNotificacoesTreinos() {
-            const config = JSON.parse(localStorage.getItem('configTreinos') || '{}');
-            const notificacoesAgendadas = JSON.parse(localStorage.getItem('notificacoesAgendadas') || '{}');
+        // Salvar horários personalizados
+        function salvarHorarios() {
+            console.log('Salvando horários de refeições...');
+            const horarios = {};
+            const refeicoes = ['cafe', 'lancheM', 'almoco', 'lancheT', 'janta', 'ceia'];
             
-            // Limpar notificações de treinos anteriores
-            Object.keys(notificacoesAgendadas).forEach(key => {
-                if (key.startsWith('treino-')) {
-                    delete notificacoesAgendadas[key];
+            refeicoes.forEach(refeicao => {
+                const input = document.getElementById(`horario-${refeicao}`);
+                if (input) {
+                    horarios[refeicao] = input.value;
+                    console.log(`${refeicao}: ${input.value}`);
                 }
             });
 
-            const diasSemana = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
-            const nomesDias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+            console.log('Horários coletados:', horarios);
+            localStorage.setItem('horariosNotificacoes', JSON.stringify(horarios));
+            console.log('Horários salvos no localStorage');
             
-            diasSemana.forEach((dia, index) => {
-                const configDia = config.dias?.[dia];
-                if (configDia && configDia.ativo) {
-                    const [hora, minuto] = configDia.horario.split(':');
-                    const agora = new Date();
-                    const horarioNotificacao = new Date();
-                    horarioNotificacao.setHours(parseInt(hora), parseInt(minuto), 0, 0);
-                    
-                    // Se o horário já passou hoje, agendar para amanhã
-                    if (horarioNotificacao <= agora) {
-                        horarioNotificacao.setDate(horarioNotificacao.getDate() + 1);
-                    }
-                    
-                    // Ajustar para o dia correto da semana
-                    const diaSemanaAtual = agora.getDay(); // 0 = Domingo, 1 = Segunda, etc.
-                    const diaSemanaDesejado = index === 6 ? 0 : index + 1; // Converter para formato do JS
-                    
-                    const diasParaAdicionar = (diaSemanaDesejado - diaSemanaAtual + 7) % 7;
-                    horarioNotificacao.setDate(horarioNotificacao.getDate() + diasParaAdicionar);
-                    
-                    const delay = horarioNotificacao.getTime() - agora.getTime();
-                    
-                    if (delay > 0) {
-                        const timeoutId = setTimeout(() => {
-                            enviarNotificacaoPushTreino();
-                            // Reagendar para próxima semana
-                            setTimeout(() => {
-                                agendarNotificacoesTreinos();
-                            }, 60000); // Aguardar 1 minuto antes de reagendar
-                        }, delay);
-                        
-                        notificacoesAgendadas[`treino-${dia}`] = {
-                            timeoutId: timeoutId,
-                            horario: horarioNotificacao.toISOString(),
-                            tipo: 'treino',
-                            dia: nomesDias[index]
-                        };
-                    }
-                }
-            });
+            // Limpar agendamento anterior para reagendar com novos horários
+            localStorage.removeItem('notificacoesAgendadas');
             
-            localStorage.setItem('notificacoesAgendadas', JSON.stringify(notificacoesAgendadas));
-            console.log('Notificações push de treinos agendadas:', notificacoesAgendadas);
-        }
-
-        // Enviar notificação push de treino
-        async function enviarNotificacaoPushTreino() {
-            try {
-                const registration = await navigator.serviceWorker.ready;
+            // Reagendar notificações com novos horários
+            if (Notification.permission === 'granted') {
+                configurarNotificacoes();
+            }
+            
+            atualizarHorariosAtuais();
+            
+            // Feedback visual
+            const btnSalvar = document.getElementById('btn-salvar-horarios');
+            if (btnSalvar) {
+                const textoOriginal = btnSalvar.textContent;
+                btnSalvar.textContent = 'Horários Salvos!';
+                btnSalvar.style.background = 'linear-gradient(135deg, #45a049 0%, #4CAF50 100%)';
                 
-                // Enviar mensagem para o Service Worker
-                if (registration.active) {
-                    registration.active.postMessage({
-                        type: 'NOTIFICACAO_TREINO'
-                    });
-                }
-                
-                console.log('Notificação push de treino enviada');
-            } catch (error) {
-                console.error('Erro ao enviar notificação push de treino:', error);
+                setTimeout(() => {
+                    btnSalvar.textContent = textoOriginal;
+                    btnSalvar.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
+                }, 2000);
             }
         }
 
-        // Mostrar status das notificações de treinos
-        function mostrarStatusTreinos() {
-            const config = JSON.parse(localStorage.getItem('configTreinos') || '{}');
-            const statusTreinos = document.getElementById('status-treinos');
+        // Atualizar exibição dos horários atuais
+        function atualizarHorariosAtuais() {
+            console.log('Atualizando horários atuais...');
+            const horariosAtuais = document.getElementById('horarios-atuais');
+            if (!horariosAtuais) {
+                console.log('Elemento horarios-atuais não encontrado');
+                return;
+            }
+
+            const horarios = JSON.parse(localStorage.getItem('horariosNotificacoes') || '{}');
             
-            if (!statusTreinos) return;
+            console.log('Horários carregados do localStorage:', horarios);
             
-            const diasAtivos = [];
-            const diasSemana = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
-            const nomesDias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+            const nomesRefeicoes = {
+                cafe: 'Café da Manhã',
+                lancheM: 'Lanche da Manhã',
+                almoco: 'Almoço',
+                lancheT: 'Lanche da Tarde',
+                janta: 'Janta',
+                ceia: 'Ceia'
+            };
+
+            // Horários padrão
+            const horariosPadrao = {
+                cafe: '08:00',
+                lancheM: '10:00',
+                almoco: '13:00',
+                lancheT: '16:00',
+                janta: '20:00',
+                ceia: '22:00'
+            };
+
+            let html = '<ul>';
             
-            diasSemana.forEach((dia, index) => {
-                const configDia = config.dias?.[dia];
-                if (configDia && configDia.ativo) {
-                    diasAtivos.push(`${nomesDias[index]} (${configDia.horario})`);
-                }
+            // Adicionar horários de refeições
+            Object.keys(nomesRefeicoes).forEach(refeicao => {
+                const horario = horarios[refeicao] || horariosPadrao[refeicao];
+                html += `<li><strong>${nomesRefeicoes[refeicao]}:</strong> ${horario}</li>`;
             });
             
-            if (diasAtivos.length > 0) {
-                statusTreinos.innerHTML = `
-                    <div class="status-item">
-                        <span class="status-icon">✅</span>
-                        <span class="status-text">Ativo</span>
-                    </div>
-                    <div class="status-detalhes">
-                        <strong>Dias configurados:</strong><br>
-                        ${diasAtivos.join('<br>')}
-                    </div>
-                `;
-            } else {
-                statusTreinos.innerHTML = `
-                    <div class="status-item">
-                        <span class="status-icon">❌</span>
-                        <span class="status-text">Inativo</span>
-                    </div>
-                    <div class="status-detalhes">
-                        Nenhum dia configurado
-                    </div>
-                `;
-            }
-        }
+            html += '</ul>';
 
-        // Expor funções de teste globalmente (apenas para desenvolvimento)
-        window.testarNotificacao = testarNotificacao;
-        window.testarNotificacaoTreino = testarNotificacaoTreino;
+            console.log('HTML gerado:', html);
+            horariosAtuais.innerHTML = html;
+            console.log('Horários atuais atualizados');
+        }
     </script>
 </body>
 </html> 

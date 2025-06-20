@@ -47,8 +47,6 @@ self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'NOTIFICACAO_REFEICAO') {
     const refeicao = event.data.refeicao;
     mostrarNotificacaoRefeicao(refeicao);
-  } else if (event.data && event.data.type === 'NOTIFICACAO_TREINO') {
-    mostrarNotificacaoTreino();
   } else if (event.data && event.data.type === 'PUSH_SUBSCRIPTION') {
     // Armazenar subscription para uso posterior
     self.pushSubscription = event.data.subscription;
@@ -120,35 +118,6 @@ function mostrarNotificacaoRefeicao(refeicao) {
   return self.registration.showNotification('IkigaiHub - Hora da Refeição!', opcoesNotificacao);
 }
 
-// Mostrar notificação de treino
-function mostrarNotificacaoTreino() {
-  const opcoesNotificacao = {
-    body: 'É hora de treinar! Acesse sua rotina de exercícios.',
-    icon: '/icons/icon-192x192.png',
-    badge: '/icons/icon-192x192.png',
-    tag: 'treino',
-    requireInteraction: true,
-    data: {
-      url: '/exercicios.html',
-      tipo: 'treino'
-    },
-    actions: [
-      {
-        action: 'ver',
-        title: 'Ver Treino',
-        icon: '/icons/icon-192x192.png'
-      },
-      {
-        action: 'adiar',
-        title: 'Adiar 30min',
-        icon: '/icons/icon-192x192.png'
-      }
-    ]
-  };
-
-  return self.registration.showNotification('IkigaiHub - Hora do Treino!', opcoesNotificacao);
-}
-
 // Gerenciar cliques na notificação
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
@@ -167,10 +136,6 @@ self.addEventListener('notificationclick', (event) => {
       setTimeout(() => {
         mostrarNotificacaoRefeicao(refeicao);
       }, 15 * 60 * 1000);
-    } else if (tag === 'treino') {
-      setTimeout(() => {
-        mostrarNotificacaoTreino();
-      }, 30 * 60 * 1000);
     }
   } else {
     // Clique na notificação principal

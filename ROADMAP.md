@@ -266,7 +266,6 @@
 - **Funções Reescritas**:
   - `configurarNotificacoesPush()` - Gerenciamento de subscriptions
   - `enviarNotificacaoRefeicao()` - Usa Service Worker
-  - `enviarNotificacaoPushTreino()` - Notificações push específicas
   - Funções de teste atualizadas
 
 - **Manifest.json Atualizado**:
@@ -280,6 +279,42 @@
 - Melhor experiência do usuário com notificações persistentes
 - Padrão web moderno seguindo as melhores práticas
 - Base sólida para futuras expansões
+
+---
+
+### **Fase 9.5: Simplificação do Sistema de Notificações** ⭐ **CONCLUÍDA**
+*Data: 20/06/2025*
+
+#### Objetivos:
+- ✅ Remoção de notificações de treinos
+- ✅ Simplificação da interface de configuração
+- ✅ Foco exclusivo em notificações de refeições
+- ✅ Redução da complexidade do código
+
+#### Entregas:
+- **Interface Simplificada**:
+  - Remoção da seção de configuração de treinos
+  - Interface focada apenas em refeições
+  - Menos opções para reduzir confusão
+  - Melhor experiência do usuário
+
+- **Código Otimizado**:
+  - Remoção de funções relacionadas a treinos
+  - Service Worker simplificado
+  - Redução da complexidade
+  - Melhor manutenibilidade
+
+- **Funcionalidades Mantidas**:
+  - Sistema completo de notificações push para refeições
+  - Configuração de horários personalizados
+  - Agendamento automático
+  - Ações de "Ver Receita" e "Adiar 15min"
+
+#### Benefícios da Simplificação:
+- Interface mais limpa e intuitiva
+- Código mais fácil de manter
+- Foco nas funcionalidades principais
+- Melhor performance
 
 ---
 
@@ -424,12 +459,13 @@
 - ✅ Sistema offline operacional
 - ✅ Interface responsiva
 - ✅ UX intuitiva e moderna
+- ✅ Sistema simplificado e otimizado
 
 ### **Futuras**:
 - 🔄 Engajamento: > 70% de retenção
 - 🔄 Usuários ativos: > 1000
 - 🔄 Avaliação: > 4.5 estrelas
-- 🔄 Downloads: > 5000
+- �� Downloads: > 5000
 
 ---
 
@@ -460,6 +496,7 @@
 | 7 | ✅ Concluída | 19-20/06/2025 | 1 dia |
 | 8 | ✅ Concluída | 20/06/2025 | 1 dia |
 | 9 | ✅ Concluída | 20/06/2025 | 1 dia |
+| 9.5 | ✅ Concluída | 20/06/2025 | 1 dia |
 | 10 | 🔄 Planejada | Q3 2025 | 2-3 semanas |
 | 11 | 🔄 Planejada | Q4 2025 | 3-4 semanas |
 | 12 | 🔄 Planejada | Q1 2026 | 4-6 semanas |
@@ -471,6 +508,7 @@
 
 ### **2025**:
 - ✅ Sistema de notificações push completo
+- ✅ Simplificação e otimização do sistema
 - 🔄 Backend e sincronização
 - 🔄 Funcionalidades avançadas básicas
 
