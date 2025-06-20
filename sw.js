@@ -1,10 +1,9 @@
-const CACHE_NAME = 'plano-alimentar-v1';
+const CACHE_NAME = 'plano-alimentar-v2';
 const urlsToCache = [
   '/',
   '/index.html',
   '/exercicios.html',
   '/style.css',
-  '/exercicios.css',
   '/script.js',
   '/manifest.json',
   '/icons/icon-192x192.png',
