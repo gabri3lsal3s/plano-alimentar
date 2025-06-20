@@ -392,6 +392,15 @@
 
 ---
 
+### [Concluído em 2025-06-20] Responsividade Refinada
+- Unificação dos breakpoints principais (900px e 700px).
+- Alinhamento central e correto de header, footer e colunas em todas as páginas.
+- Grid de listas adaptado para uma coluna em telas pequenas.
+- Remoção de deslocamentos laterais (margin-left, left) em telas menores.
+- Centralização do controle de padding/margin lateral via classes no body.
+
+---
+
 ## 🔮 **Próximas Fases Planejadas**
 
 ### **Fase 10: Backend e Notificações em Tempo Real**
