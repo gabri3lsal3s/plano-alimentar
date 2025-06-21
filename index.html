@@ -236,12 +236,7 @@
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 
                 const html = await response.text();
-                
-                // Limpar caracteres especiais do início do HTML
-                let cleanHtml = html;
-                if (html.startsWith('')) {
-                    cleanHtml = html.substring(2);
-                }
+                const cleanHtml = html;
                 
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(cleanHtml, 'text/html');
@@ -312,7 +307,11 @@
                     }
                 });
                 
-                return Object.keys(refeicoes).length > 0 ? refeicoes : dadosFallback.refeicoes;
+                if (Object.keys(refeicoes).length === 0) {
+                    return dadosFallback.refeicoes;
+                }
+                
+                return refeicoes;
             } catch (error) {
                 console.error('Erro ao buscar dados das refeições:', error);
                 return dadosFallback.refeicoes;
@@ -355,12 +354,28 @@
             const preferencia = preferencias[secao];
             
             if (preferencia) {
-                const receitaPreferida = receitas.find(receita => receita.titulo === preferencia);
+                // Teste de comparação exata
+                let receitaPreferida = receitas.find(receita => receita.titulo === preferencia);
+                
+                // Se não encontrar, tentar comparação case-insensitive
+                if (!receitaPreferida) {
+                    receitaPreferida = receitas.find(receita => 
+                        receita.titulo.toLowerCase() === preferencia.toLowerCase()
+                    );
+                }
+                
+                // Se ainda não encontrar, tentar comparação parcial
+                if (!receitaPreferida) {
+                    receitaPreferida = receitas.find(receita => 
+                        receita.titulo.includes(preferencia) || preferencia.includes(receita.titulo)
+                    );
+                }
+                
                 if (receitaPreferida) {
                     return receitaPreferida;
                 }
             }
-            // Retornar primeira receita se não houver preferência
+            
             return receitas[0];
         }
         
@@ -385,6 +400,7 @@
             }
             
             const refeicaoKey = getRefeicaoAtual();
+            
             const refeicao = dadosRefeicoesCache[refeicaoKey];
             
             if (!refeicao || !refeicao.receitas || refeicao.receitas.length === 0) {
