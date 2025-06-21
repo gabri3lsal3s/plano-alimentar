@@ -82,7 +82,6 @@
         function getRefeicaoAtual() {
             const agora = new Date();
             const hora = agora.getHours();
-            console.log('Horário atual:', hora + 'h');
             
             if (hora >= 7 && hora < 9) return 'cafe';
             if (hora >= 9 && hora < 11) return 'lancheM';
@@ -233,51 +232,35 @@
         // Função para buscar dados da página de plano alimentar
         async function buscarDadosRefeicoes() {
             try {
-                console.log('Fazendo fetch do plano_alimentar.html...');
                 const response = await fetch('plano_alimentar.html');
-                console.log('Response status:', response.status, response.ok);
-                
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 
                 const html = await response.text();
-                console.log('HTML obtido, tamanho:', html.length, 'caracteres');
-                console.log('Primeiros 500 caracteres do HTML:', html.substring(0, 500));
                 
                 // Limpar caracteres especiais do início do HTML
                 let cleanHtml = html;
                 if (html.startsWith('')) {
                     cleanHtml = html.substring(2);
-                    console.log('Caracteres especiais removidos do início');
                 }
                 
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(cleanHtml, 'text/html');
-                console.log('Documento parseado:', doc);
                 
                 // Verificar se há erros de parsing
                 const parserError = doc.querySelector('parsererror');
                 if (parserError) {
-                    console.error('Erro no parsing do HTML:', parserError.textContent);
                     throw new Error('Erro no parsing do HTML');
                 }
                 
                 const refeicoes = {};
                 const secoes = ['cafe', 'lancheM', 'almoco', 'lancheT', 'janta', 'ceia'];
                 
-                console.log('Iniciando busca de dados das refeições...');
-                
-                // Verificar todos os elementos com ID no documento
-                const todosElementos = doc.querySelectorAll('[id]');
-                console.log('Todos os elementos com ID encontrados:', Array.from(todosElementos).map(el => el.id));
-                
                 secoes.forEach(secao => {
                     const elemento = doc.getElementById(secao);
-                    console.log(`Procurando seção: ${secao}`, elemento ? 'encontrada' : 'não encontrada');
                     
                     if (elemento) {
                         const h3 = elemento.querySelector('h3');
                         const ul = elemento.querySelector('ul');
-                        console.log(`Seção ${secao}: h3=${h3?.textContent}, ul=${ul ? 'encontrado' : 'não encontrado'}`);
                         
                         if (h3 && ul) {
                             const partes = h3.textContent.split('—');
@@ -285,15 +268,11 @@
                             const horario = partes[1]?.trim() || '';
                             const receitas = [];
                             
-                            console.log(`Processando seção ${secao}: ${nome} - ${horario}`);
-                            
                             // Buscar todas as receitas (li dentro do ul)
                             const receitasLi = ul.querySelectorAll('li');
-                            console.log(`Encontradas ${receitasLi.length} receitas na seção ${secao}`);
                             
                             receitasLi.forEach((item, index) => {
                                 const h4 = item.querySelector('h4');
-                                console.log(`Receita ${index + 1}: ${h4?.textContent}`);
                                 
                                 if (h4) {
                                     const titulo = h4.textContent;
@@ -306,51 +285,36 @@
                                     if (ol) {
                                         const ingredientesLi = ol.querySelectorAll('li');
                                         ingredientes = Array.from(ingredientesLi).map(li => li.textContent.trim());
-                                        console.log(`Ingredientes encontrados (${ingredientes.length}):`, ingredientes);
-                                    } else {
-                                        console.log('Nenhum ol encontrado para ingredientes');
                                     }
                                     
                                     // Buscar preparo e valores nutricionais - procurar por p com strong
                                     const paragrafos = item.querySelectorAll('p');
                                     paragrafos.forEach(p => {
                                         const text = p.textContent.trim();
-                                        console.log(`Parágrafo encontrado: "${text}"`);
                                         
                                         if (text.includes('Preparo:')) {
                                             preparo = text.replace('Preparo:', '').trim();
-                                            console.log('Preparo extraído:', preparo);
                                         } else if (text.includes('Valores nutricionais:')) {
                                             calorias = text.replace('Valores nutricionais:', '').trim();
-                                            console.log('Valores nutricionais extraídos:', calorias);
                                         }
                                     });
                                     
                                     if (titulo && ingredientes.length > 0) {
                                         receitas.push({ titulo, ingredientes, preparo, calorias });
-                                        console.log(`Receita adicionada: ${titulo} com ${ingredientes.length} ingredientes`);
-                                        console.log('Dados da receita:', { titulo, ingredientes, preparo, calorias });
-                                    } else {
-                                        console.log(`Receita não adicionada: titulo=${!!titulo}, ingredientes=${ingredientes.length}`);
                                     }
                                 }
                             });
                             
                             if (receitas.length > 0) {
                                 refeicoes[secao] = { nome, horario, receitas };
-                                console.log(`Seção ${secao} processada com ${receitas.length} receitas`);
-                            } else {
-                                console.log(`Nenhuma receita válida encontrada na seção ${secao}`);
                             }
                         }
                     }
                 });
                 
-                console.log('Refeições extraídas:', refeicoes);
                 return Object.keys(refeicoes).length > 0 ? refeicoes : dadosFallback.refeicoes;
             } catch (error) {
                 console.error('Erro ao buscar dados das refeições:', error);
-                console.log('Usando dados de fallback devido ao erro');
                 return dadosFallback.refeicoes;
             }
         }
@@ -385,40 +349,51 @@
                 return dadosFallback.exercicios;
             }
         }
+        // Função para obter receita preferida (para uso na página home)
+        function obterReceitaPreferida(secao, receitas) {
+            const preferencias = JSON.parse(localStorage.getItem('preferenciasReceitas') || '{}');
+            const preferencia = preferencias[secao];
+            
+            if (preferencia) {
+                const receitaPreferida = receitas.find(receita => receita.titulo === preferencia);
+                if (receitaPreferida) {
+                    return receitaPreferida;
+                }
+            }
+            // Retornar primeira receita se não houver preferência
+            return receitas[0];
+        }
+        
+        // Variável para armazenar os dados das refeições
+        let dadosRefeicoesCache = null;
+        
+        // Função para limpar cache e forçar atualização
+        function limparCacheRefeicoes() {
+            dadosRefeicoesCache = null;
+        }
+        
         // Função para exibir a refeição atual
         async function exibirRefeicaoAtual() {
-            console.log('Iniciando exibição da refeição atual...');
-            const refeicoes = await buscarDadosRefeicoes();
-            console.log('Dados das refeições obtidos:', refeicoes);
+            // Buscar dados apenas se não estiverem em cache
+            if (!dadosRefeicoesCache) {
+                dadosRefeicoesCache = await buscarDadosRefeicoes();
+            }
             
-            if (!refeicoes) {
-                console.log('Erro: nenhum dado de refeição obtido');
+            if (!dadosRefeicoesCache) {
                 document.getElementById('refeicao-content').innerHTML = '<p>Erro ao carregar dados das refeições</p>';
                 return;
             }
             
             const refeicaoKey = getRefeicaoAtual();
-            console.log('Chave da refeição atual:', refeicaoKey);
-            
-            const refeicao = refeicoes[refeicaoKey];
-            console.log('Refeição encontrada:', refeicao);
+            const refeicao = dadosRefeicoesCache[refeicaoKey];
             
             if (!refeicao || !refeicao.receitas || refeicao.receitas.length === 0) {
-                console.log('Nenhuma refeição válida encontrada para este horário');
                 document.getElementById('refeicao-content').innerHTML = '<p>Nenhuma refeição encontrada para este horário</p>';
                 return;
             }
             
-            // Mostrar apenas a primeira receita da refeição
-            const receita = refeicao.receitas[0];
-            console.log('Receita a ser exibida:', receita);
-            
-            // Verificar se todos os dados estão presentes
-            console.log('Verificação dos dados:');
-            console.log('- Título:', receita.titulo);
-            console.log('- Ingredientes:', receita.ingredientes);
-            console.log('- Preparo:', receita.preparo);
-            console.log('- Calorias:', receita.calorias);
+            // Obter receita preferida ou primeira receita
+            const receita = obterReceitaPreferida(refeicaoKey, refeicao.receitas);
             
             const content = document.getElementById('refeicao-content');
             const htmlContent = `
@@ -434,7 +409,6 @@
                 </div>
             `;
             
-            console.log('HTML a ser inserido:', htmlContent);
             content.innerHTML = htmlContent;
         }
         // Função para exibir o exercício atual
@@ -465,6 +439,31 @@
         document.addEventListener('DOMContentLoaded', function() {
             exibirRefeicaoAtual();
             exibirExercicioAtual();
+            
+            // Listener para mudanças no localStorage (preferências)
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'preferenciasReceitas') {
+                    // Limpar cache e atualizar quando as preferências mudarem
+                    limparCacheRefeicoes();
+                    exibirRefeicaoAtual();
+                }
+            });
+            
+            // Atualizar quando a página ganha foco (quando volta da página de plano alimentar)
+            window.addEventListener('focus', function() {
+                // Limpar cache para garantir dados atualizados
+                limparCacheRefeicoes();
+                exibirRefeicaoAtual();
+            });
+            
+            // Atualizar quando a página fica visível (para casos de abas)
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    // Limpar cache para garantir dados atualizados
+                    limparCacheRefeicoes();
+                    exibirRefeicaoAtual();
+                }
+            });
         });
 
         // --- Tarefas do Dia ---
