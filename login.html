@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Login - IkigaiHub">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <link rel="icon" href="icons/icon-192x192.png" type="image/png">
+    <title>Login - IkigaiHub</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #121212 60%, #222 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            background: rgba(34, 34, 34, 0.95);
+            box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+            border-radius: 18px;
+            padding: 40px 32px;
+            min-width: 340px;
+            max-width: 95vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+        .login-container h1 {
+            color: #4CAF50;
+            margin-bottom: 8px;
+            font-size: 2rem;
+        }
+        .login-container h2 {
+            color: #f5f5f5;
+            font-size: 1.1rem;
+            margin-bottom: 18px;
+            font-weight: 400;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 10px;
+            background: #181818;
+            color: #f5f5f5;
+            font-size: 1rem;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: #4CAF50;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .login-container button:hover {
+            background: #388e3c;
+        }
+        .login-container .feedback {
+            min-height: 22px;
+            color: #f55;
+            text-align: center;
+            font-size: 0.98rem;
+        }
+        .login-container .back-link {
+            color: #4CAF50;
+            text-decoration: none;
+            margin-top: 10px;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+        .login-container .back-link:hover {
+            color: #81c784;
+        }
+        @media (max-width: 500px) {
+            .login-container {
+                padding: 24px 8px;
+                min-width: unset;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>IkigaiHub</h1>
+        <h2>Bem-vindo! Faça login para acessar seu hub de saúde.</h2>
+        <form id="form-auth">
+            <input id="auth-email" type="email" placeholder="E-mail" required autocomplete="username">
+            <input id="auth-password" type="password" placeholder="Senha" required autocomplete="current-password">
+            <button id="btn-login" type="submit">Entrar</button>
+            <div id="auth-feedback" class="feedback"></div>
+        </form>
+        <a href="index.html" class="back-link">← Voltar para Home</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+    <script>
+        // Configuração do Supabase
+        const supabaseUrl = 'https://nrjvrwglupwuskoevbal.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5yanZyd2dsdXB3dXNrb2V2YmFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2ODc1NDcsImV4cCI6MjA2NjI2MzU0N30.2XDkrjsMdMlnT1g0-7ThLg8Gb9o6zC5Z2enfXB9BOl0';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Elementos da UI
+        const form = document.getElementById('form-auth');
+        const feedback = document.getElementById('auth-feedback');
+
+        // Função de login
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            feedback.textContent = '';
+            const email = document.getElementById('auth-email').value.trim();
+            const password = document.getElementById('auth-password').value;
+            if (!email || !password) {
+                feedback.textContent = 'Preencha e-mail e senha.';
+                return;
+            }
+            feedback.textContent = 'Entrando...';
+            const { error } = await supabase.auth.signInWithPassword({ email, password });
+            if (error) {
+                feedback.textContent = 'Erro: ' + (error.message || 'Não foi possível entrar. Verifique seu e-mail e senha.');
+            } else {
+                feedback.textContent = '';
+                window.location.href = 'index.html';
+            }
+        };
+    </script>
+</body>
+</html> 

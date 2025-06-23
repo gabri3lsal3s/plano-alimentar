@@ -8,7 +8,15 @@
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <link rel="icon" href="icons/icon-192x192.png" type="image/png">
     <title>IkigaiHub - Seu Hub de Saúde</title>
+    <style>
+      body.loading-auth > div,
+      body.loading-auth header,
+      body.loading-auth nav,
+      body.loading-auth footer { display: none !important; }
+      body.loading-auth { background: #121212; }
+    </style>
 </head>
 <body>
     <header>
@@ -76,6 +84,9 @@
                     </div>
     <footer><p></p></footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+    <script src="supabaseTarefas.js"></script>
+    <script src="supabaseNotas.js"></script>
     <script src="script.js"></script>
     <script>
         // Função para determinar a refeição atual baseada no horário
