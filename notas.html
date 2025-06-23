@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notas - Plano Alimentar</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icons/icon-192x192.png">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1>Notas</h1>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Dashboard</a>
+                <a href="plano_alimentar.html" class="nav-link">Receitas</a>
+                <a href="tarefas.html" class="nav-link">Tarefas</a>
+                <a href="notas.html" class="nav-link active">Notas</a>
+                <a href="exercicios.html" class="nav-link">Exercícios</a>
+                <button id="logout-btn" class="btn-logout">Sair</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Conteúdo principal -->
+    <main class="main-content">
+        <div id="app-content">
+            <!-- O conteúdo será carregado dinamicamente pelo JavaScript -->
+        </div>
+    </main>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+    
+    <!-- Scripts -->
+    <script type="module" src="app.js"></script>
+    
+    <!-- Fallback para navegadores sem suporte a módulos -->
+    <script nomodule>
+        console.warn('Seu navegador não suporta módulos ES6. Carregando versão fallback...');
+        // Aqui você pode carregar uma versão alternativa se necessário
+    </script>
+</body>
+</html> 

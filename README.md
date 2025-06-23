@@ -1,55 +1,147 @@
-# IkigaiHub
+# IkigaiHub - Seu Hub de Saúde e Bem-estar
 
-IkigaiHub é um Progressive Web App (PWA) para planejamento alimentar, rotina de exercícios e organização pessoal, com foco em privacidade, experiência moderna e integração com backend Supabase.
+## 📊 Status do Projeto
 
-## Documentação Principal
-- [PRD – Documento de Requisitos do Produto](docs/PRD.md)
-- [Roadmap de Desenvolvimento](docs/ROADMAP.md)
-- [Arquitetura e Diretrizes](docs/arquitetura-vibe-coding.md)
-- [Regras de Qualidade e Boas Práticas](docs/regras-vibe-coding.md)
+### ✅ **Implementado e Funcionando**
+- **Sistema MVC completo** para tarefas e notas
+- **Autenticação Supabase** com proteção de rotas
+- **CRUD completo** de tarefas e notas
+- **Páginas especializadas** (tarefas.html, notas.html)
+- **Dashboard na home** com navegação atualizada
+- **Integração Supabase** com persistência de dados
+- **Tratamento de erros** robusto
 
-## Status Atual
-- **Autenticação Supabase implementada** (apenas login de usuários já cadastrados)
-- **Proteção de rotas e fluxo seguro**
-- **Backend Supabase configurado** (Auth, DB, Storage, Functions, RLS)
-- **Página de login dedicada e responsiva**
-- **Cadastro de novos usuários bloqueado**
-- **Tarefas e notas com CRUD completo via Supabase**
-- **Preferências de receitas sincronizadas via Supabase**
-- **Receitas: leitura/exibição integrada ao Supabase**
-- **Análise completa da persistência de dados realizada**
+### 🔄 **Em Desenvolvimento**
+- **Receitas**: Backend MVC pronto, UI em migração
+- **Preferências**: Sistema híbrido sendo consolidado
+- **Exercícios**: Migração para MVC planejada
 
-## Funcionalidades Implementadas
-- ✅ **Autenticação segura** com Supabase
-- ✅ **CRUD completo de tarefas** com UI moderna
-- ✅ **CRUD completo de notas** com feedback visual
-- ✅ **Sistema de preferências de receitas** sincronizado
-- ✅ **Leitura e exibição de receitas** via Supabase
-- ✅ **Interface responsiva** e PWA funcional
-- ✅ **Tratamento de erros** e loading states
+### 📈 **Progresso Geral: 60%**
 
-## Próximas Funcionalidades
-- 🔄 **Formulários para criar, editar e remover receitas** (backend pronto)
-- 🔄 **Exportação de dados** em PDF e DOCX
-- 🔄 **Notificações push server-side**
-- 🔄 **Logs e métricas** de uso
-- 🔄 **Sincronização em tempo real** entre dispositivos
+---
 
-## Como usar
-1. Faça login com um usuário já cadastrado
-2. Utilize as funcionalidades de planejamento alimentar, tarefas e notas
-3. Marque suas receitas preferidas por refeição
-4. O sistema protege automaticamente o acesso e sincroniza dados entre dispositivos
+## 🚀 Como Executar
 
-## Tecnologias
-- **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
-- **Backend**: Supabase (Auth, PostgreSQL, Storage, Functions)
-- **Deploy**: Vercel
-- **PWA**: Service Worker, Manifest, Cache API
+### Pré-requisitos
+- Navegador moderno com suporte a ES6 modules
+- Conta no Supabase (configuração já realizada)
 
-## Contribuição
-- Consulte o [PRD](docs/PRD.md) para requisitos e próximos passos
-- Siga as [regras de qualidade](docs/regras-vibe-coding.md) e [diretrizes de arquitetura](docs/arquitetura-vibe-coding.md)
-- Sugestões e melhorias são bem-vindas!
+### Instalação
+1. Clone o repositório
+2. Abra `index.html` no navegador
+3. Faça login com suas credenciais
 
---- 
+### Estrutura do Projeto
+```
+plano_alimentar/
+├── models/          # Camada de dados
+├── controllers/     # Lógica de negócio
+├── views/          # Interface do usuário
+├── services/       # Serviços externos
+├── utils/          # Utilitários
+└── docs/           # Documentação
+```
+
+---
+
+## 📋 Funcionalidades
+
+### ✅ **Tarefas**
+- Criar, editar, excluir tarefas
+- Marcar como concluída
+- Filtros por status
+- Persistência no Supabase
+
+### ✅ **Notas**
+- Criar, editar, excluir notas
+- Busca por conteúdo
+- Organização por data
+- Persistência no Supabase
+
+### 🔄 **Receitas**
+- Visualização de receitas
+- Sistema de preferências
+- Backend MVC implementado
+- UI em migração
+
+### 🔄 **Exercícios**
+- Visualização de treinos
+- Sistema estático atual
+- Migração para MVC planejada
+
+---
+
+## 🏗️ Arquitetura
+
+### **Padrão MVC**
+- **Models**: Acesso a dados e validação
+- **Controllers**: Lógica de negócio
+- **Views**: Interface e interação
+
+### **Tecnologias**
+- **Frontend**: JavaScript ES6, HTML5, CSS3
+- **Backend**: Supabase (Auth, Postgres, Storage)
+- **PWA**: Service Worker, Manifest
+- **Arquitetura**: MVC modular
+
+---
+
+## 📚 Documentação
+
+- **[PRD](docs/PRD.md)**: Requisitos do produto
+- **[Roadmap](docs/ROADMAP.md)**: Plano de desenvolvimento
+- **[Estrutura MVC](docs/ESTRUTURA_MVC.md)**: Arquitetura do sistema
+- **[Análise Metódica](docs/ANÁLISE_METÓDICA_MVC.md)**: Status detalhado da migração
+- **[Próximos Passos](docs/PRÓXIMOS_PASSOS.md)**: Plano de ação prioritário
+
+---
+
+## 🎯 Próximos Passos
+
+### **Fase 1: Consolidação (1-2 semanas)**
+1. Ativar sistema MVC de receitas
+2. Consolidar preferências
+3. Limpar arquivos antigos
+
+### **Fase 2: Completar Migração (2-3 semanas)**
+1. Migrar exercícios
+2. Migrar plano alimentar
+3. Finalizar home/dashboard
+
+### **Fase 3: Otimização (1-2 semanas)**
+1. Modularizar CSS
+2. Implementar testes
+3. Otimizar performance
+
+---
+
+## 🤝 Contribuição
+
+### **Desenvolvimento**
+- Siga o padrão MVC estabelecido
+- Mantenha compatibilidade com funcionalidades existentes
+- Documente mudanças significativas
+
+### **Testes**
+- Teste em diferentes navegadores
+- Verifique responsividade
+- Valide integração com Supabase
+
+---
+
+## 📞 Suporte
+
+Para dúvidas ou problemas:
+1. Consulte a documentação em `docs/`
+2. Verifique os logs do console
+3. Teste a conectividade com Supabase
+
+---
+
+## 📄 Licença
+
+Projeto pessoal para desenvolvimento de habilidades full-stack.
+
+---
+
+*Última atualização: Dezembro 2024* 

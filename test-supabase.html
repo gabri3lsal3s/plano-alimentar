@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Supabase</title>
+</head>
+<body>
+    <h1>Teste do Supabase</h1>
+    <div id="status">Carregando...</div>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+    
+    <!-- Teste -->
+    <script type="module">
+        import supabaseService from './services/SupabaseService.js';
+        
+        async function testSupabase() {
+            try {
+                const statusDiv = document.getElementById('status');
+                statusDiv.textContent = 'Testando Supabase...';
+                
+                // Testa se o SDK está carregado
+                if (!window.supabase) {
+                    throw new Error('SDK do Supabase não está disponível');
+                }
+                
+                statusDiv.textContent = 'SDK carregado. Testando conexão...';
+                
+                // Testa a conexão
+                const client = supabaseService.getClient();
+                if (!client) {
+                    throw new Error('Cliente Supabase não foi criado');
+                }
+                
+                statusDiv.textContent = 'Cliente criado. Testando autenticação...';
+                
+                // Testa autenticação
+                const isAuth = await supabaseService.isAuthenticated();
+                statusDiv.textContent = `Teste concluído! Autenticado: ${isAuth}`;
+                
+                console.log('✅ Supabase funcionando corretamente!');
+                
+            } catch (error) {
+                console.error('❌ Erro no teste:', error);
+                document.getElementById('status').textContent = `Erro: ${error.message}`;
+            }
+        }
+        
+        // Executa o teste quando a página carregar
+        window.addEventListener('DOMContentLoaded', testSupabase);
+    </script>
+</body>
+</html> 

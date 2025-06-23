@@ -25,6 +25,8 @@
         <nav>
             <a href="index.html" class="active">Home</a>
             <a href="plano_alimentar.html">Plano Alimentar</a>
+            <a href="tarefas.html">Tarefas</a>
+            <a href="notas.html">Notas</a>
             <a href="exercicios.html">Exercícios</a>
         </nav>
     </header>
@@ -51,47 +53,51 @@
                 </div>
             </div>
         </section>
-                    </div>
+    </div>
                     
     <div class="extras-columns">
         <div class="extras-single-column">
-            <section id="tarefas-dia">
-                <div class="tarefas-bloco">
-                    <h4>Tarefas do Dia</h4>
-                    <form id="form-tarefa">
-                        <input type="text" id="input-tarefa" placeholder="Adicionar nova tarefa..." maxlength="80" autocomplete="off">
-                        <button type="submit">Adicionar</button>
-                    </form>
-                    <ul id="lista-tarefas"></ul>
-                    <h5 class="tarefas-feitas-titulo">Tarefas Feitas</h5>
-                    <ul id="lista-tarefas-feitas"></ul>
-                    <button id="copiar-tarefas" class="btn-copiar">Copiar</button>
+            <section id="resumo-dashboard">
+                <div class="dashboard-bloco">
+                    <h4>Resumo do Dia</h4>
+                    <div class="dashboard-links">
+                        <a href="tarefas.html" class="dashboard-link">
+                            <span>📋</span>
+                            <span>Gerenciar Tarefas</span>
+                        </a>
+                        <a href="notas.html" class="dashboard-link">
+                            <span>📝</span>
+                            <span>Gerenciar Notas</span>
+                        </a>
+                        <a href="plano_alimentar.html" class="dashboard-link">
+                            <span>🍽️</span>
+                            <span>Ver Receitas</span>
+                        </a>
+                        <a href="exercicios.html" class="dashboard-link">
+                            <span>💪</span>
+                            <span>Ver Exercícios</span>
+                        </a>
+                    </div>
                 </div>
             </section>
-            <section id="notas-dia">
-                <div class="notas-bloco">
-                    <h4>Notas do Dia</h4>
-                    <div class="nota-input-row">
-                        <textarea id="nota-dia" rows="4" placeholder="Escreva suas notas do dia..."></textarea>
-                        <button id="salvar-nota">Salvar Nota</button>
-                    </div>
-                    <h5 class="notas-historico-titulo">Histórico de Notas</h5>
-                    <ul id="notas-historico"></ul>
-                    <button id="copiar-notas" class="btn-copiar">Copiar</button>
-                </div>
-            </section>
-                        </div>
-                    </div>
+        </div>
+    </div>
+    
     <footer><p></p></footer>
 
+    <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
-    <script src="supabaseTarefas.js"></script>
-    <script src="supabaseNotas.js"></script>
+    
+    <!-- Módulos existentes (mantidos para compatibilidade) -->
     <script src="supabaseReceitas.js"></script>
     <script src="supabasePreferencias.js"></script>
-    <script src="script.js"></script>
+    
+    <!-- Novo sistema MVC -->
+    <script type="module" src="app.js"></script>
+    
+    <!-- Scripts de fallback para funcionalidades existentes -->
     <script>
-        // Função para determinar a refeição atual baseada no horário
+        // Funções de fallback para manter compatibilidade
         function getRefeicaoAtual() {
             const agora = new Date();
             const hora = agora.getHours();
@@ -107,7 +113,7 @@
             if (hora >= 17 && hora < 19) return 'janta';
             return 'ceia';
         }
-        // Função para determinar o exercício atual baseado no dia da semana
+        
         function getExercicioAtual() {
             const agora = new Date();
             const diaSemana = agora.getDay();
@@ -122,6 +128,7 @@
                 default: return 'adicional';
             }
         }
+        
         // Dados de fallback caso o fetch falhe
         const dadosFallback = {
             refeicoes: {
@@ -199,421 +206,157 @@
                 },
                 janta: { 
                     nome: "Janta", 
-                    horario: "18h às 20h", 
+                    horario: "19h às 21h", 
                     receitas: [
                         { 
-                            titulo: "Sopa de Frango com Legumes", 
-                            ingredientes: ["150g de peito de frango em cubos", "1 batata média cortada em cubos", "1 cenoura cortada em rodelas", "1 xícara de repolho em tiras", "1 cebola picada", "2 colheres de sopa de azeite", "1 litro de água quente", "Sal e pimenta a gosto"], 
-                            preparo: "Tempere o frango com sal e pimenta. Refogue com azeite até dourar, adicione cebola e legumes. Acrescente água quente e cozinhe por 1 hora", 
-                            calorias: "~650 kcal, 32g proteína, 65g carboidratos, 18g gorduras" 
+                            titulo: "Sopa Proteica de Frango", 
+                            ingredientes: ["150g de peito de frango", "100g de macaxeira", "50g de cenoura", "30g de abobrinha", "1 colher de azeite", "Temperos verdes"], 
+                            preparo: "Cozinhe o frango, adicione os legumes e macaxeira. Tempere e sirva quente", 
+                            calorias: "~420 kcal, 35g proteína, 45g carboidratos, 12g gorduras" 
                         },
                         {
-                            titulo: "Escondidinho de Frango com Macaxeira",
-                            ingredientes: ["500g de macaxeira cozida", "150g de peito de frango cozido e desfiado", "100g de queijo mussarela", "2 colheres de sopa de creme de leite", "1 cebola cortada em rodelas", "50g de queijo ralado", "Cheiro verde picado", "Sal a gosto"],
-                            preparo: "Amasse a macaxeira com creme de leite e queijo ralado. Refogue o frango com cebola e temperos. Monte em camadas e leve ao forno por 20 minutos",
-                            calorias: "~720 kcal, 35g proteína, 55g carboidratos, 25g gorduras"
+                            titulo: "Omelete de Queijo Cottage",
+                            ingredientes: ["3 ovos", "50g de queijo cottage", "30g de espinafre", "1 colher de azeite", "Sal e pimenta"],
+                            preparo: "Bata os ovos, adicione o cottage e espinafre. Refogue com azeite até firmar",
+                            calorias: "~380 kcal, 28g proteína, 5g carboidratos, 25g gorduras"
                         }
                     ]
                 },
                 ceia: { 
                     nome: "Ceia", 
-                    horario: "19h às 22h", 
+                    horario: "21h às 23h", 
                     receitas: [
                         { 
-                            titulo: "Queijo Cottage com Frutas", 
-                            ingredientes: ["100g de queijo cottage", "1 pera pequena", "5g de mel", "Canela em pó"], 
-                            preparo: "Sirva o queijo cottage com a pera fatiada, regue com mel e polvilhe canela", 
-                            calorias: "~220 kcal, 15g proteína, 25g carboidratos, 5g gorduras" 
+                            titulo: "Iogurte com Aveia", 
+                            ingredientes: ["150g de iogurte grego", "20g de aveia", "10g de mel", "Canela a gosto"], 
+                            preparo: "Misture o iogurte com aveia, mel e canela. Consuma antes de dormir", 
+                            calorias: "~280 kcal, 18g proteína, 35g carboidratos, 8g gorduras" 
                         },
                         {
-                            titulo: "Iogurte Grego Natural",
-                            ingredientes: ["150g de iogurte grego", "10g de granola", "Frutas vermelhas"],
-                            preparo: "Misture o iogurte com as frutas vermelhas e finalize com granola por cima",
-                            calorias: "~280 kcal, 18g proteína, 22g carboidratos, 12g gorduras"
+                            titulo: "Chá com Castanhas",
+                            ingredientes: ["1 xícara de chá verde", "15g de castanha-do-Pará", "1 colher de mel"],
+                            preparo: "Prepare o chá, adicione as castanhas e mel. Consuma antes de dormir",
+                            calorias: "~180 kcal, 5g proteína, 15g carboidratos, 12g gorduras"
                         }
                     ]
                 }
             },
             exercicios: {
-                segunda: { nome: "Segunda-feira", titulo: "Sessão A (Peito, Tríceps, Ombros) + Kung Fu", exercicios: ["Supino Reto com Barra – 4×8-12", "Supino Inclinado com Halteres – 3×8-10", "Desenvolvimento Militar Sentado – 3×8-12", "Tríceps Testa com Barra W – 3×10-12", "Elevação Lateral – 3×12-15", "Mergulho – 2×máx.", "Kung Fu: Treino técnico leve (45 min)"] },
-                terca: { nome: "Terça-feira", titulo: "Sessão B (Costas, Bíceps, Abdômen)", exercicios: ["Puxada na Barra Fixa/Pulldown – 4×6-10", "Remada Curvada – 3×8-12", "Remada Unilateral – 3×10-12", "Rosca Direta – 3×8-12", "Rosca Martelo – 2×10-12", "Prancha – 3×45 s", "Abdominais – 3×10"] },
-                quarta: { nome: "Quarta-feira", titulo: "Sessão C (Pernas, Glúteos)", exercicios: ["Agachamento Livre – 4×8-10", "Leg Press 45° – 3×10-12", "Stiff com Barra – 3×8-12", "Avanço com Halteres – 3×10/leg", "Cadeira Extensora – 2×12-15", "Panturrilha em Pé – 4×12-20"] },
-                quinta: { nome: "Quinta-feira", titulo: "Sessão D (Costas Leves, Bíceps, Core) + Kung Fu", exercicios: ["Pulldown Neutra – 3×8-12", "Remada Baixa – 3×10-12", "Rosca Scott – 3×8-12", "Hiperextensão Lombar – 3×12-15", "Abdominais Bicicleta – 3×20", "Prancha Lateral – 2×30 s/cada", "Kung Fu: Combate leve (45 min)"] },
-                adicional: { nome: "Fim de Semana", titulo: "Exercícios Adicionais", exercicios: ["Cardio: Corrida ou Bicicleta – 20-30 min", "Alongamento Dinâmico – 10 min", "Mobilidade de Ombro – 5 min", "Respiração Diafragmática – 5 min", "Meditação – 10 min"] }
+                segunda: {
+                    nome: "Segunda-feira - Treino A (Superior)",
+                    exercicios: [
+                        "Supino Reto: 4x8-10",
+                        "Desenvolvimento com Halteres: 4x8-10",
+                        "Remada Curvada: 4x8-10",
+                        "Elevação Lateral: 3x10-12",
+                        "Tríceps Corda: 3x10-12",
+                        "Bíceps Martelo: 3x10-12"
+                    ]
+                },
+                terca: {
+                    nome: "Terça-feira - Treino B (Inferior)",
+                    exercicios: [
+                        "Agachamento Livre: 4x8-10",
+                        "Leg Press: 4x8-10",
+                        "Extensão de Pernas: 3x10-12",
+                        "Flexão de Pernas: 3x10-12",
+                        "Elevação de Panturrilha: 4x12-15",
+                        "Abdominal Crunch: 3x15-20"
+                    ]
+                },
+                quarta: {
+                    nome: "Quarta-feira - Descanso/Cardio",
+                    exercicios: [
+                        "Cardio leve (caminhada ou bike): 30-45 min",
+                        "Alongamento: 15-20 min",
+                        "Descanso ativo"
+                    ]
+                },
+                quinta: {
+                    nome: "Quinta-feira - Treino C (Superior)",
+                    exercicios: [
+                        "Supino Inclinado: 4x8-10",
+                        "Puxada na Frente: 4x8-10",
+                        "Elevação Frontal: 3x10-12",
+                        "Remada Baixa: 4x8-10",
+                        "Rosca Direta: 3x10-12",
+                        "Tríceps Testa: 3x10-12"
+                    ]
+                },
+                sexta: {
+                    nome: "Sexta-feira - Treino D (Inferior)",
+                    exercicios: [
+                        "Agachamento Sumô: 4x8-10",
+                        "Stiff: 4x8-10",
+                        "Avanço: 3x10-12 (cada perna)",
+                        "Extensão de Pernas: 3x10-12",
+                        "Elevação de Panturrilha Sentado: 4x12-15",
+                        "Prancha: 3x30-60 segundos"
+                    ]
+                },
+                adicional: {
+                    nome: "Fim de Semana - Cardio/Descanso",
+                    exercicios: [
+                        "Cardio moderado: 45-60 min",
+                        "Alongamento: 20-30 min",
+                        "Descanso e recuperação",
+                        "Atividades recreativas"
+                    ]
+                }
             }
         };
-        // Função para buscar dados da página de plano alimentar
-        async function buscarDadosRefeicoes() {
-            try {
-                const response = await fetch('plano_alimentar.html');
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        // Função para exibir refeição atual (fallback)
+        function exibirRefeicaoAtual() {
+            const refeicaoAtual = getRefeicaoAtual();
+            const refeicaoContent = document.getElementById('refeicao-content');
+            
+            if (refeicaoContent && dadosFallback.refeicoes[refeicaoAtual]) {
+                const refeicao = dadosFallback.refeicoes[refeicaoAtual];
+                const receita = refeicao.receitas[0]; // Primeira receita da seção
                 
-                const html = await response.text();
-                const cleanHtml = html;
-                
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(cleanHtml, 'text/html');
-                
-                // Verificar se há erros de parsing
-                const parserError = doc.querySelector('parsererror');
-                if (parserError) {
-                    throw new Error('Erro no parsing do HTML');
-                }
-                
-                const refeicoes = {};
-                const secoes = ['cafe', 'lancheM', 'almoco', 'lancheT', 'janta', 'ceia'];
-                
-                secoes.forEach(secao => {
-                    const elemento = doc.getElementById(secao);
-                    
-                    if (elemento) {
-                        const h3 = elemento.querySelector('h3');
-                        const ul = elemento.querySelector('ul');
-                        
-                        if (h3 && ul) {
-                            const partes = h3.textContent.split('—');
-                            const nome = partes[0]?.trim() || '';
-                            const horario = partes[1]?.trim() || '';
-                            const receitas = [];
-                            
-                            // Buscar todas as receitas (li dentro do ul)
-                            const receitasLi = ul.querySelectorAll('li');
-                            
-                            receitasLi.forEach((item, index) => {
-                                const h4 = item.querySelector('h4');
-                                
-                                if (h4) {
-                                    const titulo = h4.textContent;
-                                    let ingredientes = [];
-                                    let preparo = '';
-                                    let calorias = '';
-                                    
-                                    // Buscar ingredientes - procurar por ol dentro do li
-                                    const ol = item.querySelector('ol');
-                                    if (ol) {
-                                        const ingredientesLi = ol.querySelectorAll('li');
-                                        ingredientes = Array.from(ingredientesLi).map(li => li.textContent.trim());
-                                    }
-                                    
-                                    // Buscar preparo e valores nutricionais - procurar por p com strong
-                                    const paragrafos = item.querySelectorAll('p');
-                                    paragrafos.forEach(p => {
-                                        const text = p.textContent.trim();
-                                        
-                                        if (text.includes('Preparo:')) {
-                                            preparo = text.replace('Preparo:', '').trim();
-                                        } else if (text.includes('Valores nutricionais:')) {
-                                            calorias = text.replace('Valores nutricionais:', '').trim();
-                                        }
-                                    });
-                                    
-                                    if (titulo && ingredientes.length > 0) {
-                                        receitas.push({ titulo, ingredientes, preparo, calorias });
-                                    }
-                                }
-                            });
-                            
-                            if (receitas.length > 0) {
-                                refeicoes[secao] = { nome, horario, receitas };
-                            }
-                        }
-                    }
-                });
-                
-                if (Object.keys(refeicoes).length === 0) {
-                    return dadosFallback.refeicoes;
-                }
-                
-                return refeicoes;
-            } catch (error) {
-                console.error('Erro ao buscar dados das refeições:', error);
-                return dadosFallback.refeicoes;
+                refeicaoContent.innerHTML = `
+                    <div class="refeicao-info">
+                        <h5>${refeicao.nome}</h5>
+                        <h6>${refeicao.horario}</h6>
+                        <p><strong>${receita.titulo}</strong></p>
+                        <ul>
+                            ${receita.ingredientes.map(ingrediente => `<li>${ingrediente}</li>`).join('')}
+                        </ul>
+                        <p><strong>Preparo:</strong> ${receita.preparo}</p>
+                        <p><strong>Calorias:</strong> ${receita.calorias}</p>
+                    </div>
+                `;
             }
         }
-        // Função para buscar dados da página de exercícios
-        async function buscarDadosExercicios() {
-            try {
-                const response = await fetch('exercicios.html');
-                if (!response.ok) throw new Error();
-                const html = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const exercicios = {};
-                const secoes = ['segunda', 'terca', 'quarta', 'quinta', 'adicional'];
-                secoes.forEach(secao => {
-                    const elemento = doc.getElementById(secao);
-                    if (elemento) {
-                        const h3 = elemento.querySelector('h3');
-                        const ul = elemento.querySelector('ul');
-                        if (h3 && ul) {
-                            const partes = h3.textContent.split('—');
-                            const nome = partes[0]?.trim() || '';
-                            const titulo = partes[1]?.trim() || h3.textContent;
-                            const exerciciosList = Array.from(ul.querySelectorAll('li')).map(li => li.textContent);
-                            if (exerciciosList.length > 0) {
-                                exercicios[secao] = { nome, titulo, exercicios: exerciciosList };
-                            }
-                        }
-                    }
-                });
-                return Object.keys(exercicios).length > 0 ? exercicios : dadosFallback.exercicios;
-            } catch (error) {
-                return dadosFallback.exercicios;
-            }
-        }
-        // Função para obter receita preferida (para uso na página home)
-        function obterReceitaPreferida(secao, receitas) {
-            const preferencias = JSON.parse(localStorage.getItem('preferenciasReceitas') || '{}');
-            const preferencia = preferencias[secao];
+
+        // Função para exibir exercício atual (fallback)
+        function exibirExercicioAtual() {
+            const exercicioAtual = getExercicioAtual();
+            const exercicioContent = document.getElementById('exercicio-content');
             
-            if (preferencia) {
-                // Teste de comparação exata
-                let receitaPreferida = receitas.find(receita => receita.titulo === preferencia);
+            if (exercicioContent && dadosFallback.exercicios[exercicioAtual]) {
+                const exercicio = dadosFallback.exercicios[exercicioAtual];
                 
-                // Se não encontrar, tentar comparação case-insensitive
-                if (!receitaPreferida) {
-                    receitaPreferida = receitas.find(receita => 
-                        receita.titulo.toLowerCase() === preferencia.toLowerCase()
-                    );
-                }
-                
-                // Se ainda não encontrar, tentar comparação parcial
-                if (!receitaPreferida) {
-                    receitaPreferida = receitas.find(receita => 
-                        receita.titulo.includes(preferencia) || preferencia.includes(receita.titulo)
-                    );
-                }
-                
-                if (receitaPreferida) {
-                    return receitaPreferida;
-                }
+                exercicioContent.innerHTML = `
+                    <div class="exercicio-info">
+                        <h5>${exercicio.nome}</h5>
+                        <ul>
+                            ${exercicio.exercicios.map(ex => `<li>${ex}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
             }
-            
-            return receitas[0];
         }
-        
-        // Variável para armazenar os dados das refeições
-        let dadosRefeicoesCache = null;
-        
-        // Função para limpar cache e forçar atualização
-        function limparCacheRefeicoes() {
-            dadosRefeicoesCache = null;
-        }
-        
-        // Função para exibir a refeição atual
-        async function exibirRefeicaoAtual() {
-            // Buscar dados apenas se não estiverem em cache
-            if (!dadosRefeicoesCache) {
-                dadosRefeicoesCache = await buscarDadosRefeicoes();
-            }
-            
-            if (!dadosRefeicoesCache) {
-                document.getElementById('refeicao-content').innerHTML = '<p>Erro ao carregar dados das refeições</p>';
-                return;
-            }
-            
-            const refeicaoKey = getRefeicaoAtual();
-            
-            const refeicao = dadosRefeicoesCache[refeicaoKey];
-            
-            if (!refeicao || !refeicao.receitas || refeicao.receitas.length === 0) {
-                document.getElementById('refeicao-content').innerHTML = '<p>Nenhuma refeição encontrada para este horário</p>';
-                return;
-            }
-            
-            // Obter receita preferida ou primeira receita
-            const receita = obterReceitaPreferida(refeicaoKey, refeicao.receitas);
-            
-            const content = document.getElementById('refeicao-content');
-            const htmlContent = `
-                <div class="refeicao-info">
-                    <h5>${refeicao.nome} — ${refeicao.horario}</h5>
-                    <h6>${receita.titulo}</h6>
-                    <p><strong>Ingredientes:</strong></p>
-                    <ul>
-                        ${receita.ingredientes.map(ing => `<li>${ing}</li>`).join('')}
-                    </ul>
-                    <p><strong>Preparo:</strong> ${receita.preparo}</p>
-                    <p><strong>Valores nutricionais:</strong> ${receita.calorias}</p>
-                </div>
-            `;
-            
-            content.innerHTML = htmlContent;
-        }
-        // Função para exibir o exercício atual
-        async function exibirExercicioAtual() {
-            const exercicios = await buscarDadosExercicios();
-            if (!exercicios) {
-                document.getElementById('exercicio-content').innerHTML = '<p>Erro ao carregar dados dos exercícios</p>';
-                return;
-            }
-            const exercicioKey = getExercicioAtual();
-            const exercicio = exercicios[exercicioKey];
-            if (!exercicio) {
-                document.getElementById('exercicio-content').innerHTML = '<p>Nenhum exercício encontrado para hoje</p>';
-                return;
-            }
-            const content = document.getElementById('exercicio-content');
-            content.innerHTML = `
-                <div class="exercicio-info">
-                    <h5>${exercicio.nome}</h5>
-                    <h6>${exercicio.titulo}</h6>
-                    <ul>
-                        ${exercicio.exercicios.map(ex => `<li>${ex}</li>`).join('')}
-                    </ul>
-                </div>
-            `;
-        }
-        // Inicializar página
-        document.addEventListener('DOMContentLoaded', function() {
-            exibirRefeicaoAtual();
-            exibirExercicioAtual();
-            
-            // Listener para mudanças no localStorage (preferências)
-            window.addEventListener('storage', function(e) {
-                if (e.key === 'preferenciasReceitas') {
-                    // Limpar cache e atualizar quando as preferências mudarem
-                    limparCacheRefeicoes();
-                    exibirRefeicaoAtual();
-                }
-            });
-            
-            // Atualizar quando a página ganha foco (quando volta da página de plano alimentar)
-            window.addEventListener('focus', function() {
-                // Limpar cache para garantir dados atualizados
-                limparCacheRefeicoes();
+
+        // Executa fallbacks se o sistema MVC não estiver disponível
+        setTimeout(() => {
+            if (!window.app) {
+                console.log('Sistema MVC não disponível, usando fallbacks...');
                 exibirRefeicaoAtual();
-            });
-            
-            // Atualizar quando a página fica visível (para casos de abas)
-            document.addEventListener('visibilitychange', function() {
-                if (!document.hidden) {
-                    // Limpar cache para garantir dados atualizados
-                    limparCacheRefeicoes();
-                    exibirRefeicaoAtual();
-                }
-            });
-        });
-
-        // --- Tarefas do Dia ---
-        function renderTarefas() {
-            const tarefas = JSON.parse(localStorage.getItem('tarefasDia') || '[]');
-            const feitas = JSON.parse(localStorage.getItem('tarefasFeitas') || '[]');
-            const ul = document.getElementById('lista-tarefas');
-            ul.innerHTML = '';
-            tarefas.forEach((tarefa, idx) => {
-                const li = document.createElement('li');
-                li.textContent = tarefa;
-                li.style.cursor = 'pointer';
-                li.title = 'Clique para marcar como feita';
-                li.onclick = () => {
-                    tarefas.splice(idx, 1);
-                    feitas.unshift(tarefa);
-                    localStorage.setItem('tarefasDia', JSON.stringify(tarefas));
-                    localStorage.setItem('tarefasFeitas', JSON.stringify(feitas));
-                    renderTarefas();
-                };
-                ul.appendChild(li);
-            });
-            // Renderizar tarefas feitas
-            const ulFeitas = document.getElementById('lista-tarefas-feitas');
-            ulFeitas.innerHTML = '';
-            feitas.forEach((tarefa, idx) => {
-                const li = document.createElement('li');
-                li.textContent = tarefa;
-                li.style.textDecoration = 'line-through';
-                li.style.opacity = '0.7';
-                li.style.cursor = 'pointer';
-                li.title = 'Clique para remover da lista de feitas';
-                li.onclick = () => {
-                    feitas.splice(idx, 1);
-                    localStorage.setItem('tarefasFeitas', JSON.stringify(feitas));
-                    renderTarefas();
-                };
-                ulFeitas.appendChild(li);
-            });
-            // Mostrar ou esconder o título h5
-            const h5Feitas = document.querySelector('.tarefas-feitas-titulo');
-            h5Feitas.style.display = feitas.length > 0 ? 'block' : 'none';
-        }
-        document.getElementById('form-tarefa').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const input = document.getElementById('input-tarefa');
-            const val = input.value.trim();
-            if (val) {
-                const tarefas = JSON.parse(localStorage.getItem('tarefasDia') || '[]');
-                tarefas.push(val);
-                localStorage.setItem('tarefasDia', JSON.stringify(tarefas));
-                input.value = '';
-                renderTarefas();
+                exibirExercicioAtual();
             }
-        });
-        renderTarefas();
-        // --- Notas do Dia ---
-        function renderNota() {
-            const nota = localStorage.getItem('notaDia') || '';
-            document.getElementById('nota-dia').value = nota;
-            // Renderizar histórico de notas
-            const historico = JSON.parse(localStorage.getItem('notasHistorico') || '[]');
-            const ulHistorico = document.getElementById('notas-historico');
-            ulHistorico.innerHTML = '';
-            historico.forEach((n, idx) => {
-                const li = document.createElement('li');
-                li.textContent = n.texto + (n.data ? ` (${n.data})` : '');
-                li.title = 'Clique para remover do histórico';
-                li.style.cursor = 'pointer';
-                li.onclick = () => {
-                    historico.splice(idx, 1);
-                    localStorage.setItem('notasHistorico', JSON.stringify(historico));
-                    renderNota();
-                };
-                ulHistorico.appendChild(li);
-            });
-            // Mostrar ou esconder o título h5
-            const h5Historico = document.querySelector('.notas-historico-titulo');
-            h5Historico.style.display = historico.length > 0 ? 'block' : 'none';
-        }
-        document.getElementById('salvar-nota').addEventListener('click', function() {
-            const nota = document.getElementById('nota-dia').value.trim();
-            localStorage.setItem('notaDia', nota);
-            if (nota) {
-                let historico = JSON.parse(localStorage.getItem('notasHistorico') || '[]');
-                historico.unshift({ texto: nota, data: new Date().toLocaleDateString('pt-BR') });
-                historico = historico.slice(0, 10); // Limita a 10 notas
-                localStorage.setItem('notasHistorico', JSON.stringify(historico));
-            }
-            renderNota();
-        });
-        renderNota();
-
-        // --- Funções de Cópia ---
-        function showCopiedMessage(button) {
-            const originalText = button.textContent;
-            button.textContent = 'Copiado!';
-            button.style.backgroundColor = '#388e3c';
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.style.backgroundColor = 'rgba(76, 175, 80, 0.2)';
-            }, 1500);
-        }
-
-        document.getElementById('copiar-tarefas').addEventListener('click', function() {
-            const tarefas = JSON.parse(localStorage.getItem('tarefasDia') || '[]');
-            if (tarefas.length === 0) return;
-            const textoTarefas = tarefas.map(t => `• ${t}`).join('\n');
-            navigator.clipboard.writeText(textoTarefas).then(() => {
-                showCopiedMessage(this);
-            }).catch(err => console.error('Erro ao copiar tarefas:', err));
-        });
-
-        document.getElementById('copiar-notas').addEventListener('click', function() {
-            const historico = JSON.parse(localStorage.getItem('notasHistorico') || '[]');
-            if (historico.length === 0) return;
-            const textoNotas = historico.map(n => `• ${n.data}: ${n.texto}`).join('\n');
-            navigator.clipboard.writeText(textoNotas).then(() => {
-                showCopiedMessage(this);
-            }).catch(err => console.error('Erro ao copiar notas:', err));
-        });
+        }, 2000);
     </script>
 </body>
 </html> 
