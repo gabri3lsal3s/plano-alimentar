@@ -89,4 +89,9 @@
 6. Estrutura para IA: preparar endpoints para integração futura.
 7. Testes e documentação: cobrir fluxos críticos com testes e atualizar a documentação.
 
+### [2024-06-XX] Sincronização de Preferências via Supabase
+- Preferências de receitas agora são persistidas e sincronizadas no backend (Supabase).
+- Usuário pode marcar/desmarcar uma receita preferida por seção, e a preferência é mantida entre dispositivos.
+- Removido botão de popular receitas de exemplo (apenas para dev, não faz parte do produto final).
+
 --- 

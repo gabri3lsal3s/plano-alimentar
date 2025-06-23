@@ -80,4 +80,10 @@ O objetivo desta fase é transformar o IkigaiHub em um PWA com backend robusto, 
 6. Preparar endpoints para integração futura com IA.
 7. Cobrir fluxos críticos com testes e atualizar a documentação.
 
+## Atualização 2024-06-XX
+- Preferências de receitas agora são sincronizadas via Supabase, não mais localStorage.
+- Usuário pode marcar/desmarcar uma receita preferida por seção, e a preferência é mantida entre dispositivos.
+- Removido botão de popular receitas de exemplo (apenas para dev, não faz parte do produto final).
+- Critérios de aceite e fluxos atualizados para refletir a persistência no backend.
+
 --- 
