@@ -50,9 +50,15 @@
    - [x] Botão de logout funcional e acessível
 
 3. **Persistência de Dados**
-   - [ ] Refatorar frontend para consumir APIs do Supabase para receitas, tarefas, notas e preferências
-   - [ ] Sincronizar dados entre dispositivos
-   - [ ] Implementar tratamento de erros e loading states
+   - [x] **Análise completa do código atual realizada**
+   - [x] **Mapeamento do fluxo de receitas identificado**
+   - [x] **Backend de receitas pronto (supabaseReceitas.js)**
+   - [x] **Leitura/exibição de receitas integrada ao Supabase**
+   - [x] **Preferências de receitas sincronizadas via Supabase**
+   - [x] **Tarefas e notas com CRUD completo**
+   - [ ] **Implementar formulários e botões na UI para criar, editar e remover receitas**
+   - [ ] **Garantir sincronização entre dispositivos**
+   - [ ] **Implementar tratamento de erros e loading states para CRUD de receitas**
 
 4. **Exportação de Dados**
    - [ ] Implementar exportação de dados em PDF e DOCX (primeiro no frontend, depois via Supabase Functions se necessário)
@@ -79,15 +85,26 @@
 - O sistema está seguro: apenas usuários já cadastrados podem acessar.
 - O fluxo de autenticação está robusto, com proteção de rotas e feedback visual.
 - O ambiente Supabase está pronto para persistência, notificações e logs.
+- **Backend de receitas já implementado e funcional.**
+- **UI precisa de formulários para CRUD completo de receitas.**
 
 ## Próximos Passos Sugeridos
-1. Persistência de dados: migrar tarefas, notas, receitas e preferências para o Supabase, refatorando o frontend para consumir e atualizar dados em tempo real.
-2. Sincronização: garantir que alterações feitas em um dispositivo apareçam em outros (realtime ou polling).
-3. Exportação: implementar exportação de dados em PDF/DOCX, com logs de exportação.
-4. Notificações: ativar e testar notificações push server-side.
-5. Logs e métricas: registrar eventos críticos e exibir métricas básicas.
-6. Estrutura para IA: preparar endpoints para integração futura.
-7. Testes e documentação: cobrir fluxos críticos com testes e atualizar a documentação.
+1. **Persistência de dados**: implementar formulários e botões na UI para criar, editar e remover receitas, integrando com as funções Supabase já existentes.
+2. **Sincronização**: garantir que alterações feitas em um dispositivo apareçam em outros (realtime ou polling).
+3. **Exportação**: implementar exportação de dados em PDF/DOCX, com logs de exportação.
+4. **Notificações**: ativar e testar notificações push server-side.
+5. **Logs e métricas**: registrar eventos críticos e exibir métricas básicas.
+6. **Estrutura para IA**: preparar endpoints para integração futura.
+7. **Testes e documentação**: cobrir fluxos críticos com testes e atualizar a documentação.
+
+### [2024-12-19] Análise Completa da Persistência de Dados
+- **Mapeamento realizado**: identificado que leitura/exibição de receitas já está integrada ao Supabase.
+- **Backend pronto**: todas as funções de CRUD para receitas já implementadas em supabaseReceitas.js.
+- **UI pendente**: necessidade de formulários e botões para criação, edição e remoção de receitas.
+- **Preferências sincronizadas**: sistema de preferências já migrado e funcionando via Supabase.
+- **Tarefas e notas**: CRUD completo implementado e integrado.
+
+---
 
 ### [2024-06-XX] Sincronização de Preferências via Supabase
 - Preferências de receitas agora são persistidas e sincronizadas no backend (Supabase).

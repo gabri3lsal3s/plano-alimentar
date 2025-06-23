@@ -9,7 +9,8 @@
 - Botão de logout funcional
 - Cadastro de novos usuários bloqueado
 - **Tarefas e notas migradas e integradas ao Supabase (CRUD completo, UI moderna, feedback visual, tratamento de erros)**
-- Receitas e preferências ainda a migrar
+- **Preferências de receitas migradas e sincronizadas via Supabase**
+- **Receitas: leitura/exibição já integrada ao Supabase, criação/edição/remoção pendente na UI**
 
 ## Visão Geral
 O objetivo desta fase é transformar o IkigaiHub em um PWA com backend robusto, usando Supabase para autenticação, persistência, notificações server-side e exportação de dados, mantendo deploy simples na Vercel.
@@ -23,7 +24,7 @@ O objetivo desta fase é transformar o IkigaiHub em um PWA com backend robusto, 
 - Preparar para integração futura com IA
 
 ## Requisitos Funcionais (próximos passos)
-- CRUD de receitas e preferências via Supabase (com integridade relacional)
+- **CRUD completo de receitas via Supabase (criação, edição, remoção na UI)**
 - Sincronização de dados em tempo real entre dispositivos (opcional)
 - Exportação de dados em PDF e DOCX (frontend e/ou Supabase Functions)
 - Notificações push server-side
@@ -41,7 +42,8 @@ O objetivo desta fase é transformar o IkigaiHub em um PWA com backend robusto, 
 ## Critérios de Aceite
 - Login/logout funcionando e seguro
 - Dados de tarefas e notas persistidos e sincronizados
-- Receitas e preferências migradas para Supabase
+- **Receitas com CRUD completo via Supabase**
+- Preferências de receitas sincronizadas
 - Exportação disponível e funcional
 - Notificações push recebidas
 - Logs acessíveis
@@ -72,7 +74,7 @@ O objetivo desta fase é transformar o IkigaiHub em um PWA com backend robusto, 
 - Dashboard de métricas avançado
 
 ## Próximos Passos Detalhados
-1. **Migrar receitas e preferências para Supabase, garantindo integridade relacional e UI integrada.**
+1. **Implementar formulários e botões na UI para criar, editar e remover receitas, integrando com as funções Supabase já existentes.**
 2. (Opcional) Implementar sincronização em tempo real para tarefas, notas, receitas e preferências.
 3. Implementar exportação de dados em PDF/DOCX, com logs de exportação.
 4. Ativar e testar notificações push server-side.
@@ -80,10 +82,12 @@ O objetivo desta fase é transformar o IkigaiHub em um PWA com backend robusto, 
 6. Preparar endpoints para integração futura com IA.
 7. Cobrir fluxos críticos com testes e atualizar a documentação.
 
-## Atualização 2024-06-XX
-- Preferências de receitas agora são sincronizadas via Supabase, não mais localStorage.
-- Usuário pode marcar/desmarcar uma receita preferida por seção, e a preferência é mantida entre dispositivos.
-- Removido botão de popular receitas de exemplo (apenas para dev, não faz parte do produto final).
-- Critérios de aceite e fluxos atualizados para refletir a persistência no backend.
+## Atualização 2024-12-19
+- **Análise completa da persistência de dados realizada**
+- **Mapeamento do fluxo atual de receitas identificado**: leitura/exibição já integrada ao Supabase, backend pronto para CRUD completo
+- **Identificação de pontos de refatoração**: UI precisa de formulários e botões para criação, edição e remoção de receitas
+- **Preferências de receitas sincronizadas via Supabase**
+- **Tarefas e notas com CRUD completo e integrado**
+- Critérios de aceite e fluxos atualizados para refletir o progresso atual.
 
 --- 
