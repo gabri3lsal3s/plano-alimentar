@@ -1,12 +1,14 @@
 // ===================== CONTROLLER DE RECEITAS ===================== //
 
 import ReceitaModel from '../models/ReceitaModel.js';
+import PreferenciaController from './PreferenciaController.js';
 import supabaseService from '../services/SupabaseService.js';
 import { MESSAGES } from '../utils/constants.js';
 
 class ReceitaController {
     constructor() {
         this.model = new ReceitaModel();
+        this.preferenciaController = new PreferenciaController();
     }
 
     /**
@@ -269,6 +271,129 @@ class ReceitaController {
 
             return true;
         });
+    }
+
+    /**
+     * Carrega receitas com informações de preferência
+     * @returns {Promise<Object>} Resultado da operação
+     */
+    async carregarReceitasComPreferencias() {
+        try {
+            const userId = await supabaseService.getCurrentUserId();
+            if (!userId) {
+                return { success: false, error: 'Usuário não autenticado' };
+            }
+
+            // Carrega receitas
+            const resultReceitas = await this.model.getAllByUser(userId);
+            if (!resultReceitas.success) {
+                return { success: false, error: resultReceitas.error };
+            }
+
+            // Carrega preferências
+            const resultPreferencias = await this.preferenciaController.carregarPreferencias();
+            if (!resultPreferencias.success) {
+                return { success: false, error: resultPreferencias.error };
+            }
+
+            // Formata receitas
+            const receitasFormatadas = resultReceitas.data.map(receita => 
+                this.model.formatForDisplay(receita)
+            );
+
+            // Adiciona informação de preferência a cada receita
+            const preferenciasPorSecao = {};
+            resultPreferencias.data.forEach(preferencia => {
+                preferenciasPorSecao[preferencia.secao] = preferencia.receita_id;
+            });
+
+            const receitasComPreferencias = receitasFormatadas.map(receita => ({
+                ...receita,
+                isPreferida: preferenciasPorSecao[receita.secao] === receita.id
+            }));
+
+            return { 
+                success: true, 
+                data: receitasComPreferencias,
+                message: `Carregadas ${receitasComPreferencias.length} receitas com preferências`
+            };
+        } catch (error) {
+            console.error('Erro no controller ReceitaController.carregarReceitasComPreferencias:', error);
+            return { success: false, error: MESSAGES.ERROR_GENERIC };
+        }
+    }
+
+    /**
+     * Alterna preferência de uma receita
+     * @param {string} receitaId - ID da receita
+     * @param {string} secao - Seção da receita
+     * @returns {Promise<Object>} Resultado da operação
+     */
+    async alternarPreferencia(receitaId, secao) {
+        try {
+            const result = await this.preferenciaController.alternarPreferencia(secao, receitaId);
+            
+            if (!result.success) {
+                return { success: false, error: result.error };
+            }
+
+            return { 
+                success: true, 
+                data: result.data,
+                message: result.message,
+                action: result.action
+            };
+        } catch (error) {
+            console.error('Erro no controller ReceitaController.alternarPreferencia:', error);
+            return { success: false, error: MESSAGES.ERROR_GENERIC };
+        }
+    }
+
+    /**
+     * Verifica se uma receita é preferida
+     * @param {string} receitaId - ID da receita
+     * @param {string} secao - Seção da receita
+     * @returns {Promise<Object>} Resultado da verificação
+     */
+    async verificarPreferencia(receitaId, secao) {
+        try {
+            const result = await this.preferenciaController.verificarPreferencia(secao, receitaId);
+            
+            if (!result.success) {
+                return { success: false, error: result.error };
+            }
+
+            return { 
+                success: true, 
+                data: result.data
+            };
+        } catch (error) {
+            console.error('Erro no controller ReceitaController.verificarPreferencia:', error);
+            return { success: false, error: MESSAGES.ERROR_GENERIC };
+        }
+    }
+
+    /**
+     * Obtém receita preferida para uma seção
+     * @param {string} secao - Seção da refeição
+     * @returns {Promise<Object>} Resultado da operação
+     */
+    async obterReceitaPreferida(secao) {
+        try {
+            const result = await this.preferenciaController.buscarReceitaPreferida(secao);
+            
+            if (!result.success) {
+                return { success: false, error: result.error };
+            }
+
+            return { 
+                success: true, 
+                data: result.data
+            };
+        } catch (error) {
+            console.error('Erro no controller ReceitaController.obterReceitaPreferida:', error);
+            return { success: false, error: MESSAGES.ERROR_GENERIC };
+        }
     }
 }
 

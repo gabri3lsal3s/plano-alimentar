@@ -6,6 +6,7 @@ import TarefasPage from './views/pages/TarefasPage.js';
 import NotasPage from './views/pages/NotasPage.js';
 import { addClass, removeClass, showElement, hideElement } from './utils/helpers.js';
 import { MESSAGES } from './utils/constants.js';
+import ReceitaController from './controllers/ReceitaController.js';
 
 class App {
     constructor() {
@@ -89,7 +90,9 @@ class App {
     initCurrentPage() {
         const currentPath = window.location.pathname;
         
-        if (currentPath.includes('plano_alimentar.html')) {
+        if (currentPath.includes('receitas.html')) {
+            this.initReceitasPage();
+        } else if (currentPath.includes('plano_alimentar.html')) {
             this.initReceitasPage();
         } else if (currentPath.includes('index.html') || currentPath === '/') {
             this.initDashboardPage();
@@ -199,13 +202,106 @@ class App {
             const refeicaoContent = document.getElementById('refeicao-content');
             if (!refeicaoContent) return;
 
-            // Aqui você pode integrar com o sistema de receitas
-            refeicaoContent.innerHTML = '<p>Carregando refeição atual...</p>';
+            // Determina a refeição atual
+            const agora = new Date();
+            const hora = agora.getHours();
+            let refeicaoKey = 'cafe';
             
-            // Implementar lógica de carregamento da refeição atual
+            if (hora >= 7 && hora < 9) refeicaoKey = 'cafe';
+            else if (hora >= 9 && hora < 11) refeicaoKey = 'lancheM';
+            else if (hora >= 12 && hora < 14) refeicaoKey = 'almoco';
+            else if (hora >= 15 && hora < 17) refeicaoKey = 'lancheT';
+            else if (hora >= 19 && hora < 21) refeicaoKey = 'janta';
+            else if (hora >= 21 || hora < 7) refeicaoKey = 'ceia';
+            else if (hora >= 11 && hora < 12) refeicaoKey = 'almoco';
+            else if (hora >= 14 && hora < 15) refeicaoKey = 'lancheT';
+            else if (hora >= 17 && hora < 19) refeicaoKey = 'janta';
+            else refeicaoKey = 'ceia';
+
+            const nomesRefeicoes = {
+                cafe: 'Café da Manhã',
+                lancheM: 'Lanche da Manhã',
+                almoco: 'Almoço',
+                lancheT: 'Lanche da Tarde',
+                janta: 'Janta',
+                ceia: 'Ceia'
+            };
+
+            const horariosRefeicoes = {
+                cafe: '07h às 09h',
+                lancheM: '09h às 11h',
+                almoco: '12h às 14h',
+                lancheT: '15h às 17h',
+                janta: '18h às 20h',
+                ceia: '19h às 22h'
+            };
+
+            // Carrega receitas da seção atual
+            const receitaController = new ReceitaController();
+            const result = await receitaController.carregarReceitasPorSecao(refeicaoKey);
+            
+            if (!result.success || result.data.length === 0) {
+                // Fallback para dados estáticos
+                refeicaoContent.innerHTML = `
+                    <div class="refeicao-info">
+                        <h5>${nomesRefeicoes[refeicaoKey]} — ${horariosRefeicoes[refeicaoKey]}</h5>
+                        <p>Nenhuma receita cadastrada para esta refeição.</p>
+                        <p><a href="receitas.html" style="color: #007bff;">Gerenciar receitas</a></p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Busca receita preferida
+            const receitaPreferida = await receitaController.obterReceitaPreferida(refeicaoKey);
+            let receita = result.data[0]; // Primeira receita como padrão
+            
+            if (receitaPreferida.success && receitaPreferida.data) {
+                // Se há receita preferida, usa ela
+                receita = receitaPreferida.data;
+            }
+
+            const htmlContent = `
+                <div class="refeicao-info">
+                    <h5>${nomesRefeicoes[refeicaoKey]} — ${horariosRefeicoes[refeicaoKey]}</h5>
+                    <h6>${receita.titulo}</h6>
+                    ${receitaPreferida.success && receitaPreferida.data ? 
+                        '<div style="color: #ffc107; font-size: 14px; margin: 5px 0;">★ Receita preferida</div>' : 
+                        ''
+                    }
+                    <p><strong>Ingredientes:</strong></p>
+                    <ul>
+                        ${Array.isArray(receita.ingredientes) ? 
+                            receita.ingredientes.map(ing => `<li>${ing}</li>`).join('') : 
+                            '<li>Ingredientes não informados</li>'
+                        }
+                    </ul>
+                    <p><strong>Preparo:</strong> ${receita.preparo || 'Modo de preparo não informado'}</p>
+                    ${receita.calorias ? 
+                        `<p><strong>Valores nutricionais:</strong> ${receita.calorias}</p>` : 
+                        ''
+                    }
+                    <p style="margin-top: 15px;">
+                        <a href="receitas.html" style="color: #007bff; text-decoration: none;">
+                            📖 Ver todas as receitas
+                        </a>
+                    </p>
+                </div>
+            `;
+            
+            refeicaoContent.innerHTML = htmlContent;
             
         } catch (error) {
             console.error('Erro ao carregar refeição atual:', error);
+            const refeicaoContent = document.getElementById('refeicao-content');
+            if (refeicaoContent) {
+                refeicaoContent.innerHTML = `
+                    <div class="refeicao-info">
+                        <p>Erro ao carregar refeição atual.</p>
+                        <p><a href="receitas.html" style="color: #007bff;">Gerenciar receitas</a></p>
+                    </div>
+                `;
+            }
         }
     }
 

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receitas - Plano Alimentar</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4CAF50">
+</head>
+<body class="loading-auth">
+    <header>
+        <h1>📖 Receitas</h1>
+        <nav>
+            <a href="index.html">🏠 Home</a>
+            <a href="tarefas.html">📋 Tarefas</a>
+            <a href="notas.html">📝 Notas</a>
+            <a href="receitas.html" class="active">📖 Receitas</a>
+            <a href="exercicios.html">💪 Exercícios</a>
+            <a href="plano_alimentar.html">🍽️ Plano Alimentar</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Loading -->
+        <div id="loading" class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Carregando receitas...</p>
+        </div>
+
+        <!-- Mensagens -->
+        <div id="messages" class="messages-container"></div>
+
+        <!-- Conteúdo Principal -->
+        <div id="receitas-content" class="content-container" style="display: none;">
+            <!-- Filtros -->
+            <div class="filtros-container">
+                <div class="filtro-grupo">
+                    <label for="filtro-secao">Filtrar por seção:</label>
+                    <select id="filtro-secao">
+                        <option value="">Todas as seções</option>
+                        <option value="cafe">Café da Manhã</option>
+                        <option value="lancheM">Lanche da Manhã</option>
+                        <option value="almoco">Almoço</option>
+                        <option value="lancheT">Lanche da Tarde</option>
+                        <option value="janta">Janta</option>
+                        <option value="ceia">Ceia</option>
+                    </select>
+                </div>
+                <div class="filtro-grupo">
+                    <label for="filtro-busca">Buscar:</label>
+                    <input type="text" id="filtro-busca" placeholder="Título ou ingrediente...">
+                </div>
+                <button id="btn-limpar-filtros" class="btn-secundario">Limpar Filtros</button>
+            </div>
+
+            <!-- Botão Nova Receita -->
+            <div class="acoes-container">
+                <button id="btn-nova-receita" class="btn-primario">
+                    <span class="icon">➕</span> Nova Receita
+                </button>
+            </div>
+
+            <!-- Lista de Receitas -->
+            <div id="receitas-lista" class="receitas-container">
+                <!-- Receitas serão carregadas aqui -->
+            </div>
+        </div>
+
+        <!-- Modal Nova/Editar Receita -->
+        <div id="modal-receita" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modal-titulo">Nova Receita</h3>
+                    <button id="btn-fechar-modal" class="btn-fechar">&times;</button>
+                </div>
+                <form id="form-receita">
+                    <div class="form-grupo">
+                        <label for="titulo">Título da Receita *</label>
+                        <input type="text" id="titulo" name="titulo" required>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label for="secao">Seção *</label>
+                        <select id="secao" name="secao" required>
+                            <option value="">Selecione uma seção</option>
+                            <option value="cafe">Café da Manhã</option>
+                            <option value="lancheM">Lanche da Manhã</option>
+                            <option value="almoco">Almoço</option>
+                            <option value="lancheT">Lanche da Tarde</option>
+                            <option value="janta">Janta</option>
+                            <option value="ceia">Ceia</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label for="ingredientes">Ingredientes * (um por linha)</label>
+                        <textarea id="ingredientes" name="ingredientes" rows="6" required 
+                                placeholder="Ex:&#10;3 ovos inteiros&#10;30g de queijo cottage&#10;1 fatia de pão integral"></textarea>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label for="preparo">Modo de Preparo *</label>
+                        <textarea id="preparo" name="preparo" rows="4" required
+                                placeholder="Descreva o passo a passo da preparação..."></textarea>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label for="calorias">Valores Nutricionais</label>
+                        <input type="text" id="calorias" name="calorias" 
+                               placeholder="Ex: ~520 kcal, 28g proteína, 35g carboidratos, 28g gorduras">
+                    </div>
+                    
+                    <div class="form-acoes">
+                        <button type="button" id="btn-cancelar" class="btn-secundario">Cancelar</button>
+                        <button type="submit" id="btn-salvar" class="btn-primario">Salvar Receita</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal de Confirmação -->
+        <div id="modal-confirmacao" class="modal" style="display: none;">
+            <div class="modal-content modal-pequeno">
+                <div class="modal-header">
+                    <h3>Confirmar Exclusão</h3>
+                    <button id="btn-fechar-confirmacao" class="btn-fechar">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja excluir esta receita?</p>
+                    <p><strong id="receita-titulo-confirmacao"></strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn-cancelar-exclusao" class="btn-secundario">Cancelar</button>
+                    <button id="btn-confirmar-exclusao" class="btn-perigo">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+    
+    <!-- Sistema MVC -->
+    <script type="module" src="app.js"></script>
+    
+    <!-- Script específico da página -->
+    <script type="module">
+        import ReceitasPage from './views/pages/ReceitasPage.js';
+        
+        // Inicializa a página quando o DOM estiver pronto
+        document.addEventListener('DOMContentLoaded', () => {
+            new ReceitasPage();
+        });
+    </script>
+</body>
+</html> 

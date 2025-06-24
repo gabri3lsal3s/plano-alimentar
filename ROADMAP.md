@@ -1,5 +1,51 @@
 # Roadmap de Desenvolvimento - IkigaiHub
 
+## 🗂️ Visão Geral do Projeto
+**IkigaiHub** é um Progressive Web App (PWA) para planejamento de refeições e exercícios, com arquitetura MVC, Supabase e UI moderna.
+
+---
+
+## 🚀 Fases de Desenvolvimento
+
+### **Fase 1: Consolidação do Sistema MVC** (Concluída em 2024-06-20)
+- ✅ Migração completa de receitas para sistema MVC (CRUD, UI, integração Supabase)
+- ✅ Preferências de receitas 100% integradas ao Supabase e MVC
+- ✅ UI nova para receitas e preferências
+- ✅ Navegação e dashboard atualizados
+- ✅ Testes manuais realizados
+- ⚠️ Arquivos antigos ainda presentes (remoção na próxima fase)
+
+### **Fase 2: Completar Migração** (Em andamento)
+- [ ] Migrar exercícios para MVC
+- [ ] Tornar plano_alimentar.html dinâmico
+- [ ] Finalizar home/dashboard
+- [ ] Remover arquivos antigos restantes
+
+### **Fase 3: Otimização e Testes** (Próxima)
+- [ ] Modularizar CSS
+- [ ] Implementar testes automatizados
+- [ ] Otimizar performance
+
+---
+
+## 📊 Progresso Atual
+- Tarefas: 100% ✅
+- Notas: 100% ✅
+- Receitas: 100% ✅
+- Preferências: 100% ✅
+- Exercícios: 0% ❌
+- Home/Dashboard: 80% 🔄
+
+---
+
+## 📝 Próximos Passos
+- Remover arquivos antigos (supabase*.js, script.js)
+- Migrar exercícios para MVC
+- Tornar plano alimentar dinâmico
+- Modularizar CSS
+- Implementar testes
+- Otimizar performance
+
 ## 📋 Visão Geral do Projeto
 **IkigaiHub** é um Progressive Web App (PWA) desenvolvido para auxiliar no planejamento de refeições e exercícios, com foco em uma experiência moderna, responsiva e funcional. Inspirado no conceito japonês de "Ikigai" (razão de viver), o projeto visa centralizar todas as informações relacionadas à saúde e bem-estar.
 

@@ -2,7 +2,7 @@
 
 import ReceitaController from '../../controllers/ReceitaController.js';
 import ReceitaCard from '../components/ReceitaCard.js';
-import { REFEICOES_HORARIOS, MESSAGES } from '../../utils/constants.js';
+import { MESSAGES } from '../../utils/constants.js';
 import { showElement, hideElement, addClass, removeClass } from '../../utils/helpers.js';
 
 class ReceitasPage {
@@ -10,8 +10,7 @@ class ReceitasPage {
         this.controller = new ReceitaController();
         this.cardComponent = new ReceitaCard();
         this.receitas = [];
-        this.preferencias = {};
-        this.currentSecao = null;
+        this.receitaEmEdicao = null;
         
         this.init();
     }
@@ -22,32 +21,84 @@ class ReceitasPage {
     init() {
         this.bindEvents();
         this.carregarReceitas();
-        this.carregarPreferencias();
     }
 
     /**
      * Vincula eventos da página
      */
     bindEvents() {
-        // Eventos de receitas
-        document.addEventListener('receitaEdit', (e) => this.handleReceitaEdit(e.detail.receita));
-        document.addEventListener('receitaRemove', (e) => this.handleReceitaRemove(e.detail.receita));
-        document.addEventListener('receitaTogglePreferencia', (e) => this.handleTogglePreferencia(e.detail.receita));
+        // Botão nova receita
+        const btnNovaReceita = document.getElementById('btn-nova-receita');
+        if (btnNovaReceita) {
+            btnNovaReceita.addEventListener('click', () => this.abrirModalNovaReceita());
+        }
 
-        // Eventos de navegação da sidebar
-        const sidebarLinks = document.querySelectorAll('#sidebar a[href^="#"]');
-        sidebarLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = this.getTargetId(e.target.getAttribute('href'));
-                this.navegarParaSecao(targetId);
+        // Modal de receita
+        const btnFecharModal = document.getElementById('btn-fechar-modal');
+        if (btnFecharModal) {
+            btnFecharModal.addEventListener('click', () => this.fecharModal());
+        }
+
+        const btnCancelar = document.getElementById('btn-cancelar');
+        if (btnCancelar) {
+            btnCancelar.addEventListener('click', () => this.fecharModal());
+        }
+
+        // Formulário de receita
+        const formReceita = document.getElementById('form-receita');
+        if (formReceita) {
+            formReceita.addEventListener('submit', (e) => this.handleSalvarReceita(e));
+        }
+
+        // Modal de confirmação
+        const btnFecharConfirmacao = document.getElementById('btn-fechar-confirmacao');
+        if (btnFecharConfirmacao) {
+            btnFecharConfirmacao.addEventListener('click', () => this.fecharModalConfirmacao());
+        }
+
+        const btnCancelarExclusao = document.getElementById('btn-cancelar-exclusao');
+        if (btnCancelarExclusao) {
+            btnCancelarExclusao.addEventListener('click', () => this.fecharModalConfirmacao());
+        }
+
+        const btnConfirmarExclusao = document.getElementById('btn-confirmar-exclusao');
+        if (btnConfirmarExclusao) {
+            btnConfirmarExclusao.addEventListener('click', () => this.confirmarExclusao());
+        }
+
+        // Filtros
+        const filtroSecao = document.getElementById('filtro-secao');
+        if (filtroSecao) {
+            filtroSecao.addEventListener('change', () => this.aplicarFiltros());
+        }
+
+        const filtroBusca = document.getElementById('filtro-busca');
+        if (filtroBusca) {
+            filtroBusca.addEventListener('input', () => this.aplicarFiltros());
+        }
+
+        const btnLimparFiltros = document.getElementById('btn-limpar-filtros');
+        if (btnLimparFiltros) {
+            btnLimparFiltros.addEventListener('click', () => this.limparFiltros());
+        }
+
+        // Fechar modal ao clicar fora
+        const modalReceita = document.getElementById('modal-receita');
+        if (modalReceita) {
+            modalReceita.addEventListener('click', (e) => {
+                if (e.target === modalReceita) {
+                    this.fecharModal();
+                }
             });
-        });
+        }
 
-        // Eventos de formulário (se existir)
-        const formNovaReceita = document.getElementById('form-nova-receita');
-        if (formNovaReceita) {
-            formNovaReceita.addEventListener('submit', (e) => this.handleNovaReceita(e));
+        const modalConfirmacao = document.getElementById('modal-confirmacao');
+        if (modalConfirmacao) {
+            modalConfirmacao.addEventListener('click', (e) => {
+                if (e.target === modalConfirmacao) {
+                    this.fecharModalConfirmacao();
+                }
+            });
         }
     }
 
@@ -58,7 +109,7 @@ class ReceitasPage {
         try {
             this.showLoading();
             
-            const result = await this.controller.carregarReceitas();
+            const result = await this.controller.carregarReceitasComPreferencias();
             
             if (!result.success) {
                 this.showError(result.error);
@@ -78,154 +129,225 @@ class ReceitasPage {
     }
 
     /**
-     * Carrega preferências do usuário
-     */
-    async carregarPreferencias() {
-        try {
-            // Aqui você pode integrar com o sistema de preferências existente
-            // Por enquanto, vamos usar localStorage como fallback
-            const preferencias = localStorage.getItem('preferenciasReceitas');
-            this.preferencias = preferencias ? JSON.parse(preferencias) : {};
-        } catch (error) {
-            console.error('Erro ao carregar preferências:', error);
-            this.preferencias = {};
-        }
-    }
-
-    /**
      * Renderiza todas as receitas
      */
     renderizarReceitas() {
-        const receitasPorSecao = this.controller.organizarPorSecao(this.receitas);
-        
-        Object.keys(REFEICOES_HORARIOS).forEach(secao => {
-            this.renderizarSecao(secao, receitasPorSecao[secao] || []);
-        });
-    }
+        const container = document.getElementById('receitas-lista');
+        if (!container) return;
 
-    /**
-     * Renderiza uma seção específica
-     * @param {string} secao - Nome da seção
-     * @param {Array} receitas - Lista de receitas da seção
-     */
-    renderizarSecao(secao, receitas) {
-        const secaoElement = document.getElementById(secao);
-        if (!secaoElement) return;
-
-        const listaElement = secaoElement.querySelector('ul');
-        if (!listaElement) return;
-
-        // Limpa a lista
-        listaElement.innerHTML = '';
-
-        if (receitas.length === 0) {
-            // Mostra mensagem de "nenhuma receita"
-            const emptyMessage = document.createElement('li');
-            emptyMessage.className = 'receita-empty';
-            emptyMessage.innerHTML = '<p>Nenhuma receita cadastrada para esta seção.</p>';
-            listaElement.appendChild(emptyMessage);
+        if (this.receitas.length === 0) {
+            container.innerHTML = `
+                <div class="receita-empty">
+                    <p>Nenhuma receita cadastrada. Clique em "Nova Receita" para começar!</p>
+                </div>
+            `;
             return;
         }
 
-        // Renderiza cada receita
-        receitas.forEach((receita, index) => {
-            const card = this.cardComponent.render(receita, index, secao);
-            
-            // Atualiza estado de preferência
-            const isPreferida = this.preferencias[secao] === receita.titulo;
-            this.cardComponent.updatePreferenciaState(card, isPreferida);
-            
-            listaElement.appendChild(card);
-        });
-    }
-
-    /**
-     * Navega para uma seção específica
-     * @param {string} secaoId - ID da seção
-     */
-    navegarParaSecao(secaoId) {
-        const secaoElement = document.getElementById(secaoId);
-        if (!secaoElement) return;
-
-        // Atualiza estado ativo na sidebar
-        this.updateSidebarActive(secaoId);
-
-        // Scroll suave para a seção
-        const sidebar = document.getElementById('sidebar');
-        const sidebarHeight = sidebar.classList.contains('fixed') ? sidebar.offsetHeight : 0;
-        const offsetTop = secaoElement.offsetTop - sidebarHeight - 20;
+        // Organiza receitas por seção
+        const receitasPorSecao = this.controller.organizarPorSecao(this.receitas);
         
-        window.scrollTo({
-            top: offsetTop,
-            behavior: 'smooth'
+        let html = '';
+        Object.keys(receitasPorSecao).forEach(secao => {
+            const receitas = receitasPorSecao[secao];
+            const nomeSecao = this.getNomeSecao(secao);
+            
+            html += `
+                <div class="secao-receitas" data-secao="${secao}">
+                    <h3>${nomeSecao}</h3>
+                    <div class="receitas-grid">
+                        ${receitas.map(receita => this.renderizarCardReceita(receita)).join('')}
+                    </div>
+                </div>
+            `;
         });
 
-        this.currentSecao = secaoId;
+        container.innerHTML = html;
+        this.bindCardEvents();
     }
 
     /**
-     * Atualiza estado ativo na sidebar
-     * @param {string} secaoId - ID da seção ativa
+     * Renderiza um card de receita
      */
-    updateSidebarActive(secaoId) {
-        const sidebarLinks = document.querySelectorAll('#sidebar a');
-        sidebarLinks.forEach(link => {
-            removeClass(link, 'active');
-            if (link.getAttribute('href') === `#${secaoId}`) {
-                addClass(link, 'active');
-            }
-        });
-    }
-
-    /**
-     * Obtém ID do target a partir do href
-     * @param {string} href - Href do link
-     * @returns {string} ID do target
-     */
-    getTargetId(href) {
-        return href.replace('#', '');
-    }
-
-    /**
-     * Manipula edição de receita
-     * @param {Object} receita - Dados da receita
-     */
-    handleReceitaEdit(receita) {
-        // Aqui você pode abrir um modal ou navegar para página de edição
-        console.log('Editar receita:', receita);
+    renderizarCardReceita(receita) {
+        const isPreferida = receita.isPreferida || false;
+        const preferenciaIcon = isPreferida ? '★' : '☆';
+        const preferenciaClass = isPreferida ? 'preferida' : '';
+        const preferenciaTitle = isPreferida ? 'Remover preferência' : 'Marcar como preferida';
         
-        // Dispara evento para abrir modal de edição
-        const event = new CustomEvent('abrirModalEdicao', {
-            detail: { receita },
-            bubbles: true
-        });
-        document.dispatchEvent(event);
+        return `
+            <div class="receita-card ${preferenciaClass}" data-receita-id="${receita.id}">
+                <div class="receita-header">
+                    <h4 class="receita-titulo">${receita.titulo}</h4>
+                    <div class="receita-acoes">
+                        <button class="btn-preferencia" title="${preferenciaTitle}" data-receita-id="${receita.id}" data-secao="${receita.secao}">
+                            <span class="icon">${preferenciaIcon}</span>
+                        </button>
+                        <button class="btn-editar" title="Editar receita" data-receita-id="${receita.id}">
+                            <span class="icon">✏️</span>
+                        </button>
+                        <button class="btn-remover" title="Remover receita" data-receita-id="${receita.id}">
+                            <span class="icon">🗑️</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="receita-content">
+                    <div class="receita-ingredientes">
+                        <p><strong>Ingredientes:</strong></p>
+                        <ol class="ingredientes-lista">
+                            ${Array.isArray(receita.ingredientes) ? 
+                                receita.ingredientes.map(ing => `<li>${ing}</li>`).join('') : 
+                                '<li>Ingredientes não informados</li>'
+                            }
+                        </ol>
+                    </div>
+                    <div class="receita-preparo">
+                        <p><strong>Preparo:</strong></p>
+                        <p class="preparo-texto">${receita.preparo || 'Modo de preparo não informado'}</p>
+                    </div>
+                    ${receita.calorias ? `
+                        <div class="receita-calorias">
+                            <p><strong>Valores nutricionais:</strong></p>
+                            <p class="calorias-texto">${receita.calorias}</p>
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+        `;
     }
 
     /**
-     * Manipula remoção de receita
-     * @param {Object} receita - Dados da receita
+     * Vincula eventos dos cards de receita
      */
-    async handleReceitaRemove(receita) {
+    bindCardEvents() {
+        // Botões de preferência
+        document.querySelectorAll('.btn-preferencia').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const receitaId = e.currentTarget.dataset.receitaId;
+                const secao = e.currentTarget.dataset.secao;
+                
+                try {
+                    this.showLoading();
+                    
+                    const result = await this.controller.alternarPreferencia(receitaId, secao);
+                    
+                    if (!result.success) {
+                        this.showError(result.error);
+                        return;
+                    }
+
+                    // Atualiza a lista local
+                    const receita = this.receitas.find(r => r.id === receitaId);
+                    if (receita) {
+                        receita.isPreferida = result.action === 'added';
+                    }
+                    
+                    // Re-renderiza
+                    this.renderizarReceitas();
+                    
+                    this.showSuccess(result.message);
+                    
+                } catch (error) {
+                    console.error('Erro ao alternar preferência:', error);
+                    this.showError(MESSAGES.ERROR_GENERIC);
+                } finally {
+                    this.hideLoading();
+                }
+            });
+        });
+
+        // Botões editar
+        document.querySelectorAll('.btn-editar').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const receitaId = e.currentTarget.dataset.receitaId;
+                const receita = this.receitas.find(r => r.id === receitaId);
+                if (receita) {
+                    this.abrirModalEditarReceita(receita);
+                }
+            });
+        });
+
+        // Botões remover
+        document.querySelectorAll('.btn-remover').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const receitaId = e.currentTarget.dataset.receitaId;
+                const receita = this.receitas.find(r => r.id === receitaId);
+                if (receita) {
+                    this.abrirModalConfirmacao(receita);
+                }
+            });
+        });
+    }
+
+    /**
+     * Abre modal para nova receita
+     */
+    abrirModalNovaReceita() {
+        this.receitaEmEdicao = null;
+        this.limparFormulario();
+        document.getElementById('modal-titulo').textContent = 'Nova Receita';
+        document.getElementById('modal-receita').style.display = 'flex';
+    }
+
+    /**
+     * Abre modal para editar receita
+     */
+    abrirModalEditarReceita(receita) {
+        this.receitaEmEdicao = receita;
+        this.preencherFormulario(receita);
+        document.getElementById('modal-titulo').textContent = 'Editar Receita';
+        document.getElementById('modal-receita').style.display = 'flex';
+    }
+
+    /**
+     * Fecha modal de receita
+     */
+    fecharModal() {
+        document.getElementById('modal-receita').style.display = 'none';
+        this.receitaEmEdicao = null;
+        this.limparFormulario();
+    }
+
+    /**
+     * Abre modal de confirmação
+     */
+    abrirModalConfirmacao(receita) {
+        this.receitaEmEdicao = receita;
+        document.getElementById('receita-titulo-confirmacao').textContent = receita.titulo;
+        document.getElementById('modal-confirmacao').style.display = 'flex';
+    }
+
+    /**
+     * Fecha modal de confirmação
+     */
+    fecharModalConfirmacao() {
+        document.getElementById('modal-confirmacao').style.display = 'none';
+        this.receitaEmEdicao = null;
+    }
+
+    /**
+     * Confirma exclusão da receita
+     */
+    async confirmarExclusao() {
+        if (!this.receitaEmEdicao) return;
+
         try {
             this.showLoading();
             
-            const result = await this.controller.removerReceita(receita.id);
+            const result = await this.controller.removerReceita(this.receitaEmEdicao.id);
             
             if (!result.success) {
                 this.showError(result.error);
                 return;
             }
 
-            // Remove o card da interface
-            const card = document.querySelector(`[data-receita-id="${receita.id}"]`);
-            if (card) {
-                card.remove();
-            }
-
             // Remove da lista local
-            this.receitas = this.receitas.filter(r => r.id !== receita.id);
+            this.receitas = this.receitas.filter(r => r.id !== this.receitaEmEdicao.id);
             
+            // Re-renderiza
+            this.renderizarReceitas();
+            
+            this.fecharModalConfirmacao();
             this.showSuccess(result.message);
             
         } catch (error) {
@@ -237,59 +359,9 @@ class ReceitasPage {
     }
 
     /**
-     * Manipula alternância de preferência
-     * @param {Object} receita - Dados da receita
+     * Manipula salvamento de receita
      */
-    async handleTogglePreferencia(receita) {
-        try {
-            const secao = receita.secao;
-            const isPreferida = this.preferencias[secao] === receita.titulo;
-            
-            if (isPreferida) {
-                // Remove preferência
-                delete this.preferencias[secao];
-            } else {
-                // Define preferência
-                this.preferencias[secao] = receita.titulo;
-            }
-
-            // Salva preferências
-            localStorage.setItem('preferenciasReceitas', JSON.stringify(this.preferencias));
-            
-            // Atualiza interface
-            this.atualizarMarcadoresPreferencia();
-            
-            // Mostra feedback
-            const message = isPreferida ? 'Preferência removida' : 'Receita marcada como preferida';
-            this.showSuccess(message);
-            
-        } catch (error) {
-            console.error('Erro ao alternar preferência:', error);
-            this.showError(MESSAGES.ERROR_GENERIC);
-        }
-    }
-
-    /**
-     * Atualiza marcadores de preferência na interface
-     */
-    atualizarMarcadoresPreferencia() {
-        const cards = document.querySelectorAll('.receita-card');
-        cards.forEach(card => {
-            const receitaId = card.getAttribute('data-receita-id');
-            const receita = this.receitas.find(r => r.id === receitaId);
-            
-            if (receita) {
-                const isPreferida = this.preferencias[receita.secao] === receita.titulo;
-                this.cardComponent.updatePreferenciaState(card, isPreferida);
-            }
-        });
-    }
-
-    /**
-     * Manipula criação de nova receita
-     * @param {Event} event - Evento do formulário
-     */
-    async handleNovaReceita(event) {
+    async handleSalvarReceita(event) {
         event.preventDefault();
         
         const formData = new FormData(event.target);
@@ -304,26 +376,40 @@ class ReceitasPage {
         try {
             this.showLoading();
             
-            const result = await this.controller.criarReceita(receitaData);
+            let result;
+            if (this.receitaEmEdicao) {
+                // Atualizar receita existente
+                result = await this.controller.atualizarReceita(this.receitaEmEdicao.id, receitaData);
+            } else {
+                // Criar nova receita
+                result = await this.controller.criarReceita(receitaData);
+            }
             
             if (!result.success) {
                 this.showError(result.error);
                 return;
             }
 
-            // Adiciona à lista local
-            this.receitas.unshift(result.data);
+            // Atualiza lista local
+            if (this.receitaEmEdicao) {
+                // Atualiza receita existente
+                const index = this.receitas.findIndex(r => r.id === this.receitaEmEdicao.id);
+                if (index !== -1) {
+                    this.receitas[index] = result.data;
+                }
+            } else {
+                // Adiciona nova receita
+                this.receitas.unshift(result.data);
+            }
             
-            // Re-renderiza a seção
-            this.renderizarSecao(receitaData.secao, this.receitas.filter(r => r.secao === receitaData.secao));
+            // Re-renderiza
+            this.renderizarReceitas();
             
-            // Limpa formulário
-            event.target.reset();
-            
+            this.fecharModal();
             this.showSuccess(result.message);
             
         } catch (error) {
-            console.error('Erro ao criar receita:', error);
+            console.error('Erro ao salvar receita:', error);
             this.showError(MESSAGES.ERROR_GENERIC);
         } finally {
             this.hideLoading();
@@ -331,43 +417,150 @@ class ReceitasPage {
     }
 
     /**
-     * Mostra estado de loading
+     * Preenche formulário com dados da receita
+     */
+    preencherFormulario(receita) {
+        document.getElementById('titulo').value = receita.titulo || '';
+        document.getElementById('secao').value = receita.secao || '';
+        document.getElementById('ingredientes').value = Array.isArray(receita.ingredientes) ? 
+            receita.ingredientes.join('\n') : '';
+        document.getElementById('preparo').value = receita.preparo || '';
+        document.getElementById('calorias').value = receita.calorias || '';
+    }
+
+    /**
+     * Limpa formulário
+     */
+    limparFormulario() {
+        document.getElementById('form-receita').reset();
+    }
+
+    /**
+     * Aplica filtros
+     */
+    aplicarFiltros() {
+        const filtroSecao = document.getElementById('filtro-secao').value;
+        const filtroBusca = document.getElementById('filtro-busca').value.toLowerCase();
+
+        const receitasFiltradas = this.controller.filtrarReceitas(this.receitas, {
+            secao: filtroSecao,
+            titulo: filtroBusca
+        });
+
+        this.renderizarReceitasFiltradas(receitasFiltradas);
+    }
+
+    /**
+     * Renderiza receitas filtradas
+     */
+    renderizarReceitasFiltradas(receitasFiltradas) {
+        const container = document.getElementById('receitas-lista');
+        if (!container) return;
+
+        if (receitasFiltradas.length === 0) {
+            container.innerHTML = `
+                <div class="receita-empty">
+                    <p>Nenhuma receita encontrada com os filtros aplicados.</p>
+                </div>
+            `;
+            return;
+        }
+
+        // Organiza receitas filtradas por seção
+        const receitasPorSecao = this.controller.organizarPorSecao(receitasFiltradas);
+        
+        let html = '';
+        Object.keys(receitasPorSecao).forEach(secao => {
+            const receitas = receitasPorSecao[secao];
+            const nomeSecao = this.getNomeSecao(secao);
+            
+            html += `
+                <div class="secao-receitas" data-secao="${secao}">
+                    <h3>${nomeSecao}</h3>
+                    <div class="receitas-grid">
+                        ${receitas.map(receita => this.renderizarCardReceita(receita)).join('')}
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+        this.bindCardEvents();
+    }
+
+    /**
+     * Limpa filtros
+     */
+    limparFiltros() {
+        document.getElementById('filtro-secao').value = '';
+        document.getElementById('filtro-busca').value = '';
+        this.renderizarReceitas();
+    }
+
+    /**
+     * Obtém nome da seção
+     */
+    getNomeSecao(secao) {
+        const nomes = {
+            cafe: 'Café da Manhã',
+            lancheM: 'Lanche da Manhã',
+            almoco: 'Almoço',
+            lancheT: 'Lanche da Tarde',
+            janta: 'Janta',
+            ceia: 'Ceia'
+        };
+        return nomes[secao] || secao;
+    }
+
+    /**
+     * Mostra loading
      */
     showLoading() {
-        const loadingElement = document.getElementById('loading-receitas');
-        if (loadingElement) {
-            showElement(loadingElement);
-        }
+        showElement(document.getElementById('loading'));
+        hideElement(document.getElementById('receitas-content'));
     }
 
     /**
-     * Esconde estado de loading
+     * Esconde loading
      */
     hideLoading() {
-        const loadingElement = document.getElementById('loading-receitas');
-        if (loadingElement) {
-            hideElement(loadingElement);
-        }
+        hideElement(document.getElementById('loading'));
+        showElement(document.getElementById('receitas-content'));
     }
 
     /**
-     * Mostra mensagem de erro
-     * @param {string} message - Mensagem de erro
+     * Mostra erro
      */
     showError(message) {
-        // Implementar sistema de notificação
-        console.error('Erro:', message);
-        alert(`Erro: ${message}`);
+        this.showMessage(message, 'error');
     }
 
     /**
-     * Mostra mensagem de sucesso
-     * @param {string} message - Mensagem de sucesso
+     * Mostra sucesso
      */
     showSuccess(message) {
-        // Implementar sistema de notificação
-        console.log('Sucesso:', message);
-        // alert(`Sucesso: ${message}`);
+        this.showMessage(message, 'success');
+    }
+
+    /**
+     * Mostra mensagem
+     */
+    showMessage(message, type) {
+        const container = document.getElementById('messages');
+        if (!container) return;
+
+        const messageElement = document.createElement('div');
+        messageElement.className = `message ${type}`;
+        messageElement.textContent = message;
+
+        container.appendChild(messageElement);
+
+        // Remove após 5 segundos
+        setTimeout(() => {
+            if (messageElement.parentNode) {
+                messageElement.parentNode.removeChild(messageElement);
+            }
+        }, 5000);
     }
 }
 
