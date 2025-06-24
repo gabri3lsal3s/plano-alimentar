@@ -2,125 +2,68 @@
 
 ## Visão Geral
 
-O projeto IkigaiHub foi reestruturado seguindo o padrão Model-View-Controller (MVC) para melhorar a organização, manutenibilidade e escalabilidade do código.
+O projeto IkigaiHub está em migração para o padrão Model-View-Controller (MVC) para melhorar a organização, manutenibilidade e escalabilidade do código. A estrutura de diretórios já está consolidada e parte das funcionalidades já foi migrada.
 
 ## Estrutura de Diretórios
 
 ```
 plano_alimentar/
 ├── models/                 # Camada de dados
-│   └── ReceitaModel.js
+│   ├── NotaModel.js
+│   ├── PreferenciaModel.js
+│   ├── ReceitaModel.js
+│   └── TarefaModel.js
 ├── controllers/            # Camada de lógica de negócio
-│   └── ReceitaController.js
+│   ├── NotaController.js
+│   ├── PreferenciaController.js
+│   ├── ReceitaController.js
+│   └── TarefaController.js
 ├── views/                  # Camada de apresentação
 │   ├── components/         # Componentes reutilizáveis
-│   │   └── ReceitaCard.js
-│   └── pages/             # Páginas específicas
-│       └── ReceitasPage.js
-├── services/              # Serviços externos
+│   │   ├── NotaCard.js
+│   │   ├── ReceitaCard.js
+│   │   └── TarefaCard.js
+│   └── pages/              # Páginas específicas
+│       ├── NotasPage.js
+│       ├── PlanoAlimentarPage.js
+│       ├── ReceitasPage.js
+│       └── TarefasPage.js
+├── services/               # Serviços externos
 │   └── SupabaseService.js
-├── utils/                 # Utilitários e constantes
+├── utils/                  # Utilitários e constantes
 │   ├── constants.js
 │   └── helpers.js
-├── app.js                 # Aplicação principal
-└── [arquivos existentes]  # Mantidos para compatibilidade
+├── app.js                  # Aplicação principal
+├── script.js               # Funcionalidades não migradas (legado)
+├── supabaseNotas.js        # Módulos legados
+├── supabasePreferencias.js
+├── supabaseReceitas.js
+├── supabaseTarefas.js
+├── style.css               # Estilos globais
+└── [outros arquivos]
 ```
 
-## Arquitetura MVC
+## Progresso da Migração
 
-### Model (Modelo)
-- **Responsabilidade**: Acesso a dados e validação
-- **Localização**: `models/`
-- **Exemplo**: `ReceitaModel.js`
+- Estrutura de diretórios padronizada e implementada.
+- Funcionalidade de receitas já migrada para MVC (model, controller, view/component e página).
+- Modelos e controllers para Notas, Preferências e Tarefas já criados.
+- Views/páginas para Receitas, Notas, Tarefas e Plano Alimentar já existem.
+- Serviços e utilitários centralizados.
+- Arquivos legados mantidos para compatibilidade.
 
-**Características:**
-- Gerencia operações CRUD no banco de dados
-- Valida dados antes de persistir
-- Formata dados para exibição
-- Isolado de lógica de negócio
-
-### Controller (Controlador)
-- **Responsabilidade**: Lógica de negócio e orquestração
-- **Localização**: `controllers/`
-- **Exemplo**: `ReceitaController.js`
-
-**Características:**
-- Coordena interação entre Model e View
-- Implementa regras de negócio
-- Gerencia estado da aplicação
-- Trata erros e validações
-
-### View (Visão)
-- **Responsabilidade**: Apresentação e interação com usuário
-- **Localização**: `views/`
-- **Exemplo**: `ReceitasPage.js`, `ReceitaCard.js`
-
-**Características:**
-- Renderiza dados na interface
-- Captura eventos do usuário
-- Gerencia estado visual
-- Componentes reutilizáveis
-
-## Serviços
-
-### SupabaseService
-- **Responsabilidade**: Gerenciar conexão e operações com Supabase
-- **Localização**: `services/SupabaseService.js`
-- **Características:**
-  - Singleton para conexão única
-  - Métodos genéricos para CRUD
-  - Tratamento de erros centralizado
-  - Autenticação integrada
-
-## Utilitários
-
-### Constants
-- **Responsabilidade**: Centralizar configurações e constantes
-- **Localização**: `utils/constants.js`
-- **Inclui:**
-  - Configurações do Supabase
-  - Horários de refeições
-  - Mensagens padrão
-  - Classes CSS
-
-### Helpers
-- **Responsabilidade**: Funções utilitárias reutilizáveis
-- **Localização**: `utils/helpers.js`
-- **Inclui:**
-  - Manipulação de DOM
-  - Formatação de dados
-  - Funções de performance (debounce, throttle)
-  - Validações comuns
-
-## Fluxo de Dados
+## Fluxo de Dados (MVC)
 
 ```
-1. Usuário interage com View (ReceitaCard)
+1. Usuário interage com View (ex: ReceitaCard)
 2. View dispara evento customizado
-3. Controller (ReceitasPage) captura evento
-4. Controller chama Model (ReceitaModel)
+3. Controller (ex: ReceitasPage) captura evento
+4. Controller chama Model (ex: ReceitaModel)
 5. Model executa operação no Service (SupabaseService)
 6. Service retorna dados para Model
 7. Model formata e retorna para Controller
 8. Controller atualiza View
 ```
-
-## Benefícios da Nova Estrutura
-
-### Manutenibilidade
-- **Separação de responsabilidades**: Cada camada tem função específica
-- **Código organizado**: Fácil localização de funcionalidades
-- **Redução de duplicação**: Componentes reutilizáveis
-
-### Escalabilidade
-- **Módulos independentes**: Novos recursos não afetam existentes
-- **Arquitetura extensível**: Fácil adição de novos modelos/controllers
-- **Performance otimizada**: Carregamento sob demanda
-
-### Testabilidade
-- **Unidades isoladas**: Cada componente pode ser testado independentemente
-- **Dependências claras**: Fácil mock de serviços externos
-- **Comportamento previsível**: Fluxo de dados bem definido
 
 ## Migração Gradual
 
@@ -129,39 +72,51 @@ plano_alimentar/
 - [x] Implementar utilitários base
 - [x] Criar SupabaseService
 - [x] Implementar ReceitaModel e ReceitaController
-- [x] Criar componentes de view
+- [x] Criar componentes de view para receitas
 
-### Fase 2: Integração
-- [ ] Migrar funcionalidades existentes para MVC
-- [ ] Implementar modelos para Tarefas e Notas
-- [ ] Criar controllers para todas as funcionalidades
-- [ ] Refatorar views existentes
+### Fase 2: Integração (em andamento)
+- [x] Implementar modelos para Tarefas e Notas
+- [x] Criar controllers para Tarefas e Notas
+- [x] Criar views/pages para Tarefas, Notas e Plano Alimentar
+- [ ] Migrar lógica dos arquivos legados (script.js, supabase*.js) para os novos controllers/models/services
+- [ ] Refatorar views/componentes antigos para usar a nova arquitetura
 
 ### Fase 3: Otimização
+- [ ] Modularizar CSS (separar estilos por componente/página)
 - [ ] Implementar sistema de cache
 - [ ] Adicionar lazy loading
 - [ ] Otimizar performance
-- [ ] Implementar testes unitários
-
-## Compatibilidade
-
-### Arquivos Mantidos
-- `script.js` - Mantido para funcionalidades não migradas
-- `supabase*.js` - Módulos existentes mantidos
-- `style.css` - Estilos existentes preservados
-
-### Fallbacks
-- Sistema de fallback implementado no `index.html`
-- Funcionalidades antigas continuam funcionando
-- Migração gradual sem quebrar funcionalidades
+- [ ] Implementar testes unitários e de integração
 
 ## Próximos Passos
 
-1. **Testar nova estrutura**: Verificar se todas as funcionalidades estão funcionando
-2. **Migrar Tarefas e Notas**: Implementar modelos e controllers para essas funcionalidades
-3. **Refatorar CSS**: Modularizar estilos seguindo a estrutura MVC
-4. **Implementar testes**: Adicionar testes unitários para cada camada
-5. **Otimizar performance**: Implementar cache e lazy loading
+1. **Migrar Notas e Tarefas para MVC por completo**: Garantir que NotasPage.js e TarefasPage.js consumam seus respectivos controllers/models e que os componentes estejam desacoplados.
+2. **Refatorar Preferências**: Criar página e componentes para Preferências seguindo o padrão MVC.
+3. **Eliminar dependências de arquivos legados**: Migrar toda a lógica relevante de script.js e supabase*.js para os novos controllers/models/services e remover gradualmente os arquivos legados.
+4. **Modularizar o CSS**: Separar estilos por componente/página.
+5. **Implementar testes unitários e de integração**: Cobrir as principais funcionalidades.
+6. **Otimizar performance**: Implementar cache, lazy loading e revisar pontos de gargalo.
+7. **Aprimorar tratamento de erros e logs**: Centralizar tratamento de erros e adicionar logs detalhados.
+8. **Atualizar documentação e exemplos de uso**: Garantir que a documentação reflita o padrão e fluxo atual.
+9. **Planejar remoção dos fallbacks**: Após migração completa, remover sistemas de fallback e garantir uso exclusivo da nova arquitetura.
+
+## Resumo Visual do Fluxo de Migração
+
+```mermaid
+flowchart TD
+    A[script.js / supabase*.js] -->|Migrar lógica| B[Controllers/Models]
+    B --> C[Views/Components]
+    C --> D[Pages]
+    D --> E[Testes]
+    E --> F[Remover arquivos legados]
+    F --> G[Otimização e Refino]
+```
+
+## Compatibilidade
+
+- `script.js` e `supabase*.js` mantidos para funcionalidades não migradas
+- `style.css` preservado até modularização completa
+- Sistema de fallback no `index.html` garante funcionamento durante a migração
 
 ## Exemplo de Uso
 
@@ -183,22 +138,8 @@ const elemento = card.render(receita, index, secao);
 
 ## Considerações Técnicas
 
-### Módulos ES6
-- Uso de `import/export` para modularização
-- Suporte a navegadores modernos
-- Fallback para navegadores antigos
-
-### Eventos Customizados
-- Comunicação entre componentes via eventos
-- Desacoplamento entre camadas
-- Fácil debugging e extensão
-
-### Tratamento de Erros
-- Erros centralizados em cada camada
-- Mensagens de erro amigáveis
-- Logs detalhados para debugging
-
-### Performance
-- Debounce e throttle para otimização
-- Lazy loading de componentes
-- Cache de dados frequentes 
+- Uso de módulos ES6 (`import/export`)
+- Comunicação entre componentes via eventos customizados
+- Tratamento de erros centralizado
+- Debounce, throttle, lazy loading e cache para performance
+- Testabilidade e modularidade como foco 
