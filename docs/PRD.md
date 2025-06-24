@@ -8,8 +8,8 @@
 - Proteção de rotas: redirecionamento automático para login se não autenticado
 - Botão de logout funcional
 - Cadastro de novos usuários bloqueado
-- **Tarefas, notas, receitas e preferências migradas e integradas ao Supabase (CRUD completo, UI moderna, feedback visual, tratamento de erros)**
-- **Receitas e preferências: CRUD completo via Supabase, UI nova ativa, integração total**
+- **Tarefas, notas, receitas e preferências migradas e integradas ao Supabase (CRUD completo, UI moderna, feedback visual, tratamento de erros, testes automatizados)**
+- **Receitas e preferências: CRUD completo via Supabase, UI nova ativa, integração total, cobertura de testes**
 
 ## Visão Geral
 O objetivo desta fase é transformar o IkigaiHub em um PWA com backend robusto, usando Supabase para autenticação, persistência, notificações server-side e exportação de dados, mantendo deploy simples na Vercel.
@@ -40,7 +40,7 @@ O objetivo desta fase é transformar o IkigaiHub em um PWA com backend robusto, 
 ## Critérios de Aceite
 - Login/logout funcionando e seguro
 - Dados de tarefas, notas, receitas e preferências persistidos e sincronizados
-- **Receitas e preferências com CRUD completo via Supabase e UI nova**
+- **Receitas e preferências com CRUD completo via Supabase, UI nova e testes automatizados**
 - Exportação disponível e funcional
 - Notificações push recebidas
 - Logs acessíveis
@@ -73,10 +73,9 @@ O objetivo desta fase é transformar o IkigaiHub em um PWA com backend robusto, 
 ## Próximos Passos Detalhados
 1. **Migrar exercícios para MVC**
 2. Tornar plano_alimentar.html dinâmico
-3. Remover arquivos antigos (supabase*.js, script.js)
-4. Modularizar CSS
-5. Implementar testes
-6. Otimizar performance
+3. Implementar testes de integração e CI
+4. Modularizar CSS (concluído)
+5. Otimizar performance
 
 ## Atualização 2024-12-19
 - **Análise completa da persistência de dados realizada**

@@ -115,6 +115,33 @@ plano_alimentar/
 
 ---
 
+## 🧪 Testes Automatizados
+
+O projeto utiliza **Jest** com suporte a ES6/ESModules para garantir a qualidade do código.
+
+### Como rodar os testes
+
+1. Instale as dependências:
+   ```bash
+   npm install
+   ```
+2. Execute todos os testes:
+   ```bash
+   npx jest --env=node
+   ```
+3. Para rodar um teste específico:
+   ```bash
+   npx jest tests/NOME_DO_ARQUIVO.test.js --env=node
+   ```
+
+### Boas práticas
+- Sempre escreva testes para novos models, controllers e helpers.
+- Use mocks para isolar dependências externas (ex: Supabase).
+- Teste casos de sucesso, erro e edge cases.
+- Para helpers que dependem de DOM, use ambiente `jsdom` ou condicione o teste.
+
+---
+
 ## 🤝 Contribuição
 
 ### **Desenvolvimento**

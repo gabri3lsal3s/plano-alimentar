@@ -16,14 +16,17 @@
 - ⚠️ Arquivos antigos ainda presentes (remoção na próxima fase)
 
 ### **Fase 2: Completar Migração** (Em andamento)
+- [x] Migrar receitas, tarefas, notas e preferências para MVC
+- [x] Modularizar CSS
+- [x] Implementar testes unitários (models, controllers, helpers)
 - [ ] Migrar exercícios para MVC
 - [ ] Tornar plano_alimentar.html dinâmico
 - [ ] Finalizar home/dashboard
 - [ ] Remover arquivos antigos restantes
 
 ### **Fase 3: Otimização e Testes** (Próxima)
-- [ ] Modularizar CSS
-- [ ] Implementar testes automatizados
+- [ ] Implementar testes de integração
+- [ ] Configurar integração contínua (CI)
 - [ ] Otimizar performance
 
 ---
