@@ -77,7 +77,7 @@ plano_alimentar/
 ### Fase 2: Integração (em andamento)
 - [x] Implementar modelos para Tarefas e Notas
 - [x] Criar controllers para Tarefas e Notas
-- [x] Criar views/pages para Tarefas, Notas e Plano Alimentar
+- [x] Criar views/pages para Tarefas, Notas, Plano Alimentar e Preferências
 - [ ] Migrar lógica dos arquivos legados (script.js, supabase*.js) para os novos controllers/models/services
 - [ ] Refatorar views/componentes antigos para usar a nova arquitetura
 

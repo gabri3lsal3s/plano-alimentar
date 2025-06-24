@@ -4,6 +4,7 @@ import supabaseService from './services/SupabaseService.js';
 import ReceitasPage from './views/pages/ReceitasPage.js';
 import TarefasPage from './views/pages/TarefasPage.js';
 import NotasPage from './views/pages/NotasPage.js';
+import PreferenciasPage from './views/pages/PreferenciasPage.js';
 import { addClass, removeClass, showElement, hideElement } from './utils/helpers.js';
 import { MESSAGES } from './utils/constants.js';
 import ReceitaController from './controllers/ReceitaController.js';
@@ -102,6 +103,8 @@ class App {
             this.initTarefasPage();
         } else if (currentPath.includes('notas.html')) {
             this.initNotasPage();
+        } else if (currentPath.includes('preferencias.html')) {
+            this.initPreferenciasPage();
         }
     }
 
@@ -172,6 +175,20 @@ class App {
         } catch (error) {
             console.error('Erro ao inicializar página de exercícios:', error);
             this.showError('Erro ao carregar página de exercícios');
+        }
+    }
+
+    /**
+     * Inicializa página de preferências
+     */
+    initPreferenciasPage() {
+        try {
+            const container = document.getElementById('app-content') || document.body;
+            PreferenciasPage(container);
+            console.log('Página de preferências inicializada');
+        } catch (error) {
+            console.error('Erro ao inicializar página de preferências:', error);
+            this.showError('Erro ao carregar página de preferências');
         }
     }
 
