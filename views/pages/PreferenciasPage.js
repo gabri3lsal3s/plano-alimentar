@@ -1,11 +1,9 @@
 // ===================== PÁGINA: PreferenciasPage ===================== //
 
 import PreferenciaController from '../../controllers/PreferenciaController.js';
-import ReceitaModel from '../../models/ReceitaModel.js';
 import { REFEICOES_HORARIOS, MESSAGES } from '../../utils/constants.js';
 
 const preferenciaController = new PreferenciaController();
-const receitaModel = new ReceitaModel();
 
 /**
  * Renderiza a página de preferências alimentares
@@ -39,9 +37,6 @@ export default async function PreferenciasPage(container) {
     // Função para renderizar preferências
     async function renderPreferencias() {
         lista.innerHTML = `<p>${MESSAGES.LOADING}</p>`;
-        const userId = await receitaModel.getAllByUser.toString().includes('userId')
-            ? await receitaModel.getAllByUser.length > 0 ? await receitaModel.getAllByUser() : null
-            : null;
         const preferenciasResult = await preferenciaController.carregarPreferencias();
         if (!preferenciasResult.success) {
             lista.innerHTML = `<p class="erro">${preferenciasResult.error}</p>`;
@@ -62,7 +57,7 @@ export default async function PreferenciasPage(container) {
             secaoDiv.appendChild(titulo);
 
             // Buscar receitas disponíveis para a seção
-            const receitasResult = await receitaModel.getBySecao(secaoKey, null);
+            const receitasResult = await preferenciaController.buscarReceitasPorSecao(secaoKey);
             let receitas = [];
             if (receitasResult.success) {
                 receitas = receitasResult.data;
@@ -122,10 +117,7 @@ export default async function PreferenciasPage(container) {
 
             secaoDiv.appendChild(select);
             secaoDiv.appendChild(btnSalvar);
-            if (preferenciaAtual) {
-                secaoDiv.appendChild(btnRemover);
-            }
-
+            secaoDiv.appendChild(btnRemover);
             lista.appendChild(secaoDiv);
         }
     }

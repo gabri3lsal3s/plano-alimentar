@@ -8,6 +8,7 @@ import PreferenciasPage from './views/pages/PreferenciasPage.js';
 import { addClass, removeClass, showElement, hideElement } from './utils/helpers.js';
 import { MESSAGES } from './utils/constants.js';
 import ReceitaController from './controllers/ReceitaController.js';
+import ExerciciosPage from './views/pages/ExerciciosPage.js';
 
 class App {
     constructor() {
@@ -170,8 +171,8 @@ class App {
      */
     initExerciciosPage() {
         try {
-            // Aqui você pode inicializar a página de exercícios
-            console.log('Página de exercícios inicializada');
+            const page = new ExerciciosPage();
+            page.render();
         } catch (error) {
             console.error('Erro ao inicializar página de exercícios:', error);
             this.showError('Erro ao carregar página de exercícios');

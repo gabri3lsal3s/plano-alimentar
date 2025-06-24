@@ -1,0 +1,111 @@
+/* ===================== TarefaCard ===================== */
+
+.tarefa-card {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid #333;
+    transition: all 0.3s ease;
+}
+
+.tarefa-card:hover {
+    border-color: #555;
+    transform: translateY(-2px);
+}
+
+.tarefa-card.concluida {
+    opacity: 0.7;
+    background: #1a2a1a;
+}
+
+.tarefa-card h3 {
+    margin: 0 0 10px 0;
+    color: #fff;
+    font-size: 18px;
+}
+
+.tarefa-card p {
+    margin: 0 0 15px 0;
+    color: #ccc;
+    line-height: 1.5;
+}
+
+.tarefa-status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.tarefa-datas {
+    margin-bottom: 15px;
+}
+
+.tarefa-datas small {
+    display: block;
+    color: #888;
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+
+.tarefa-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-toggle-tarefa, .btn-edit-tarefa, .btn-delete-tarefa {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-toggle-tarefa {
+    background: #28a745;
+    color: white;
+}
+
+.btn-toggle-tarefa:hover {
+    background: #218838;
+}
+
+.btn-edit-tarefa {
+    background: #ffc107;
+    color: #000;
+}
+
+.btn-edit-tarefa:hover {
+    background: #ffc107;
+    color: #000;
+}
+
+.btn-delete-tarefa {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-delete-tarefa:hover {
+    background: #dc3545;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .tarefa-card {
+        padding: 15px;
+    }
+    .tarefa-actions {
+        flex-direction: column;
+    }
+    .btn-toggle-tarefa, .btn-edit-tarefa, .btn-delete-tarefa {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+/* Adicione aqui os estilos específicos do componente TarefaCard. */ 

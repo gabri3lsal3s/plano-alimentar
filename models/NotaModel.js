@@ -301,7 +301,7 @@ class NotaModel {
         return {
             ...nota,
             titulo: '', // Campo não existe na tabela, sempre vazio
-            conteudo: nota.texto?.trim() || '',
+            conteudo: (nota.conteudo ?? nota.texto ?? '').trim(),
             criada_em: nota.criada_em ? new Date(nota.criada_em) : new Date(),
             atualizada_em: null // Campo não existe na tabela
         };

@@ -1,0 +1,88 @@
+/* ===================== NotaCard ===================== */
+
+.nota-card {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid #333;
+    transition: all 0.3s ease;
+}
+
+.nota-card:hover {
+    border-color: #555;
+    transform: translateY(-2px);
+}
+
+.nota-card h3 {
+    margin: 0 0 10px 0;
+    color: #fff;
+    font-size: 18px;
+}
+
+.nota-card p {
+    margin: 0 0 15px 0;
+    color: #ccc;
+    line-height: 1.5;
+}
+
+.nota-datas {
+    margin-bottom: 15px;
+}
+
+.nota-datas small {
+    display: block;
+    color: #888;
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+
+.nota-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-edit-nota, .btn-delete-nota {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-edit-nota {
+    background: #ffc107;
+    color: #000;
+}
+
+.btn-edit-nota:hover {
+    background: #ffc107;
+    color: #000;
+}
+
+.btn-delete-nota {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-delete-nota:hover {
+    background: #dc3545;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .nota-card {
+        padding: 15px;
+    }
+    .nota-actions {
+        flex-direction: column;
+    }
+    .btn-edit-nota, .btn-delete-nota {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+/* Adicione aqui os estilos específicos do componente NotaCard. */ 

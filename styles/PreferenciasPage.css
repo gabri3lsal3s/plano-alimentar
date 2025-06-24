@@ -1,0 +1,44 @@
+/* ===================== PreferenciasPage ===================== */
+
+/* Adicione aqui os estilos específicos da página de preferências. */
+
+.preferencias-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.preferencia-secao {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.preferencia-secao h3 {
+    color: #4CAF50;
+    margin-bottom: 8px;
+    font-size: 1.1em;
+}
+
+.preferencia-select {
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background: #2a2a2a;
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.preferencia-feedback {
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: 500;
+} 

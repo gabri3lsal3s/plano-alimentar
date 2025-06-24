@@ -1,0 +1,56 @@
+/* ===================== TarefasPage ===================== */
+
+/* Adicione aqui os estilos específicos da página de tarefas. */
+
+.tarefa-form {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.tarefa-form input, .tarefa-form textarea {
+    padding: 12px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background: #2a2a2a;
+    color: #fff;
+    font-size: 14px;
+}
+
+.tarefa-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.tarefa-form button {
+    padding: 12px 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.tarefa-form button:hover {
+    background: #0056b3;
+}
+
+.tarefa-feedback {
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.tarefas-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+} 

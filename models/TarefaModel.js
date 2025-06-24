@@ -273,7 +273,7 @@ class TarefaModel {
     formatForDisplay(tarefa) {
         return {
             ...tarefa,
-            titulo: tarefa.descricao?.trim() || '',
+            titulo: tarefa.titulo?.trim() || '',
             descricao: tarefa.descricao?.trim() || '',
             concluida: Boolean(tarefa.feita),
             criada_em: tarefa.criada_em ? new Date(tarefa.criada_em) : new Date(),

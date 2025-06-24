@@ -1,0 +1,70 @@
+/* ===================== PlanoAlimentarPage ===================== */
+
+/* Adicione aqui os estilos específicos da página de plano alimentar. */
+
+.plano-alimentar-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 24px;
+}
+
+.plano-secao {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.plano-secao h3 {
+    color: #4CAF50;
+    margin-bottom: 8px;
+    font-size: 1.1em;
+}
+
+.plano-receita-item {
+    background: #222;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.btn-preferencia, .btn-editar, .btn-excluir, .btn-adicionar {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-right: 6px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-preferencia {
+    background: #4CAF50;
+    color: #fff;
+}
+
+.btn-editar {
+    background: #ffc107;
+    color: #000;
+}
+
+.btn-excluir {
+    background: #dc3545;
+    color: #fff;
+}
+
+.btn-adicionar {
+    background: #007bff;
+    color: #fff;
+}
+
+.btn-preferencia:hover, .btn-editar:hover, .btn-excluir:hover, .btn-adicionar:hover {
+    opacity: 0.85;
+} 

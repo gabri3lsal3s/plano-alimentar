@@ -3,6 +3,7 @@
 import PreferenciaModel from '../models/PreferenciaModel.js';
 import supabaseService from '../services/SupabaseService.js';
 import { MESSAGES } from '../utils/constants.js';
+import ReceitaModel from '../models/ReceitaModel.js';
 
 class PreferenciaController {
     constructor() {
@@ -274,6 +275,29 @@ class PreferenciaController {
             };
         } catch (error) {
             console.error('Erro no controller PreferenciaController.verificarPreferencia:', error);
+            return { success: false, error: MESSAGES.ERROR_GENERIC };
+        }
+    }
+
+    /**
+     * Busca receitas por seção para o usuário atual
+     * @param {string} secao - Seção da receita
+     * @returns {Promise<Object>} Resultado da operação
+     */
+    async buscarReceitasPorSecao(secao) {
+        try {
+            const userId = await supabaseService.getCurrentUserId();
+            if (!userId) {
+                return { success: false, error: 'Usuário não autenticado' };
+            }
+            const receitaModel = new ReceitaModel();
+            const result = await receitaModel.getBySecao(secao, userId);
+            if (!result.success) {
+                return { success: false, error: result.error };
+            }
+            return { success: true, data: result.data };
+        } catch (error) {
+            console.error('Erro no controller PreferenciaController.buscarReceitasPorSecao:', error);
             return { success: false, error: MESSAGES.ERROR_GENERIC };
         }
     }

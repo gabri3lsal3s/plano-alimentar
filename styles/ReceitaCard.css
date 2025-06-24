@@ -1,0 +1,187 @@
+/* ===================== ReceitaCard ===================== */
+
+.receita-card {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid #333;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+}
+
+.receita-card:hover {
+    border-color: #555;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.receita-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #333;
+}
+
+.receita-titulo {
+    margin: 0;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.receita-acoes {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-editar,
+.btn-remover,
+.btn-preferencia {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s ease;
+    background: transparent;
+    color: #ccc;
+}
+
+.btn-editar:hover,
+.btn-remover:hover,
+.btn-preferencia:hover {
+    background: #ffc107;
+    color: #000;
+    transform: scale(1.1);
+}
+
+.receita-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.receita-ingredientes,
+.receita-preparo,
+.receita-calorias {
+    background: #2a2a2a;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.receita-ingredientes p,
+.receita-preparo p,
+.receita-calorias p {
+    margin: 0 0 10px 0;
+    color: #fff;
+    font-weight: 500;
+}
+
+.ingredientes-lista {
+    margin: 0;
+    padding-left: 20px;
+    color: #ccc;
+}
+
+.ingredientes-lista li {
+    margin-bottom: 5px;
+    line-height: 1.4;
+}
+
+.preparo-texto,
+.calorias-texto {
+    margin: 0;
+    color: #ccc;
+    line-height: 1.5;
+}
+
+/* Preferência visual */
+.receita-card.preferida {
+    border-color: #4CAF50;
+    box-shadow: 0 0 8px #4CAF50;
+}
+
+.receita-card.preferida .receita-titulo {
+    color: #4CAF50;
+}
+
+.marcador-preferencia {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #222;
+    border: 2px solid #4CAF50;
+    cursor: pointer;
+    margin-left: 8px;
+    position: relative;
+    transition: background 0.2s, border 0.2s;
+}
+
+.marcador-preferencia:hover {
+    background: #4CAF50;
+    border-color: #fff;
+}
+
+.marcador-preferencia.ativo {
+    background: #4CAF50;
+    border-color: #fff;
+}
+
+.marcador-preferencia.ativo::after {
+    content: '★';
+    color: #fff;
+    font-size: 18px;
+    position: absolute;
+    top: 3px;
+    left: 6px;
+}
+
+.marcador-preferencia:not(.ativo)::after {
+    content: '☆';
+    color: #4CAF50;
+    font-size: 18px;
+    position: absolute;
+    top: 3px;
+    left: 6px;
+}
+
+.marcador-preferencia::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: transparent;
+    z-index: -1;
+    transition: background 0.2s;
+}
+
+.marcador-preferencia:hover::before {
+    background: rgba(76, 175, 80, 0.2);
+}
+
+@media (max-width: 768px) {
+    .marcador-preferencia {
+        width: 24px;
+        height: 24px;
+    }
+    .marcador-preferencia::after {
+        font-size: 15px;
+        top: 2px;
+        left: 4px;
+    }
+    .marcador-preferencia::before {
+        width: 28px;
+        height: 28px;
+        top: -2px;
+        left: -2px;
+    }
+}
+
+/* Adicione aqui os estilos específicos do componente ReceitaCard. */ 
