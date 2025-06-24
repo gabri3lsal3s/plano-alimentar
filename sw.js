@@ -5,7 +5,6 @@ const urlsToCache = [
   '/plano_alimentar.html',
   '/exercicios.html',
   '/style.css',
-  '/script.js',
   '/manifest.json',
   '/icons/icon-144x144.png',
   '/icons/icon-192x192.png',
